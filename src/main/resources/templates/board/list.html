@@ -30,13 +30,14 @@
                     <a class="nav-link" href="#">게시판2</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -47,6 +48,27 @@
     </nav>
     <div class="container">
         <h2>게시판</h2>
+        <div>총 건수 : <span th:text="${#lists.size(boards)}"></span></div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.id}">1</td>
+                    <td th:text="${board.title}">1</td>
+                    <td>홍길동</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <button type="button" class="btn btn-primary">쓰기</button>
+        </div>
+
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
