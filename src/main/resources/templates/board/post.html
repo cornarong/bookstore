@@ -16,7 +16,10 @@
     </nav>
 
     <div class="container">
-        <h2>게시판</h2>
+            <h2>게시글</h2>
+            <h6 th:if="${param.saved}">게시글 저장이 완료 되었습니다.</h6>
+            <h6 th:if="${param.edited}">게시글 수정이 완료 되었습니다.</h6>
+
             <div class="mb-3">
                 <label for="title" class="form-label">제목</label>
                 <input type="text" class="form-control" id="title" value="title" th:value="${board.title}" readonly>

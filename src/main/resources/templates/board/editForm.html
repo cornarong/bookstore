@@ -16,19 +16,21 @@
     </nav>
 
     <div class="container">
+        <form action="#" th:action="@{/board/edit/{boardId}(boardId=${board.id})}" method="post">
         <h2>게시글 수정</h2>
             <div class="mb-3">
                 <label for="title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="title" value="title" th:value="${board.title}">
+                <input type="text" class="form-control" id="title" name="title" value="title" th:value="${board.title}">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">내용</label>
-                <textarea class="form-control" id="content" rows="3" value="content" th:text="${board.content}"></textarea>
+                <textarea class="form-control" id="content" name="content" rows="3" value="content" th:text="${board.content}"></textarea>
             </div>
             <div class="text-right">
                 <a href="#" th:href="@{/board/list/{boardId}(boardId=${board.id})}" class="btn btn-primary">돌아가기</a>
-                <button type="submit" class="btn btn-primary">저장하기</button>
+                <button type="submit" class="btn btn-primary">수정하기</button>
             </div>
+        </form>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: Bootstrap Bundle with Popper -->

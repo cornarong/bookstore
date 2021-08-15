@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -19,6 +19,7 @@ public class BoardController {
     @Autowired
     private BoardRepository boardRepository;
 
+    // 게시글 목록
     @GetMapping("/list")
     public String list(Model model){
         List<Board> boards = boardRepository.findAll();
@@ -26,6 +27,7 @@ public class BoardController {
         return "board/list";
     }
 
+    // 게시글 상세페이지
     @GetMapping("/list/{boardId}")
     public String from(@PathVariable Long boardId, Model model){
         Board board = boardRepository.findById(boardId).orElse(null);
@@ -36,13 +38,7 @@ public class BoardController {
         return "board/post";
     }
 
-    @PostMapping("/form")
-    public String form(@ModelAttribute Board board){
-        boardRepository.save(board);
-        return "redirect:/board/list";
-    }
-
-    // 신규 게시글 작성화면 이동
+    // 신규 게시글 작성화면
     @GetMapping("/add")
     public String addForm(){
         return "board/addForm";
@@ -50,11 +46,14 @@ public class BoardController {
 
     // 신규 게시글 저장
     @PostMapping("/add")
-    public String add(){
-        return "";
+    public String add(@ModelAttribute Board board, RedirectAttributes riRedirectAttributes){
+        Board savedBoard = boardRepository.save(board);
+        riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
+        riRedirectAttributes.addAttribute("saved",true);
+        return "redirect:/board/list/{savedBoardId}";
     }
 
-    // 게시글 수정화면 이동.
+    // 게시글 수정화면
     @GetMapping("/edit/{boardId}")
     public String editForm(@PathVariable Long boardId, Model model){
         Board board = boardRepository.findById(boardId).orElse(null);
@@ -65,4 +64,15 @@ public class BoardController {
         return "board/editForm";
     }
 
+    // 게시글 수정
+    @PostMapping("/edit/{boardId}")
+    public String edit(@PathVariable Long boardId, @ModelAttribute Board board, RedirectAttributes redirectAttributes){
+        board.setId(boardId);
+        Board editedBoard = boardRepository.save(board);
+        redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
+        redirectAttributes.addAttribute("edited",true);
+        return "redirect:/board/list/{editedBoardId}";
+    }
+
+    // 게시글 삭제
 }
