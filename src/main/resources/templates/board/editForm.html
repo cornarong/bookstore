@@ -27,8 +27,8 @@
                 <textarea class="form-control" id="content" name="content" rows="3" value="content" th:text="${board.content}"></textarea>
             </div>
             <div class="text-right">
-                <a href="#" th:href="@{/board/list/{boardId}(boardId=${board.id})}" class="btn btn-primary">돌아가기</a>
-                <button type="submit" class="btn btn-primary">수정하기</button>
+                <a href="#" th:href="@{/board/list/{boardId}(boardId=${board.id})}" class="btn btn-outline-secondary">돌아가기</a>
+                <button type="submit" class="btn btn-outline-primary">저장하기</button>
             </div>
         </form>
     </div>

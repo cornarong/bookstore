@@ -75,4 +75,9 @@ public class BoardController {
     }
 
     // 게시글 삭제
+    @GetMapping("/delete/{boardId}")
+    public String delete(@PathVariable Long boardId){
+        boardRepository.deleteById(boardId);
+        return "redirect:/board/list";
+    }
 }
