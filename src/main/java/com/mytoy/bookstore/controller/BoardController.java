@@ -1,14 +1,17 @@
 package com.mytoy.bookstore.controller;
 
+import com.mytoy.bookstore.validator.BoardValidator;
 import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -18,6 +21,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardValidator boardValidator;
 
     // 게시글 목록
     @GetMapping("/list")
@@ -40,13 +46,18 @@ public class BoardController {
 
     // 신규 게시글 작성화면
     @GetMapping("/add")
-    public String addForm(){
+    public String addForm(Model model){
+        model.addAttribute("board", new Board());
         return "board/addForm";
     }
 
     // 신규 게시글 저장
     @PostMapping("/add")
-    public String add(@ModelAttribute Board board, RedirectAttributes riRedirectAttributes){
+    public String add(@Valid Board board, BindingResult bindingResult, RedirectAttributes riRedirectAttributes){
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "board/addForm";
+        }
         Board savedBoard = boardRepository.save(board);
         riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
         riRedirectAttributes.addAttribute("saved",true);
@@ -66,7 +77,12 @@ public class BoardController {
 
     // 게시글 수정
     @PostMapping("/edit/{boardId}")
-    public String edit(@PathVariable Long boardId, @ModelAttribute Board board, RedirectAttributes redirectAttributes){
+    public String edit(@Valid Board board, BindingResult bindingResult, @PathVariable Long boardId, RedirectAttributes redirectAttributes){
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
+            System.out.println("Aaa");
+            return "board/editForm";
+        }
         board.setId(boardId);
         Board editedBoard = boardRepository.save(board);
         redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
