@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +30,14 @@ public class BoardController {
 
     // 게시글 목록
     @GetMapping("/list")
-    public String list(Model model){
-        List<Board> boards = boardRepository.findAll();
-        model.addAttribute("boards",boards);
+    public String list(Model model, @PageableDefault(size = 4) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
+//        Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
+        int startPage = Math.max(1,boards.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("boards", boards);
         return "board/list";
     }
 
@@ -80,7 +88,6 @@ public class BoardController {
     public String edit(@Valid Board board, BindingResult bindingResult, @PathVariable Long boardId, RedirectAttributes redirectAttributes){
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
-            System.out.println("Aaa");
             return "board/editForm";
         }
         board.setId(boardId);

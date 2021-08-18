@@ -14,7 +14,6 @@
     <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
     </nav>
-
     <div class="container">
         <form action="#" th:action="@{/board/edit/{boardId}(boardId=${board.id})}" th:object="${board}" method="post">
         <input type="hidden" th:field="*{id}">

@@ -13,42 +13,19 @@
     </head>
     <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
-        <a class="navbar-brand" href="#">cornarong</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">홈<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">게시판</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">게시판2</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
     </nav>
     <div class="container">
         <h2>게시판</h2>
-        <div>총 건수 : <span th:text="${#lists.size(boards)}"></span></div>
+        <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
+        <!-- 게시글 검색 -->
+        <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/board/list}">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
+            </div>
+            <button type="submit" class="btn btn-outline-success mb-2">검색</button>
+        </form>
+        <!-- // 게시글 검색 -->
+        <!-- 게시글 목록 -->
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -65,10 +42,27 @@
                 </tr>
             </tbody>
         </table>
+        <!-- // 게시글 목록 -->
+        <!-- 게시글 작성 -->
         <div class="text-right">
             <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary">작성하기</a>
         </div>
-
+        <!-- // 게시글 작성 -->
+        <!-- 페이징 처리 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+                </li>
+                <li class="page-item" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" th:href="@{/board/list(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- // 페이징 처리 -->
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
