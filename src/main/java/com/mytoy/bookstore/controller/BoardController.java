@@ -6,6 +6,7 @@ import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,8 @@ public class BoardController {
     public String list(Model model, @PageableDefault(size = 4) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
 //        Page<Board> boards = boardRepository.findAll(pageable);
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
-        int startPage = Math.max(1,boards.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
+        int startPage = Math.max(1,boards.getPageable().getPageNumber() - 10);
+        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 10);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);

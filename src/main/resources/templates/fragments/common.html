@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:fragment="head(title)">
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -28,8 +28,9 @@
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">게시판2</a>
-            </li>
-                <li class="nav-item dropdown">
+                </li>
+                <!-- dropdown 잠시 보류 -->
+<!--                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown
                     </a>
@@ -38,8 +39,16 @@
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
+                </li>-->
+                <!--// dropdown 잠시 보류 -->
             </ul>
+            <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">로그인</a>
+            <a class="btn btn-secondary my-2 my-sm-0" th:href="@{/account/register}" sec:authorize="!isAuthenticated()">회원가입</a>
+            <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <span class="text-white" sec:authentication="name">사용자</span>
+                <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">로그아웃</button>
+            </form>
         </div>
     </nav>
     </body>
