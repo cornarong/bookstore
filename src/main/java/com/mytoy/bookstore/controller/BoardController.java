@@ -1,14 +1,15 @@
 package com.mytoy.bookstore.controller;
 
+import com.mytoy.bookstore.service.BoardService;
 import com.mytoy.bookstore.validator.BoardValidator;
 import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,9 @@ public class BoardController {
 
     @Autowired
     private BoardValidator boardValidator;
+
+    @Autowired
+    private BoardService boardService;
 
     // 게시글 목록
     @GetMapping("/list")
@@ -62,12 +66,14 @@ public class BoardController {
 
     // 신규 게시글 저장
     @PostMapping("/add")
-    public String add(@Valid Board board, BindingResult bindingResult, RedirectAttributes riRedirectAttributes){
+    public String add(@Valid Board board, BindingResult bindingResult,
+                      RedirectAttributes riRedirectAttributes, Authentication authentication){
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/addForm";
         }
-        Board savedBoard = boardRepository.save(board);
+        String username = authentication.getName();
+        Board savedBoard = boardService.save(board, username);
         riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
         riRedirectAttributes.addAttribute("saved",true);
         return "redirect:/board/list/{savedBoardId}";

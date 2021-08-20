@@ -16,8 +16,7 @@ class BoardApiController {
     @Autowired
     private BoardRepository boardRepository;
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
+    // 게시글 조회
     @GetMapping("/boards")
     List<Board> all(@RequestParam(required = false, defaultValue = "") String title,
                     @RequestParam(required = false, defaultValue = "") String content) {
@@ -27,14 +26,11 @@ class BoardApiController {
             return boardRepository.findByTitleOrContent(title, content);
         }
     }
-    // end::get-aggregate-root[]
 
     @PostMapping("/boards")
     Board board(@RequestBody Board board) {
         return boardRepository.save(board);
     }
-
-    // Single item
 
     @GetMapping("/boards/{boardId}")
     Board one(@PathVariable Long id) {

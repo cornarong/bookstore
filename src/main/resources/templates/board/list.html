@@ -38,7 +38,7 @@
                 <tr th:each="board : ${boards}">
                     <td th:text="${board.id}">번호</td>
                     <td><a href="#" th:href="@{/board/list/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a></td>
-                    <td>홍길동</td>
+                    <td th:text="${board.user.username}"></td>
                 </tr>
             </tbody>
         </table>
