@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +36,8 @@ public class BoardController {
 
     // 게시글 목록
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(size = 4) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
-//        Page<Board> boards = boardRepository.findAll(pageable);
+    public String list(Model model, @PageableDefault(size = 4) Pageable pageable,
+                       @RequestParam(defaultValue = "") String searchTerm){
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
         int startPage = Math.max(1,boards.getPageable().getPageNumber() - 10);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 10);
@@ -91,23 +92,25 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PostMapping("/edit/{boardId}")
-    public String edit(@Valid Board board, BindingResult bindingResult, @PathVariable Long boardId, RedirectAttributes redirectAttributes){
+    @PutMapping("/edit/{boardId}") // HiddenHttpMethodFilter 사용
+    public String edit(@Valid Board board, BindingResult bindingResult,
+                       @PathVariable Long boardId, RedirectAttributes redirectAttributes, Authentication authentication){
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/editForm";
         }
-        board.setId(boardId);
-        Board editedBoard = boardRepository.save(board);
+        String username = authentication.getName();
+        Board editedBoard = boardService.edit(board, username);
         redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
         redirectAttributes.addAttribute("edited",true);
         return "redirect:/board/list/{editedBoardId}";
     }
 
     // 게시글 삭제
-    @GetMapping("/delete/{boardId}")
-    public String delete(@PathVariable Long boardId){
+    @Secured("ROLE_USER")
+    @ResponseBody
+    @DeleteMapping("/delete/{boardId}") // ajax 전송
+    void delete(@PathVariable Long boardId){
         boardRepository.deleteById(boardId);
-        return "redirect:/board/list";
     }
 }
