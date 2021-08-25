@@ -28,9 +28,8 @@
                 <textarea class="form-control" id="content" rows="3" value="content" th:text="${board.content}" readonly></textarea>
             </div>
             <div class="text-right">
-                <a href="#" th:href="@{/board/list}" class="btn btn-outline-secondary">목록으로</a>
+                <a href="#" th:href="@{/board}" class="btn btn-outline-secondary">목록으로</a>
                 <a href="#" th:href="@{/board/edit/{boardId}(boardId=${board.id})}" class="btn btn-outline-primary">수정하기</a>
-<!--                <a href="#" th:href="@{/board/delete/{boardId}(boardId=${board.id})}" sec:authorize="hasRole('ROLE_USER')" class="btn btn-outline-danger">삭제하기</a>-->
                 <a th:onclick="|deletePost(${board.id})|" sec:authorize="hasRole('ROLE_USER')" class="btn btn-outline-danger">삭제하기</a>
             </div>
     </div>
@@ -44,7 +43,7 @@
                 type: 'DELETE',
                 success: function (){
                     alert('삭제 되었습니다.');
-                    window.location.href = '/board/list';
+                    window.location.href = '/board';
                 }
             });
         };

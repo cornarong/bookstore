@@ -35,7 +35,7 @@ public class BoardController {
     private BoardService boardService;
 
     // 게시글 목록
-    @GetMapping("/list")
+    @GetMapping
     public String list(Model model, @PageableDefault(size = 4) Pageable pageable,
                        @RequestParam(defaultValue = "") String searchTerm){
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
@@ -48,11 +48,11 @@ public class BoardController {
     }
 
     // 게시글 상세페이지
-    @GetMapping("/list/{boardId}")
+    @GetMapping("/{boardId}")
     public String from(@PathVariable Long boardId, Model model){
         Board board = boardRepository.findById(boardId).orElse(null);
         if(board==null){
-            return "redirect:/board/list";
+            return "redirect:/board";
         }
         model.addAttribute("board",board);
         return "board/post";
@@ -77,7 +77,7 @@ public class BoardController {
         Board savedBoard = boardService.save(board, username);
         riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
         riRedirectAttributes.addAttribute("saved",true);
-        return "redirect:/board/list/{savedBoardId}";
+        return "redirect:/board/{savedBoardId}";
     }
 
     // 게시글 수정화면
@@ -85,7 +85,7 @@ public class BoardController {
     public String editForm(@PathVariable Long boardId, Model model){
         Board board = boardRepository.findById(boardId).orElse(null);
         if(board==null){
-            return "redirect:/board/list";
+            return "redirect:/board";
         }
         model.addAttribute("board",board);
         return "board/editForm";
@@ -103,7 +103,7 @@ public class BoardController {
         Board editedBoard = boardService.edit(board, username);
         redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
         redirectAttributes.addAttribute("edited",true);
-        return "redirect:/board/list/{editedBoardId}";
+        return "redirect:/board/{editedBoardId}";
     }
 
     // 게시글 삭제
