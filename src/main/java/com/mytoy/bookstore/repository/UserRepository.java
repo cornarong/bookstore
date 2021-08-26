@@ -3,10 +3,12 @@ package com.mytoy.bookstore.repository;
 import com.mytoy.bookstore.model.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
     // EntityGraph 어노테이션 사용시 fetch타입 무시하고 board를 join으로 전부 조회한다.
     // User클래스의 board의 fetch = FetchType.LAZY or fetch = FetchType.EGAR 둘다 무시.
@@ -15,4 +17,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     User findByUsername(String username);
+
+    // ## JPA 커스텀 쿼리 ##
+    // 1.jpql query
+    @Query("select u from User u where u.username like %?1%")
+    List<User> findByUsernameQuery(String username);
+    // 2.순수 native query
+    @Query(value = "select * from User u where u.username like %?1%", nativeQuery = true)
+    List<User> findByUsernameNativeQuery(String username);
+    // 3. querydsl
+
+
 }

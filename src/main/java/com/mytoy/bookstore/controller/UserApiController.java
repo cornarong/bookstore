@@ -1,12 +1,13 @@
 package com.mytoy.bookstore.controller;
 
 import com.mytoy.bookstore.model.Board;
+import com.mytoy.bookstore.model.QUser;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
+import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -21,11 +22,20 @@ class UserApiController {
 
     // 사용자 조회
     @GetMapping("/users")
-    List<User> all() {
-        List<User> users = userRepository.findAll();
-        log.debug("getBoards().size() 호출 전");
-        log.debug("getBoards().size() : {}", users.get(0).getBoards().size());
-        log.debug("getBoards().size() 호출 후");
+    Iterable<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
+        Iterable<User> users = null;
+        // method가 안오면 선택대상 자체가 null이라 조건을 주려면 뒤집어야 한다.
+        if("query".equals(method)){
+            users = userRepository.findByUsernameQuery(text);
+        }else if("nativeQuery".equals(method)){
+            users = userRepository.findByUsernameNativeQuery(text);
+        }else if("querydsl".equals(method)){
+            QUser user = QUser.user;
+            Predicate predicate = user.username.contains(text);
+            users = userRepository.findAll(predicate);
+        }else{
+            users = userRepository.findAll();
+        }
         return users;
     }
 

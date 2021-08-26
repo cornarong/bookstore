@@ -66,7 +66,7 @@ public class BoardController {
     }
 
     // 신규 게시글 저장
-    @PostMapping("/add")
+    @PostMapping("/add/{boardId}")
     public String add(@Valid Board board, BindingResult bindingResult,
                       RedirectAttributes riRedirectAttributes, Authentication authentication){
         boardValidator.validate(board, bindingResult);

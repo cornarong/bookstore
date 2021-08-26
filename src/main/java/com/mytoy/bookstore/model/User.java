@@ -30,5 +30,6 @@ public class User {
     // RESTAPI요청 시 boards의 PK값까지 함께 전달되면 업데이트, PK값 없을 경우 새로 저장
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // orphanRemoval = true 난 필요하지 않음
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Board> boards = new ArrayList<>();
 }
