@@ -4,13 +4,12 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
+        <!-- Bootstrap CSS, 4.5버전 -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
               integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
          <!-- Custom styles CSS -->
-        <link th:href="@{/css/starter-template.css}" href="../../static/css/starter-template.css" rel="stylesheet">
-        <title th:text="${title}">cornarong`s bookstore</title>
-
+        <link th:href="@{/css/starter-template.css}" rel="stylesheet">
+        <link th:href="@{/css/carousel.css}" rel="stylesheet">
         <!--------------------------------- 확인 보류 ------------------------------------->
         <link rel="apple-touch-icon" href="https://getbootstrap.com/docs/4.5/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
         <link rel="icon" href="https://getbootstrap.com/docs/4.5/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -19,6 +18,7 @@
         <link rel="mask-icon" href="https://getbootstrap.com/docs/4.5/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
         <link rel="icon" href="https://getbootstrap.com/docs/4.5/assets/img/favicons/favicon.ico">
         <meta name="msapplication-config" content="https://getbootstrap.com/docs/4.5/assets/img/favicons/browserconfig.xml">
+        <title th:text="${title}">콘아롱 책방</title>
         <style>
             @media (min-width: 992px) {
                 .container {
@@ -39,14 +39,12 @@
                 }
             }
         </style>
-        <!-- Custom styles for this template -->
-        <link th:href="@{/css/carousel.css}" href="carousel.css" rel="stylesheet">
         <!-------------------------------- 확인 보류 ------------------------------------->
 
     </head>
     <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:fragment="menu(menu)">
-        <a class="navbar-brand" href="#">cornarong</a>
+        <a class="navbar-brand" href="#">CORNARONG</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -54,13 +52,16 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" th:classappen              d="${menu} == 'home'? 'active'">
-                    <a class="nav-link" href="#" th:href="@{/}">홈<span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
+                    <a class="nav-link" href="#" th:href="@{/}">메인으로<span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
                 </li>
                 <li class="nav-item" th:classappend="${menu} == 'board'? 'active'">
                     <a class="nav-link" href="#" th:href="@{/board}">게시판<span class="sr-only" th:if="${menu} == 'board'">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">게시판2</a>
+                <a class="nav-link" href="#">국내 도서</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">외국 도서</a>
                 </li>
             </ul>
             <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">로그인</a>
@@ -76,9 +77,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+        <!-- 메인화면 슬라이드 쇼 부분-->
         <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
-        <script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-                crossorigin="anonymous"></script>
+        <script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </footer>
     </body>
 </html>

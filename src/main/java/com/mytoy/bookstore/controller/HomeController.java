@@ -8,6 +8,12 @@ public class HomeController {
 
     @GetMapping
     public String index(){
-        return "index";
+        return "index2";
     }
+
+    @GetMapping("/store")
+    public String store(){
+        return "store/list";
+    }
+
 }

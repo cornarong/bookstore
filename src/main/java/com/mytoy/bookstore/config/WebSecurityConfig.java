@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()// 테스트를 위해 잠시 설정해제.
             .authorizeRequests()
-                .antMatchers("/","/account/register","/css/**","/images/**", "/api/**","/board/**").permitAll()
+                .antMatchers("/","/account/register","/css/**","/images/**", "/api/**","/board/**","/store/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
