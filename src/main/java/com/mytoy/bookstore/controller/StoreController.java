@@ -1,11 +1,18 @@
 package com.mytoy.bookstore.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-/*@Controller
+@Slf4j
+@Controller
+@RequestMapping("/store")
 public class StoreController {
 
-    @GetMapping()
+    @GetMapping
+    public String store(){
+        return "store/list";
+    }
 
-}*/
+}

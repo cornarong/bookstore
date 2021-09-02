@@ -1,8 +1,8 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/common2 :: head('콘아롱 책방')"/>
+    <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
     <body>
-        <div class="container" th:replace="fragments/common2 :: menu('list')"/>
+        <div class="container" th:replace="fragments/common :: menu('store')"/>
         <div class="container pt-4">
             <h3 class="pb-4 font-italic">
                 Show Book list
@@ -94,6 +94,6 @@
                 </div>
             </div>
         </div>
-        <footer class="blog-footer" th:replace="fragments/common2 :: footer"/>
+        <footer class="blog-footer" th:replace="fragments/common :: footer"/>
     </body>
 </html>

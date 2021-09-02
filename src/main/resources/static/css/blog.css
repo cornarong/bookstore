@@ -104,3 +104,10 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
+/*기차 이미지*/
+.index-img {
+    background-image: url("https://64.media.tumblr.com/c78ec404d82ed13d62defef7fb2a19ed/tumblr_pxvoeumWgE1re72jio1_640.gifv");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+}

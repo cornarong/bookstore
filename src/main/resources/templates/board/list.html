@@ -1,69 +1,62 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/common :: head('board - cornarong`s bookstor')">
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-              integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link th:href="@{/css/starter-template.css}"
-              href="../../static/css/starter-template.css" rel="stylesheet">
-        <title>board - 콘아롱 책방</title>
-    </head>
+    <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
     <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
-    </nav>
-    <div class="container">
-        <h2>게시판</h2>
-        <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
-        <!-- 게시글 검색 -->
-        <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/board}">
-            <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
+        <div class="container" th:replace="fragments/common :: menu('board')"/>
+        <!-- 메인 container -->
+        <main role="main" class="container pt-4">
+            <h3 class="pb-4 font-italic">
+                Board List
+            </h3>
+            <!-- 게시글 검색 -->
+            <form class="form-inline d-flex" method="get" th:action="@{/board}">
+                <div class="mr-auto p-2">총 건수 : <span th:text="${boards.totalElements}"></span></div>
+                <div class="form-group mx-sm-2 mb-2">
+                    <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
+                </div>
+                <button type="submit" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
+            </form>
+            <!-- // 게시글 검색 -->
+            <!-- 게시글 목록 -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="board : ${boards}">
+                        <td th:text="${board.id}">번호</td>
+                        <td><a href="#" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a></td>
+                        <td th:text="${board.user.username}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- // 게시글 목록 -->
+            <!-- 게시글 작성 -->
+            <div class="text-right">
+                <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary">작성하기</a>
             </div>
-            <button type="submit" class="btn btn-outline-success mb-2">검색</button>
-        </form>
-        <!-- // 게시글 검색 -->
-        <!-- 게시글 목록 -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="board : ${boards}">
-                    <td th:text="${board.id}">번호</td>
-                    <td><a href="#" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a></td>
-                    <td th:text="${board.user.username}"></td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- // 게시글 목록 -->
-        <!-- 게시글 작성 -->
-        <div class="text-right">
-            <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary">작성하기</a>
-        </div>
-        <!-- // 게시글 작성 -->
-        <!-- 페이징 처리 -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
-                </li>
-                <li class="page-item" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="page-link" th:href="@{/board(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
-                </li>
-                <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
-                </li>
-            </ul>
-        </nav>
-        <!-- // 페이징 처리 -->
-    </div>
-    <footer th:replace="fragments/common :: footer"/>
+            <!-- // 게시글 작성 -->
+            <!-- 페이징 처리 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+                    </li>
+                    <li class="page-item" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="page-link" th:href="@{/board(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- // 페이징 처리 -->
+        </main>
+        <!--// 메인 container -->
+        <footer th:replace="fragments/common :: footer"/>
     </body>
 </html>
