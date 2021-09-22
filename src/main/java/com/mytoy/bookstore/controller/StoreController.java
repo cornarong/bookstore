@@ -1,6 +1,5 @@
 package com.mytoy.bookstore.controller;
 
-import com.mytoy.bookstore.model.Board;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +16,22 @@ public class StoreController {
         return "store/list";
     }
 
-    @GetMapping("/manage")
+    // 아이템 리스트(관리자)
+    @GetMapping("/manageList")
     public String manageItems(){
-        return "store/manage";
+        return "store/manage/manageList";
     }
-    // 아이템 등록 화면
-    @GetMapping("/add")
-    public String addForm(Model model){
 
-        return "store/addForm";
+    // 아이템 등록 화면(관리자)
+    @GetMapping("/addForm")
+    public String addForm(Model model){
+        return "store/manage/addForm";
+    }
+
+    // 아이템 상세페이지 화면(관리자)
+    @GetMapping("/manageDetail")
+    public String manageDetail(Model model){
+        return "store/manage/manageDetail";
     }
 
 

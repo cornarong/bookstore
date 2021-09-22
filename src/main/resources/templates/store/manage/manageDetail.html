@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
+<body>
+<div class="container" th:replace="fragments/common :: menu('board')"/>
+<main role="main" class="container pt-4">
+  <div class="container" data-aos="fade-up">
+    <h3 class="pb-1 font-italic">Product Details</h3>
+    <form action="" method="post" role="form">
+      <div class="form-row">
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">제목</p>
+          <input type="text" class="form-control" name="title" id="title" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">부제목</p>
+          <input type="text" class="form-control" name="subTitle" id="subTitle" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">저자</p>
+          <input type="text" class="form-control" name="author" id="author" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">수량</p>
+          <input type="number" class="form-control" name="quantity" id="quantity" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">출판사</p>
+          <input type="text" class="form-control" name="publisher" id="publisher" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">발행일</p>
+          <input type="date" class="form-control" name="publishedDate" id="publishedDate" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">가격</p>
+          <input type="number" class="form-control" name="price" id="price" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">할인율</p>
+          <select class="custom-select" disabled>
+            <option value="0" selected>0%</option>
+            <option value="5">5%</option>
+            <option value="10">10%</option>
+            <option value="15">15%</option>
+            <option value="30">30%</option>
+            <option value="50">50%</option>
+          </select>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">할인가</p>
+          <input type="number" class="form-control" name="disPrice" id="disPrice" readonly>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">배송선택</p>
+          <select class="custom-select" disabled>
+            <option value="0" selected>무료배송</option>
+            <option value="2000">2000원</option>
+            <option value="3000">3000원</option>
+          </select>
+        </div>
+        <div class="col-lg-4 col-md-6 form-group">
+          <p class="my-1">이미지</p>
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="fileImage" disabled>
+              <label class="custom-file-label " for="fileImage" aria-describedby="inputGroupFileAddon02">선택된 파일이 없습니다.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pb-3 form-group">
+        <p class="my-1">설명 및 줄거리</p>
+        <textarea class="form-control" name="message" readonly></textarea>
+      </div>
+      <div class="pb-5 text-right">
+        <a th:href="@{/store/manageList}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
+        <button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">수정</button>
+        <button type="submit" class="btn btn mr-2 mb-2 btn-outline-danger">삭제</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer th:replace="fragments/common :: footer"/>
+</body>
+</html>

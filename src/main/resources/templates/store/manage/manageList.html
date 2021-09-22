@@ -10,7 +10,7 @@
   <!-- 아이템 등록 -->
   <form class="pb-1 form-inline d-flex" method="get">
     <div class="mr-auto p-2">총 건수 : <span>2</span></div>
-    <a th:href="@{/store/add}" class="btn btn mr-2 mb-2 btn-outline-secondary">등록하기</a>
+    <a th:href="@{/store/addForm}" class="btn btn mr-2 mb-2 btn-outline-secondary">등록하기</a>
   </form>
   <!-- // 아이템 등록 -->
   <div class="table-responsive">
@@ -22,6 +22,7 @@
         <th>작가</th>
         <th>출판사</th>
         <th>수량</th>
+        <th>관리</th>
       </tr>
       </thead>
       <tbody>
@@ -31,6 +32,7 @@
         <td>베르나르 베르베르</td>
         <td>열린책들</td>
         <td>120</td>
+        <td><a th:href="@{/store/manageDetail}">상세</a></td>
       </tr>
       <tr>
         <td>02</td>
@@ -38,6 +40,7 @@
         <td>남궁찬</td>
         <td>책이좋앙</td>
         <td>45</td>
+        <td><a th:href="@{/store/manageDetail}">상세</a></td>
       </tr>
       </tbody>
     </table>
