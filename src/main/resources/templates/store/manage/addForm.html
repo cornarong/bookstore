@@ -6,24 +6,24 @@
 <main role="main" class="container pt-4">
     <div class="container" data-aos="fade-up">
         <h3 class="pb-1 font-italic">Register a book</h3>
-        <p class="mb-5">모든 책의 항목을 상세하게 적어주시기 바랍니다.</p>
+        <div class="mb-5"><p style="float:right"><strong>✎</strong> 필수 입력 항목입니다.</p></div>
         <form action="#" th:action="@{/store/add}" th:object="${book}" method="post">
             <div class="form-row">
                 <div class="col-lg-4 col-md-6 form-group">
-                    <p class="my-1">제목</p>
-                    <input type="text" class="form-control" th:field="*{title}" placeholder="제목을 입력해주세요.">
+                    <p class="my-1">제목 <strong>✎</strong></p>
+                    <input type="text" class="form-control" th:field="*{title}" placeholder="제목을 입력해주세요." required>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <p class="my-1">부제목</p>
                     <input type="text" class="form-control" th:field="*{subTitle}" placeholder="부제목을 입력해주세요.">
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <p class="my-1">저자</p>
-                    <input type="text" class="form-control" th:field="*{author}" placeholder="저자를 입력해주세요.">
+                    <p class="my-1">저자 <strong>✎</strong></p>
+                    <input type="text" class="form-control" th:field="*{author}" placeholder="저자를 입력해주세요." required>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <p class="my-1">수량</p>
-                    <input type="number" class="form-control" th:field="*{quantity}" placeholder="수량을 입력해주세요.">
+                    <p class="my-1">수량 <strong>✎</strong></p>
+                    <input type="number" class="form-control" th:field="*{quantity}" placeholder="수량을 입력해주세요." required>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <p class="my-1">출판사</p>
@@ -34,18 +34,18 @@
                     <input type="date" class="form-control" th:field="*{publishedDate}">
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <p class="my-1">가격</p>
+                    <p class="my-1">가격 <strong>✎</strong></p>
                     <input type="number" class="form-control" th:field="*{price}" placeholder="가격을 입력해주세요.">
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <p class="my-1">할인율</p>
                     <select class="custom-select" th:field="*{disRate}">
-                        <option value="0" selected>0%</option>
-                        <option value="5">5%</option>
-                        <option value="10">10%</option>
-                        <option value="15">15%</option>
-                        <option value="30">30%</option>
-                        <option value="50">50%</option>
+                        <option value="0" selected th:selected="'javascript:test()'">0%</option>
+                        <option value="5" th:onclick="test()">5%</option>
+                        <option value="10" th:onclick="test()">10%</option>
+                        <option value="15" th:onclick="test()">15%</option>
+                        <option value="30" th:onclick="test()">30%</option>
+                        <option value="50" th:onclick="test()">50%</option>
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
-                    <p class="my-1">이미지</p>
+                    <p class="my-1">이미지 <strong>✎</strong></p>
                     <div class="input-group mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="fileImage" th:field="*{imageUrl}">
@@ -85,12 +85,12 @@
 <footer th:replace="fragments/common :: footer"/>
 </body>
 <script>
-    function cancel(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/orders/" + id + "/cancel");
-        document.body.appendChild(form);
-        form.submit();
+    document.body.onclick = function (){
+        if(document.getElementById("price").value !== '0'){
+            let price = document.getElementById("price").value;
+            let disRate = document.getElementById("disRate").value;
+            document.getElementById("disPrice").value = price - (price * (disRate/100));
+        }
     }
 </script>
 </html>
