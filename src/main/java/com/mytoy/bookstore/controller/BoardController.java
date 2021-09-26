@@ -66,7 +66,7 @@ public class BoardController {
     }
 
     // 신규 게시글 저장
-    @PostMapping("/add/{boardId}")
+    @PostMapping("/add")
     public String add(@Valid Board board, BindingResult bindingResult,
                       RedirectAttributes riRedirectAttributes, Authentication authentication){
         boardValidator.validate(board, bindingResult);
@@ -77,7 +77,7 @@ public class BoardController {
         Board savedBoard = boardService.save(board, username);
         riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
         riRedirectAttributes.addAttribute("saved",true);
-        return "redirect:/board/{savedBoardId}";
+        return "redirect:/board/"+savedBoard.getId();
     }
 
     // 게시글 수정화면

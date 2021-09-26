@@ -1,13 +1,14 @@
 package com.mytoy.bookstore.model;
 
+import com.mytoy.bookstore.form.BookForm;
 import lombok.Data;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Data
@@ -27,11 +28,23 @@ public class Book {
     private int disPrice; // 할인가
     private int quantity; // 수량
     private int shippingFee; // 배송비
-    private String imageUrl; // 이미지
+    private String image; // 이미지
 
-    // 잠시 보류 클라이언트사이드에서 처리할 것. 스크립트로
-    public int discountPrice(){
-        return price - (price * (disRate/100));
+    public Book createBook(BookForm bookForm){
+        Book book = new Book();
+        book.title = bookForm.getTitle();
+        book.subTitle = bookForm.getSubTitle();
+        book.content = bookForm.getContent();
+        book.author = bookForm.getAuthor();
+        book.publisher = bookForm.getPublisher();
+        book.publishedDate = (bookForm.getPublishedDate().equals("") ? null : bookForm.getPublishedDate());
+        book.price = bookForm.getPrice();
+        book.disRate = bookForm.getDisRate();
+        book.disPrice = bookForm.getDisPrice();
+        book.quantity = bookForm.getQuantity();
+        book.shippingFee = bookForm.getShippingFee();
+        book.image = bookForm.getImage();
+
+        return book;
     }
-
 }
