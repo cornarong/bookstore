@@ -10,8 +10,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BookForm {
 
-    // @NotEmpty는 String 타입에 사용하는 애노테이션이다.
-    // int 타입은 @NotNull을 사용한다.
+    // @NotNull -> 모든타입 - null(X), 공백(O), 빈문자(O)
+    // @NotEmpty -> String - null(X), 공백(X), 빈문자(O)
+    // @NotBlank -> String - null(X), 공백(X), 빈문자(X)
 
     private Long id;
     @NotBlank(message = "필수 항목입니다.")

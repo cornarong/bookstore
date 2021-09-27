@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
     <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
     <body>
-        <div class="container" th:replace="fragments/common :: menu('board')"/>
+        <div class="container" th:replace="fragments/common :: menu('items')"/>
         <main role="main" class="container pt-4">
             <form action="#" th:action="@{/board/add}" th:object="${board}" method="post">
                 <h3 class="pb-4 font-italic">

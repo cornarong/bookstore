@@ -46,6 +46,7 @@ public class StoreController {
     @PostMapping("/add")
     public String add(@Valid BookForm bookForm, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
+            log.info("에러 = {}", bindingResult.getFieldError());
             return"store/manage/addForm";
         }
 
