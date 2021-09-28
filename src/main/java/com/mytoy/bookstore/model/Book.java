@@ -2,13 +2,10 @@ package com.mytoy.bookstore.model;
 
 import com.mytoy.bookstore.form.BookForm;
 import lombok.Data;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.File;
+import java.io.IOException;
 
 @Entity
 @Data
@@ -28,10 +25,13 @@ public class Book {
     private int disPrice; // 할인가
     private int quantity; // 수량
     private int shippingFee; // 배송비
-    private String image; // 이미지
+    private String thumbnail; // 섬네일
+    private String thumbnailPath; // 섬네일 물리 경로
 
-    public Book createBook(BookForm bookForm){
+    public Book createBook(BookForm bookForm) throws IOException {
+
         Book book = new Book();
+
         book.title = bookForm.getTitle();
         book.subTitle = bookForm.getSubTitle();
         book.content = bookForm.getContent();
@@ -43,7 +43,13 @@ public class Book {
         book.disPrice = bookForm.getDisPrice();
         book.quantity = bookForm.getQuantity();
         book.shippingFee = bookForm.getShippingFee();
-        book.image = bookForm.getImage();
+
+        /* 파일 업로드 처리*/
+        String baseDir = "D:\\study\\files"; // 저장파일 물리경로
+        String filePath = baseDir + "\\" + bookForm.getThumbnail().getOriginalFilename(); // 저장파일명
+        bookForm.getThumbnail().transferTo(new File(filePath));
+        book.thumbnail = bookForm.getThumbnail().getOriginalFilename();
+        book.thumbnailPath = filePath;
 
         return book;
     }

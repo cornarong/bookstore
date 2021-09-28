@@ -1,10 +1,10 @@
 package com.mytoy.bookstore.form;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -33,7 +33,7 @@ public class BookForm {
     @Min(value = 1, message = "최소수량은 1개입니다.")
     private int quantity; // 수량
     private int shippingFee; // 배송비
-    @NotBlank(message = "필수 항목 입니다.")
-    private String image; // 이미지
+//    @NotNull(message = "필수 항목 입니다.")
+    private MultipartFile thumbnail; // 썸네일
 
 }
