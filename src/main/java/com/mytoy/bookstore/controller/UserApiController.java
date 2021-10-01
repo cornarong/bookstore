@@ -26,12 +26,12 @@ class UserApiController {
         Iterable<User> users = null;
         // method가 안오면 선택대상 자체가 null이라 조건을 주려면 뒤집어야 한다.
         if("query".equals(method)){
-            users = userRepository.findByUsernameQuery(text);
+            users = userRepository.findByUidQuery(text);
         }else if("nativeQuery".equals(method)){
-            users = userRepository.findByUsernameNativeQuery(text);
+            users = userRepository.findByUidNativeQuery(text);
         }else if("querydsl".equals(method)){
             QUser user = QUser.user;
-            Predicate predicate = user.username.contains(text);
+            Predicate predicate = user.uid.contains(text);
             users = userRepository.findAll(predicate);
         }else{
             users = userRepository.findAll();

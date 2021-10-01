@@ -1,0 +1,43 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+<body>
+<div class="container" th:replace="fragments/common :: menu('adminUser')"/>
+<div class="container pt-4">
+  <h3 class="pb-4 font-italic">
+    ALL USERS
+  </h3>
+  <form class="pb-1 form-inline d-flex" method="get">
+    <div class="mr-auto p-2">전체 회원수 : <span th:text="${users.size}"></span></div>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>ID</th>
+        <th>이름</th>
+        <th>정보1</th>
+        <th>정보2</th>
+        <th>관리</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.id}">번호</td>
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.uid}">이름</td>
+        <td th:text="${user.uid}">정보1</td>
+        <td th:text="${user.uid}">상세</td>
+        <td><a th:href="@{/admin/user/detail/{userId}(userID=${user.id})}">상세</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  </main>
+</div>
+</div>
+</div>
+<footer class="blog-footer" th:replace="fragments/common :: footer"/>
+</body>
+</html>

@@ -17,15 +17,15 @@ public class BoardService {
     private UserRepository userRepository;
 
     // 게시글 저장
-    public Board save(Board board, String username){
-        User user = userRepository.findByUsername(username);
+    public Board save(Board board, String uid){
+        User user = userRepository.findByUid(uid);
         board.setUser(user);
         return boardRepository.save(board);
     }
 
     // 게시글 수정
-    public Board edit(Board board, String username){
-        User user = userRepository.findByUsername(username);
+    public Board edit(Board board, String uid){
+        User user = userRepository.findByUid(uid);
         board.setUser(user);
         return boardRepository.save(board);
     }

@@ -13,7 +13,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String uid;
 
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore

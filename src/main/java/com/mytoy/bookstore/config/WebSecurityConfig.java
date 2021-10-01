@@ -45,13 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .jdbcAuthentication()
             .dataSource(dataSource)
             .passwordEncoder(passwordEncoder())
-            .usersByUsernameQuery("select username, password, enabled "
+            .usersByUsernameQuery("select uid, password, enabled "
                     + "from user "
-                    + "where username = ?")
-            .authoritiesByUsernameQuery("select u.username, r.name "
+                    + "where uid = ?")
+            .authoritiesByUsernameQuery("select u.uid, r.name "
                     + "from user_role ur inner join user u on ur.user_id = u.id "
                     + "inner join role r on ur.role_id = r.id "
-                    + "where u.username = ?");
+                    + "where u.uid = ?");
     }
 
     @Bean

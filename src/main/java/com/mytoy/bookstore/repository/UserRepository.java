@@ -16,15 +16,15 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
     @EntityGraph(attributePaths = { "boards" })
     List<User> findAll();
 
-    User findByUsername(String username);
+    User findByUid(String uid);
 
     // ## JPA 커스텀 쿼리 ##
     // 1.jpql query
-    @Query("select u from User u where u.username like %?1%")
-    List<User> findByUsernameQuery(String username);
+    @Query("select u from User u where u.uid like %?1%")
+    List<User> findByUidQuery(String uid);
     // 2.순수 native query
-    @Query(value = "select * from User u where u.username like %?1%", nativeQuery = true)
-    List<User> findByUsernameNativeQuery(String username);
+    @Query(value = "select * from User u where u.uid like %?1%", nativeQuery = true)
+    List<User> findByUidNativeQuery(String uid);
     // 3. querydsl
 
 

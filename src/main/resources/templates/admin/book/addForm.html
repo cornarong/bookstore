@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
 <body>
-<div class="container" th:replace="fragments/common :: menu('items')"/>
+<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
 <main role="main" class="container pt-4">
     <div class="container" data-aos="fade-up">
         <h3 class="pb-1 font-italic">Register a book</h3>
         <div class="mb-5"><strong style="color: red; float:right">✎필수 입력 항목입니다.</strong></div>
-        <form action="#" th:action="@{/store/add}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
+        <form action="#" th:action="@{/admin/book/addForm}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
             <div class="form-row">
                 <div class="col-lg-4 col-md-6 pb-3 form-group">
                     <p class="my-1">제목 <strong>✎</strong></p>
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="pb-5 text-right">
-                <a th:href="@{/store/manageList}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
+                <a th:href="@{/admin/book}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
                 <button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">등록하기</button>
             </div>
         </form>

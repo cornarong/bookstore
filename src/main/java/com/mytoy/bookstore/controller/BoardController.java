@@ -77,7 +77,7 @@ public class BoardController {
         Board savedBoard = boardService.save(board, username);
         riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
         riRedirectAttributes.addAttribute("saved",true);
-        return "redirect:/board/"+savedBoard.getId();
+        return "redirect:/board/{savedBoardId}";
     }
 
     // 게시글 수정화면
@@ -99,8 +99,8 @@ public class BoardController {
         if (bindingResult.hasErrors()) {
             return "board/editForm";
         }
-        String username = authentication.getName();
-        Board editedBoard = boardService.edit(board, username);
+        String uid = authentication.getName();
+        Board editedBoard = boardService.edit(board, uid);
         redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
         redirectAttributes.addAttribute("edited",true);
         return "redirect:/board/{editedBoardId}";

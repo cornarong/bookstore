@@ -48,8 +48,8 @@
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
             <a class="p-2 text-muted" th:href="@{/}">Home</a>
-            <a class="p-2 text-danger" th:classappend="${menu} == 'items' ? 'font-weight-bold' : ''" th:href="@{/store/manageList}" sec:authorize="isAuthenticated()">상품 관리</a>
-            <a class="p-2 text-danger" th:classappend="${menu} == 'users' ? 'font-weight-bold' : ''" th:href="@{/}" sec:authorize="isAuthenticated()">회원 관리</a>
+            <a class="p-2 text-danger" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품 관리</a>
+            <a class="p-2 text-danger" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원 관리</a>
           </div>
           <div class="col-4 text-center">
             <a class="blog-header-logo text-dark" href="#">Cornarong BookStore</a>
@@ -73,11 +73,11 @@
       </header>
       <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex">
-          <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold'">메인</a>
-          <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold'">국내도서</a>
+          <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
+          <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold' : ''">국내도서</a>
           <a href="#" class="p-2 text-muted">외국도서</a>
           <a href="#" class="p-2 text-muted">신작도서</a>
-          <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold'">게시판1</a>
+          <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판1</a>
           <a href="#" class="p-2 text-muted">게시판2</a>
         </nav>
       </div>
