@@ -13,11 +13,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String uid;
     private String password;
     private boolean enabled;
-
+    @Embedded
+    private Address address;
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -32,4 +32,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> order = new ArrayList<>();
 }

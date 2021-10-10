@@ -1,5 +1,6 @@
 package com.mytoy.bookstore.model;
 
+import com.mytoy.bookstore.exception.NotEnoughStockException;
 import com.mytoy.bookstore.form.BookForm;
 import lombok.Data;
 
@@ -52,5 +53,23 @@ public class Book {
         book.thumbnailPath = filePath;
 
         return book;
+    }
+
+    //== 비즈니스 로직 ==// - 객체 지향에 가깝게 직접 엔티디에 설계함으로써 관리하기에도 편한다.
+    /**
+     * stock(재고) 증가
+     */
+    public void addStock(int quantity){
+        this.quantity += quantity;
+    }
+    /**
+     * stock(재고) 감소
+     */
+    public void removeStock(int quantity){
+        int restStock = this.quantity - quantity;
+        if(restStock < 0){
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.quantity = restStock;
     }
 }

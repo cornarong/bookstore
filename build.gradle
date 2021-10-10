@@ -35,6 +35,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
  	implementation 'com.querydsl:querydsl-jpa' // querydsl-jap 라이브러리
+	runtimeOnly 'com.h2database:h2'
 }
 	// ## querydsl 추가 시작 ##
 	def querydslDir = "$buildDir/generated/querydsl"
