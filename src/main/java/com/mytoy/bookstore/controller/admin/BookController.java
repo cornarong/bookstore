@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/book")
-public class BookAdmController {
+public class BookController {
 
     private final BookRepository bookRepository;
 

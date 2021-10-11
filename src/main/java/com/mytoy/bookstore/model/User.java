@@ -13,11 +13,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String uid;
     private String password;
     private boolean enabled;
+
     @Embedded
     private Address address;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(

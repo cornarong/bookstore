@@ -18,18 +18,18 @@
         <th>ID</th>
         <th>이름</th>
         <th>정보1</th>
-        <th>정보2</th>
+        <th>권한</th>
         <th>관리</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="user : ${users}">
         <td th:text="${user.id}">번호</td>
-        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.uid}">ID</td>
         <td th:text="${user.uid}">이름</td>
         <td th:text="${user.uid}">정보1</td>
         <td th:text="${user.uid}">상세</td>
-        <td><a th:href="@{/admin/user/detail/{userId}(userID=${user.id})}">상세</a></td>
+        <td><a th:href="@{/admin/user/{userId}(userId=${user.id})}">상세</a></td>
       </tr>
       </tbody>
     </table>

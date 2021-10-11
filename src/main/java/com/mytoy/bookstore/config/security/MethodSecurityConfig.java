@@ -1,4 +1,4 @@
-package com.mytoy.bookstore.config;
+package com.mytoy.bookstore.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
