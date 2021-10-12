@@ -32,7 +32,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5' // 타임리프에서 스프링시큐리티의 문법이나 형식을 지원하는 확장팩 라이브러리
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' // Form(DTO)와 Entity를 매핑해주는 라이브러리
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
  	implementation 'com.querydsl:querydsl-jpa' // querydsl-jap 라이브러리
 	runtimeOnly 'com.h2database:h2'

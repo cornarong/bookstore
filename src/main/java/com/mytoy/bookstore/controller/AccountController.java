@@ -1,9 +1,11 @@
 package com.mytoy.bookstore.controller;
 
+import com.mytoy.bookstore.form.UserForm;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +28,16 @@ public class AccountController {
     }*/
 
     @GetMapping("/register")
-    public String register(){
+    public String register(Model model){
+        UserForm userForm = new UserForm();
+        model.addAttribute(userForm);
         return "account/register";
     }
 
     @PostMapping("/register")
-    public String register(User user){
-        userService.save(user);
+    public String register(UserForm userForm){
+        userService.save(userForm);
+
         return "redirect:/";
     }
 

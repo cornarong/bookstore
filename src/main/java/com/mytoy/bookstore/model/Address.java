@@ -1,5 +1,6 @@
 package com.mytoy.bookstore.model;
 
+import lombok.Data;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;

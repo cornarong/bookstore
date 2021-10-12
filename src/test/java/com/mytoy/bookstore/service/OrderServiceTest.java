@@ -1,5 +1,6 @@
 package com.mytoy.bookstore.service;
 
+import com.mytoy.bookstore.form.UserForm;
 import com.mytoy.bookstore.model.*;
 import com.mytoy.bookstore.repository.BookRepository;
 import com.mytoy.bookstore.repository.OrderRepository;
@@ -38,7 +39,7 @@ class OrderServiceTest {
     }
 
     private User createUser() {
-        User user = new User();
+        UserForm user = new UserForm();
         user.setUid("memberA");
         user.setAddress(new Address("시흥시 호반 베르디움 더 프라임","배미골길23","1507동 1203호"));
         user.setPassword("1111");
@@ -61,7 +62,7 @@ class OrderServiceTest {
         Order getOrder = orderRepository.findById(orderId).orElse(null);
 
         System.out.println(user.getRoles().get(0).getId());
-        System.out.println(user.getRoles().get(0).getUid());
+//        System.out.println(user.getRoles().get(0).getUid());
         Assertions.assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "상품 주문시 상태는 ORDER");
         Assertions.assertEquals(getOrder.getOrderBooks().size(), 1, "주문한 상품 종류 수가 정확해야 한다.");
         Assertions.assertEquals(getOrder.getTotalPrice(), 10000 * 2, "주문 가격은 가격 * 수량이다.");
