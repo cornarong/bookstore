@@ -23,16 +23,19 @@ public class UserService {
 
     @Transactional(readOnly = false)
     public User save(UserForm userForm){
+
         ModelMapper modelMapper = new ModelMapper();
         User user = modelMapper.map(userForm, User.class);
+
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setEnabled(true);
         Role role = new Role();
         role.setId(1L);
         user.getRoles().add(role);
-        Address address = new Address(userForm.getCity(), userForm.getStreet(), userForm.getZipcode());
+        Address address = new Address(userForm.getAbode());
         user.setAddress(address);
+
         return userRepository.save(user);
     }
 }

@@ -18,9 +18,7 @@ public class UserForm {
     private String birth;
     private String phone;
 
-    private String city;
-    private String street;
-    private String zipcode;
+    private String abode;
 
     private String email;
     private MultipartFile profile; // 프로필 이미지

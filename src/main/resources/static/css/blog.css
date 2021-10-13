@@ -95,19 +95,33 @@ h1, h2, h3, h4, h5, h6 {
  * Footer
  */
 .blog-footer {
-    padding: 2.5rem 0;
     color: #999;
-    text-align: center;
     background-color: #f9f9f9;
     border-top: .05rem solid #e5e5e5;
+    text-align: center;
+    position: inherit;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
 }
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
-/*기차 이미지*/
+/* 메인 화면 이미지 */
 .index-img {
     background-image: url("https://64.media.tumblr.com/c78ec404d82ed13d62defef7fb2a19ed/tumblr_pxvoeumWgE1re72jio1_640.gifv");
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
+}
+
+/* 로그인, 회원가입 화면 이미지 */
+.index-img2 {
+    height: 390px;
+    width: 390px;
+    background-image: url("https://64.media.tumblr.com/6bf9736af426966a3cf88531aa111ac3/tumblr_n52d1qaKGw1re72jio1_r1_1280.gifv");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

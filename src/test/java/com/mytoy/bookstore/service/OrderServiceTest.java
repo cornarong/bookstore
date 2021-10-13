@@ -39,11 +39,11 @@ class OrderServiceTest {
     }
 
     private User createUser() {
-        UserForm user = new UserForm();
-        user.setUid("memberA");
-        user.setAddress(new Address("시흥시 호반 베르디움 더 프라임","배미골길23","1507동 1203호"));
-        user.setPassword("1111");
-        User savedUser = userService.save(user);
+        UserForm userForm = new UserForm();
+        userForm.setUid("memberA");
+        userForm.setAbode("시흥시 호반 베르디움 더 프라임 배미골길23 1507동 1203호");
+        userForm.setPassword("1111");
+        User savedUser = userService.save(userForm);
         return savedUser;
     }
 
