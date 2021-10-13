@@ -2,43 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
 <body>
-<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
-<main role="main" class="container pt-4">
-  <div class="container" data-aos="fade-up">
-    <h3 class="pb-1 font-italic">User Details</h3>
-    <form action="" method="post" role="form">
-      <div class="form-row">
-        <div class="col-lg-4 col-md-6 form-group">
-          <p class="my-1">아이디</p>
-          <input type="text" class="form-control" name="title" id="title" th:value="${user.uid}" readonly>
-        </div>
-        <div class="col-lg-4 col-md-6 form-group">
-          <p class="my-1">권한</p>
-          <input type="text" class="form-control" name="publisher" id="publisher" th:value="${user.roles.get(0).name}" readonly>
-        </div>
-        <div class="col-lg-4 col-md-6 form-group">
-          <p class="my-1">프로필 사진</p>
-          <div class="input-group mb-3">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="fileImage" disabled>
-              <label class="custom-file-label " for="fileImage" aria-describedby="inputGroupFileAddon02">선택된 파일이 없습니다.</label>
+<div id='wrap'>
+  <section>
+    <div class="container" th:replace="fragments/common :: menu('adminBook')"/>
+    <main role="main" class="container pt-4">
+      <div class="container" data-aos="fade-up">
+        <h3 class="pb-1 font-italic">User Details</h3>
+        <form action="" method="post" role="form">
+          <div class="form-row">
+            <div class="col-lg-4 col-md-6 form-group">
+              <p class="my-1">아이디</p>
+              <input type="text" class="form-control" name="title" id="title" th:value="${user.uid}" readonly>
+            </div>
+            <div class="col-lg-4 col-md-6 form-group">
+              <p class="my-1">권한</p>
+              <input type="text" class="form-control" name="publisher" id="publisher" th:value="${user.roles.get(0).name}" readonly>
+            </div>
+            <div class="col-lg-4 col-md-6 form-group">
+              <p class="my-1">프로필 사진</p>
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="fileImage" disabled>
+                  <label class="custom-file-label " for="fileImage" aria-describedby="inputGroupFileAddon02">선택된 파일이 없습니다.</label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="pb-3 form-group">
+            <p class="my-1">자기소개</p>
+            <textarea class="form-control" name="message" readonly></textarea>
+          </div>
+          <div class="pb-5 text-right">
+            <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
+            <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-primary">수정</a>
+            <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-danger">삭제</a>
+          </div>
+        </form>
       </div>
-      <div class="pb-3 form-group">
-        <p class="my-1">자기소개</p>
-        <textarea class="form-control" name="message" readonly></textarea>
-      </div>
-      <div class="pb-5 text-right">
-        <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
-        <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-primary">수정</a>
-        <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-danger">삭제</a>
-      </div>
-    </form>
-  </div>
-</main>
-
-<footer th:replace="fragments/common :: footer"/>
+    </main>
+  </section>
+  <footer th:replace="fragments/common :: footer"/>
+</div>
 </body>
 </html>

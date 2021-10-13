@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/common :: head('콘아롱 책방')"/>
     <body>
+    <div id='wrap'>
+        <section>
         <div class="container" th:replace="fragments/common :: menu('home')"/>
         <!-- 메인 스크린 썸네일 -->
         <div class="container pt-4">
@@ -91,7 +93,9 @@
                 <!--// 사이드 바 -->
             </div>
         </main>
+        </section>
         <!--// 메인 container -->
-       <footer class="blog-footer" th:replace="fragments/common :: footer"/>
+       <footer th:replace="fragments/common :: footer"/>
+    </div>
     </body>
 </html>

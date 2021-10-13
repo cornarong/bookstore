@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+<head th:replace="fragments/common :: head('로그인 - 콘아롱 책방')"/>
 <link th:href="@{/css/login_register.css}" rel="stylesheet">
 <style>
   h1, h2, h3, h4, h5, h6, label{
@@ -8,70 +8,74 @@
   }
 </style>
 <body>
-<div class="container" style="text-align:center;">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-center align-items-center">
-      <div class="col-4 text-center">
-        <a th:href="@{/}" class="blog-header-logo text-dark">Cornarong BookStore</a>
+  <div id='wrap'>
+    <section>
+      <div class="container" style="text-align:center;">
+        <header class="blog-header py-3">
+          <div class="row flex-nowrap justify-content-center align-items-center">
+            <div class="col-4 text-center">
+              <a th:href="@{/}" class="blog-header-logo text-dark">Cornarong BookStore</a>
+            </div>
+          </div>
+        </header>
       </div>
-    </div>
-  </header>
-</div>
 
-<div class="container">
-  <div class="py-5 text-center">
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-md-5 order-md-1"> <!--이놈 클래스 지우면 되네-->
-      <h2 class="mb-3">로그인</h2>
-      <form class="needs-validation" th:action="@{/account/login}" method="post">
-
-        <!-- 로그인 실패 / 정상 로그아웃 화면 노출 -->
-        <div class="alert alert-danger" role="alert" th:if="${param.error}">
-          ID/PASSWORD를 확인해주세요.
+      <div class="container">
+        <div class="py-5 text-center">
         </div>
-        <div class="alert alert-primary" role="alert" th:if="${param.logout}">
-          로그아웃이 정상적으로 되었습니다.
-        </div>
-        <!--// 로그인 실패 / 정상 로그아웃 화면 노출 -->
+        <div class="row justify-content-center">
+          <div class="col-md-5 order-md-1"> <!--이놈 클래스 지우면 되네-->
+            <h2 class="mb-3">로그인</h2>
+            <form class="needs-validation" th:action="@{/account/login}" method="post">
 
-        <div style="border-radius:10px" class="pt-3 pb-3 index-img2">
-          <div class="col-md-8 pb-4"></div>
-          <div class="row flex-nowrap justify-content-center align-items-center">
-            <div class="col-sm-8 mb-3">
-              <label for="username">아이디</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="ID를 입력해주세요." required>
-              <div class="invalid-feedback">
-                Valid ID is required.
+              <!-- 로그인 실패 / 정상 로그아웃 화면 노출 -->
+              <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                ID/PASSWORD를 확인해주세요.
               </div>
-            </div>
-          </div>
-          <div class="row flex-nowrap justify-content-center align-items-center">
-            <div class="col-sm-8 mb-3">
-              <label for="password">비밀번호</label>
-              <input type="text" class="form-control" id="password" name="password" placeholder="PASSWORD를 입력해주세요."required>
-              <div class="invalid-feedback">
-                Valid PASSWORD is required.
+              <div class="alert alert-primary" role="alert" th:if="${param.logout}">
+                로그아웃이 정상적으로 되었습니다.
               </div>
-            </div>
-          </div>
-          <div class="col-md-8 pb-4"></div>
-          <div class="col-md-8 pb-5"></div>
-          <div class="row flex-nowrap justify-content-center align-items-center">
-            <button type="submit" class="btn btn-lg mr-2 mb-2 btn-secondary" style="border-radius:15px; opacity:80%">로그인</button>
-            <a type="button" class="btn btn-lg mr-2 mb-2 btn-secondary" style="border-radius:15px; opacity:80%" th:href="@{/account/register}">회원가입</a>
-          </div>
-        </div>
+              <!--// 로그인 실패 / 정상 로그아웃 화면 노출 -->
 
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> 아이디 기억하기
-          </label>
+              <div style="border-radius:10px" class="pt-3 pb-3 index-img2">
+                <div class="col-md-8 pb-4"></div>
+                <div class="row flex-nowrap justify-content-center align-items-center">
+                  <div class="col-sm-8 mb-3">
+                    <label for="username">아이디</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="ID를 입력해주세요." required>
+                    <div class="invalid-feedback">
+                      Valid ID is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="row flex-nowrap justify-content-center align-items-center">
+                  <div class="col-sm-8 mb-3">
+                    <label for="password">비밀번호</label>
+                    <input type="text" class="form-control" id="password" name="password" placeholder="PASSWORD를 입력해주세요."required>
+                    <div class="invalid-feedback">
+                      Valid PASSWORD is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8 pb-4"></div>
+                <div class="col-md-8 pb-5"></div>
+                <div class="row flex-nowrap justify-content-center align-items-center">
+                  <button type="submit" class="btn btn-lg mr-2 mb-2 btn-secondary" style="border-radius:15px; opacity:80%">로그인</button>
+                  <a type="button" class="btn btn-lg mr-2 mb-2 btn-secondary" style="border-radius:15px; opacity:80%" th:href="@{/account/register}">회원가입</a>
+                </div>
+              </div>
+
+              <div class="checkbox mb-3">
+                <label>
+                  <input type="checkbox" value="remember-me"> 아이디 기억하기
+                </label>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </section>
+    <footer th:replace="fragments/common :: footer"/>
   </div>
-</div>
-<footer class="blog-footer" th:replace="fragments/common :: footer"/>
 </body>
 </html>

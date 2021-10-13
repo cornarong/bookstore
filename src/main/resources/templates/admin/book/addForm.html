@@ -2,99 +2,100 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
 <body>
-<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
-<main role="main" class="container pt-4">
-    <div class="container" data-aos="fade-up">
-        <h3 class="pb-1 font-italic">Register a book</h3>
-        <div class="mb-5"><strong style="color: red; float:right">✎필수 입력 항목입니다.</strong></div>
-        <form action="#" th:action="@{/admin/book/addForm}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
-            <div class="form-row">
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">제목 <strong>✎</strong></p>
-                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" th:field="*{title}">
-                    <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">제목 에러 메시지</p>
+    <div id='wrap'>
+        <section>
+            <div class="container" th:replace="fragments/common :: menu('adminBook')"/>
+                <div class="container" data-aos="fade-up">
+                    <h3 class="pb-1 font-italic">Register a book</h3>
+                    <div class="mb-5"><strong style="color: red; float:right">✎필수 입력 항목입니다.</strong></div>
+                    <form action="#" th:action="@{/admin/book/addForm}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">제목 <strong>✎</strong></p>
+                                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" th:field="*{title}">
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">제목 에러 메시지</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">부제목</p>
+                                <input type="text" class="form-control" th:field="*{subTitle}">
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">저자 <strong>✎</strong></p>
+                                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'" th:field="*{author}">
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">저자 에러 메시지</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">수량 <strong>✎</strong></p>
+                                <input type="number" class="form-control" th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'" th:field="*{quantity}">
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">수량 에러 메시지</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">출판사 <strong>✎</strong></p>
+                                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('publisher')} ? 'is-invalid'" th:field="*{publisher}">
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">출판사 에러 메시지</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">발행일</p>
+                                <input type="date" class="form-control" th:field="*{publishedDate}">
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">가격 <strong>✎</strong></p>
+                                <input type="number" class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" th:field="*{price}">
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">가격 에러 메시지</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">할인율</p>
+                                <select class="custom-select" th:field="*{disRate}">
+                                    <option value="0" selected th:selected="'javascript:test()'">0%</option>
+                                    <option value="5" th:onclick="test()">5%</option>
+                                    <option value="10" th:onclick="test()">10%</option>
+                                    <option value="15" th:onclick="test()">15%</option>
+                                    <option value="30" th:onclick="test()">30%</option>
+                                    <option value="50" th:onclick="test()">50%</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">할인가</p>
+                                <input type="number" class="form-control" th:field="*{disPrice}" readonly>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">배송비</p>
+                                <select class="custom-select" th:field="*{shippingFee}">
+                                    <option value="0" selected>무료배송</option>
+                                    <option value="2000">2000원</option>
+                                    <option value="3000">3000원</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">이미지 <strong>✎</strong></p>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" th:classappend="${#fields.hasErrors('thumbnail')} ? 'is-invalid'"
+                                           id="thumbnail" th:field="*{thumbnail}" th:onchange="'javascript:fileUpload(event)'" accept="image/*">
+                                    <label class="custom-file-label" for="thumbnail">파일을 선택하세요.</label>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">파일 에러 메시지</p>
+            <!--                        <hidden th:field="*{t}"></hidden>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">등록이미지 미리보기</p>
+                                <img class="form-control" id="thumbnail_container" th:src="@{/images/noImage.jpg}" style="max-width: 100%; height: 250px;">
+                            </div>
+                            <div class="col-8 pb-3 form-group pb-3">
+                                <p class="my-1">설명 및 줄거리</p>
+                                <textarea class="form-control" style="height: 250px;" th:field="*{content}" placeholder="설명 및 줄거리를 간략하게 입력해주세요."></textarea>
+                            </div>
+                        </div>
+                        <div class="pb-5 text-right">
+                            <a th:href="@{/admin/book}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
+                            <button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">등록하기</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">부제목</p>
-                    <input type="text" class="form-control" th:field="*{subTitle}">
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">저자 <strong>✎</strong></p>
-                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'" th:field="*{author}">
-                    <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">저자 에러 메시지</p>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">수량 <strong>✎</strong></p>
-                    <input type="number" class="form-control" th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'" th:field="*{quantity}">
-                    <p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">수량 에러 메시지</p>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">출판사 <strong>✎</strong></p>
-                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('publisher')} ? 'is-invalid'" th:field="*{publisher}">
-                    <p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">출판사 에러 메시지</p>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">발행일</p>
-                    <input type="date" class="form-control" th:field="*{publishedDate}">
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">가격 <strong>✎</strong></p>
-                    <input type="number" class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" th:field="*{price}">
-                    <p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">가격 에러 메시지</p>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">할인율</p>
-                    <select class="custom-select" th:field="*{disRate}">
-                        <option value="0" selected th:selected="'javascript:test()'">0%</option>
-                        <option value="5" th:onclick="test()">5%</option>
-                        <option value="10" th:onclick="test()">10%</option>
-                        <option value="15" th:onclick="test()">15%</option>
-                        <option value="30" th:onclick="test()">30%</option>
-                        <option value="50" th:onclick="test()">50%</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">할인가</p>
-                    <input type="number" class="form-control" th:field="*{disPrice}" readonly>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">배송비</p>
-                    <select class="custom-select" th:field="*{shippingFee}">
-                        <option value="0" selected>무료배송</option>
-                        <option value="2000">2000원</option>
-                        <option value="3000">3000원</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">이미지 <strong>✎</strong></p>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" th:classappend="${#fields.hasErrors('thumbnail')} ? 'is-invalid'"
-                               id="thumbnail" th:field="*{thumbnail}" th:onchange="'javascript:fileUpload(event)'" accept="image/*">
-                        <label class="custom-file-label" for="thumbnail">파일을 선택하세요.</label>
-                        <p class="invalid-feedback" th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">파일 에러 메시지</p>
-<!--                        <hidden th:field="*{t}"></hidden>-->
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-lg-4 col-md-6 pb-3 form-group">
-                    <p class="my-1">등록이미지 미리보기</p>
-                    <img class="form-control" id="thumbnail_container" th:src="@{/images/noImage.jpg}" style="max-width: 100%; height: 250px;">
-                </div>
-                <div class="col-8 pb-3 form-group pb-3">
-                    <p class="my-1">설명 및 줄거리</p>
-                    <textarea class="form-control" style="height: 250px;" th:field="*{content}" placeholder="설명 및 줄거리를 간략하게 입력해주세요."></textarea>
-                </div>
-            </div>
-            <div class="pb-5 text-right">
-                <a th:href="@{/admin/book}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
-                <button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">등록하기</button>
-            </div>
-        </form>
+        </section>
+        <footer th:replace="fragments/common :: footer"/>
     </div>
-</main>
-
-<footer th:replace="fragments/common :: footer"/>
 </body>
 <script>
     /* 파일이미지 업로드 */
