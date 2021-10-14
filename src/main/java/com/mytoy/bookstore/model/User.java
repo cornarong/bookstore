@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,12 +16,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uid;
-    private String password;
-    private boolean enabled;
+    private String uid; // 아이디
+    private String password; // 비밀번호
+    private String name; // 이름
+    private String nickname; // 닉네임
+    private String gender; // 성별
+    private String email; // 이메일
+    private String profile; // 프로필사진
+    private String profilePath; // 프로필사진 물리경로
+    private LocalDate since;
+
+    private boolean enabled; // 권한 활성화 여부
 
     @Embedded
-    private Address address;
+    private Address address; // 주소 (postcode, address, detailAddress)
 
     @JsonIgnore
     @ManyToMany

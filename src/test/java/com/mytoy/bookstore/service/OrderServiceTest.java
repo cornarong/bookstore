@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 
 @SpringBootTest
 @Transactional
@@ -38,10 +40,10 @@ class OrderServiceTest {
         return book;
     }
 
-    private User createUser() {
+    private User createUser() throws IOException {
         UserForm userForm = new UserForm();
         userForm.setUid("memberA");
-        userForm.setAbode("시흥시 호반 베르디움 더 프라임 배미골길23 1507동 1203호");
+//        userForm.setAbode("시흥시 호반 베르디움 더 프라임 배미골길23 1507동 1203호");
         userForm.setPassword("1111");
         User savedUser = userService.save(userForm);
         return savedUser;

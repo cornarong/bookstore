@@ -1,28 +1,35 @@
 package com.mytoy.bookstore.form;
 
-import com.mytoy.bookstore.model.Address;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Embedded;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class UserForm {
 
+    @NotBlank(message = "필수 항목입니다.")
     private String uid;
+    @NotBlank(message = "필수 항목입니다.")
     private String password;
+    @NotBlank(message = "필수 항목입니다.")
     private String name;
+    @NotBlank(message = "필수 항목입니다.")
     private String nickname;
+    @NotBlank(message = "필수 항목입니다.")
     private String gender;
+    @NotBlank(message = "필수 항목입니다.")
     private String birth;
+    @NotBlank(message = "필수 항목입니다.")
     private String phone;
-
-    private String abode;
-
     private String email;
+
+    @NotBlank(message = "필수 항목입니다.")
+    private String postcode;
+    @NotBlank(message = "필수 항목입니다.")
+    private String address;
+    private String detailAddress;
+
     private MultipartFile profile; // 프로필 이미지
-    private String since;
-
-
 }

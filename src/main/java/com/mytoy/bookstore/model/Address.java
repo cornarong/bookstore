@@ -9,13 +9,17 @@ import javax.persistence.Embeddable;
 @Getter
 public class Address {
 
-    private String abode;
+    private String postcode;
+    private String address;
+    private String detailAddress;
 
     protected Address(){
 
     }
 
-    public Address(String abode) {
-        this.abode = abode;
+    public Address(String postcode, String address, String detailAddress) {
+        this.postcode = postcode;
+        this.address = address;
+        this.detailAddress = detailAddress;
     }
 }

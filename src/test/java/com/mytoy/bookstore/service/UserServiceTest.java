@@ -1,5 +1,6 @@
 package com.mytoy.bookstore.service;
 
+import com.mytoy.bookstore.form.UserForm;
 import com.mytoy.bookstore.model.Role;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
@@ -24,8 +25,8 @@ class UserServiceTest {
     @Rollback(false)
     public void save(){
         User user = new User();
-        user.setUid("testId");
-        user.setPassword("testPwd");
+        user.setUid("아이디");
+        user.setPassword("비밀번호");
         Role role = new Role();
         role.setId(1L);
         user.getRoles().add(role);
