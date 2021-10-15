@@ -34,13 +34,14 @@
                                     <label for="uid">아이디</label>
                                     <input type="text" class="form-control" th:classappend="${#fields.hasErrors('uid')} ? 'is-invalid'"
                                            id="uid" th:field="*{uid}" placeholder="아이디를 입력해주세요" autocomplete="new-password">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('uid')}" th:errors="*{uid}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('uid')}" th:errors="*{uid}">에러 메시지</p>
+                                    <p id="uidDuplicateCheck" style="font-size: 80%;"></p>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="password">비밀번호</label>
                                     <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
                                            id="password" th:field="*{password}" placeholder="비밀번호를 입력해주세요" autocomplete="new-password">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">에러 메시지</p>
                                 </div>
                             </div>
                         <!--// 아이디, 비밀번호 -->
@@ -51,13 +52,13 @@
                                     <label for="name">이름</label>
                                     <input type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
                                            id="name" th:field="*{name}" placeholder="이름을 입력해주세요">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">에러 메시지</p>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="nickname">닉네임</label>
                                     <input type="text" class="form-control" th:classappend="${#fields.hasErrors('nickname')} ? 'is-invalid'"
                                            id="nickname" th:field="*{nickname}" placeholder="닉네임을 입력해주세요">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">에러 메시지</p>
                                 </div>
                             </div>
                         <!--// 이름, 닉네임 -->
@@ -68,13 +69,13 @@
                                     <label for="birth">생년월일</label>
                                     <input type="text" class="form-control" th:classappend="${#fields.hasErrors('birth')} ? 'is-invalid'"
                                            id="birth" th:field="*{birth}" pattern="[1-9]{4}-[0-9]{2}-[0-9]{2}" maxlength="10" placeholder="'-' 제외하고 숫자만 입력해주세요">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">에러 메시지</p>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phone">휴대전화</label>
                                     <input type="tel" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid'"
                                            id="phone" th:field="*{phone}" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13" placeholder="'-' 제외하고 숫자만 입력해주세요">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">에러 메시지</p>
                                 </div>
                             </div>
                         <!--// 생년월일 -->
@@ -82,7 +83,7 @@
                         <!-- 성별 -->
                             <label>성별</label>
                             <input type="hidden" th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid'">
-                            <p class="invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">제목 에러 메시지</p>
+                            <p class="invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">에러 메시지</p>
                             <div class="d-block mb-3">
                                 <div class="custom-control custom-radio">
                                     <input id="man" type="radio" th:field="*{gender}" class="custom-control-input"
@@ -118,10 +119,10 @@
                                 <div class="col-md-6">
                                     <input type="text" class="form-control mb-1" th:classappend="${#fields.hasErrors('postcode')} ? 'is-invalid'"
                                            id="postcode" th:field="*{postcode}" placeholder="우편번호">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}">에러 메시지</p>
                                     <input type="text" class="form-control mb-1" th:classappend="${#fields.hasErrors('address')} ? 'is-invalid'"
                                            id="address" th:field="*{address}" placeholder="주소">
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">제목 에러 메시지</p>
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">에러 메시지</p>
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -158,6 +159,37 @@
 </body>
     <!-- javascript -->
 <script>
+
+
+    /* 아이디 중복 검사 */
+    $("#uid").blur(function() {
+        let uid = $('#uid').val();
+        if(uid === '' || uid.length === 1){ // 공백 및 길이 제한
+            $('#uid').addClass('is-invalid');
+            $('#uidDuplicateCheck').css("color","#dc3545");
+            $('#uidDuplicateCheck').text("* 아이디는 두글자 이상이어야 합니다");
+            return;
+        }
+        $.ajax({
+            url : '/account/uidDuplicateCheck/' + uid,
+            type : 'get',
+            success : function(data) {
+                if(data === "1"){
+                    $('#uid').addClass('is-invalid');
+                    $('#uidDuplicateCheck').css("color","#dc3545");
+                    $('#uidDuplicateCheck').text("* 이미 사용중인 아이디입니다");
+                }else{
+                    $('#uid').removeClass('is-invalid');
+                    $('#uidDuplicateCheck').css("color","#0d0de7");
+                    $('#uidDuplicateCheck').text("* 사용 가능한 아이디입니다");
+                }
+            }, error : function() {
+                console.log("에러 발생");
+            }
+        });
+    });
+
+
     /* 파일이미지 업로드 */
     function fileUpload(event){
         if(document.getElementById("profile").files[0] !== undefined){
