@@ -9,15 +9,24 @@
       <div class="container" data-aos="fade-up">
         <h3 class="pb-1 font-italic">User Details</h3>
         <form action="" method="post" role="form">
+
           <div class="form-row">
             <div class="col-lg-4 col-md-6 form-group">
-              <p class="my-1">아이디</p>
+              <label class="my-1">아이디</label>
               <input type="text" class="form-control" name="title" id="title" th:value="${user.uid}" readonly>
             </div>
             <div class="col-lg-4 col-md-6 form-group">
-              <p class="my-1">권한</p>
-              <input type="text" class="form-control" name="publisher" id="publisher" th:value="${user.roles.get(0).name}" readonly>
+              <label class="my-1">이름</label>
+              <input type="text" class="form-control" name="title" id="title" th:value="${user.uid}" readonly>
             </div>
+            <div class="col-lg-4 col-md-6 form-group">
+              <label class="my-1">닉네임</label>
+              <input type="text" class="form-control" name="title" id="title" th:value="${user.uid}" readonly>
+            </div>
+
+
+          </div>
+          <div class="form-row">
             <div class="col-lg-4 col-md-6 form-group">
               <p class="my-1">프로필 사진</p>
               <div class="input-group mb-3">
@@ -26,6 +35,11 @@
                   <label class="custom-file-label " for="fileImage" aria-describedby="inputGroupFileAddon02">선택된 파일이 없습니다.</label>
                 </div>
               </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 form-group">
+              <p class="my-1">권한</p>
+              <input type="text" class="form-control" name="publisher" id="publisher" th:value="${user.roles.get(0).name}" readonly>
             </div>
           </div>
           <div class="pb-3 form-group">

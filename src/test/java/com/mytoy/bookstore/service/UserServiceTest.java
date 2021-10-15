@@ -5,6 +5,7 @@ import com.mytoy.bookstore.model.Role;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -32,6 +33,14 @@ class UserServiceTest {
         user.getRoles().add(role);
         User savedUser = userRepository.save(user);
         userRepository.findById(savedUser.getId());
+    }
+
+    @Test
+    public void test(){
+        UserForm userForm = new UserForm();
+        ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(userForm, User.class);
+
     }
 
 

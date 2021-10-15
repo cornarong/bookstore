@@ -41,17 +41,14 @@ public class AccountController {
 
     @PostMapping("/register")
     public String register(@Valid UserForm userForm, BindingResult bindingResult) throws IOException {
-
         if(userRepository.findByUid(userForm.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.
             FieldError fieldError = new FieldError("userForm","uid","아이디를 다시 작성해주세요");
             bindingResult.addError(fieldError);
         }
-
         if(bindingResult.hasErrors()){
             log.info("에러 = {}", bindingResult.getFieldError());
             return "account/register";
         }
-
         userService.save(userForm);
         return "redirect:/";
     }
@@ -64,7 +61,6 @@ public class AccountController {
     @ResponseBody
     @GetMapping("/uidDuplicateCheck/{uid}")
     public String uidDuplicateCheck(@PathVariable String uid){
-        System.out.println("컨트롤러 UID -> "+uid);
         String checkValue = "0";
         if(userRepository.findByUid(uid) != null){
             checkValue = "1";

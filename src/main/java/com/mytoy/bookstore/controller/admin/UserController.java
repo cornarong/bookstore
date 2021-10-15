@@ -1,10 +1,14 @@
 package com.mytoy.bookstore.controller.admin;
 
 
+import com.mytoy.bookstore.form.UserDetailForm;
+import com.mytoy.bookstore.form.UserForm;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
+import com.mytoy.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +24,11 @@ import java.util.Optional;
 @RequestMapping("/admin/user")
 public class UserController {
 
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private final UserService userService;
 
     // 회원 목록(관리자)
     @GetMapping
@@ -33,6 +41,9 @@ public class UserController {
     @GetMapping("/{userId}")
     public String detail(@PathVariable Long userId, Model model){
         User findUser = userRepository.findById(userId).orElse(null);
+
+        userService.UserDetail(findUser);
+
         model.addAttribute("user",findUser);
         return "/admin/user/detail";
     }

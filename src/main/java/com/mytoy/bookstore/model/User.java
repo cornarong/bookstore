@@ -20,11 +20,13 @@ public class User {
     private String password; // 비밀번호
     private String name; // 이름
     private String nickname; // 닉네임
+    private LocalDate birth; // 생년월일
+    private String phone; // 휴대전화
     private String gender; // 성별
     private String email; // 이메일
     private String profile; // 프로필사진
     private String profilePath; // 프로필사진 물리경로
-    private LocalDate since;
+    private LocalDate since; // 가입일
 
     private boolean enabled; // 권한 활성화 여부
 
