@@ -2,46 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
 <body>
-  <div id='wrap'>
-    <section>
-      <div class="container" th:replace="fragments/common :: menu('adminBook')"/>
-      <div class="container pt-4">
-        <h3 class="pb-4 font-italic">
-          ALL ITEMS
-        </h3>
-        <!-- 아이템 등록 -->
-        <form class="pb-1 form-inline d-flex" method="get">
-          <div class="mr-auto p-2">총 건수 : <span th:text="${books.size}"></span></div>
-          <a th:href="@{/admin/book/addForm}" class="btn btn mr-2 mb-2 btn-outline-secondary">등록하기</a>
-        </form>
-        <!-- // 아이템 등록 -->
-        <div class="table-responsive">
-          <table class="table table-striped table-sm">
-            <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작가</th>
-              <th>출판사</th>
-              <th>수량</th>
-              <th>관리</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="book : ${books}">
-              <td th:text="${book.id}">번호1</td>
-              <td th:text="${book.title}">제목1</td>
-              <td th:text="${book.author}">작가1</td>
-              <td th:text="${book.publisher}">출판사1</td>
-              <td th:text="${book.quantity}">수량1</td>
-              <td><a th:href="@{/admin/book/detail/{bookId}(bookId=${book.id})}">상세</a></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-    <footer th:replace="fragments/common :: footer"/>
-  </div>
+<div id='wrap'>
+	<section>
+		<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
+		<div class="container pt-4">
+			<h3 class="pb-4 font-italic">
+				ALL ITEMS
+			</h3>
+			<!-- 아이템 등록 -->
+			<form class="pb-1 form-inline d-flex" method="get">
+				<div class="mr-auto p-2">총 건수 : <span th:text="${books.size}"></span></div>
+				<a th:href="@{/admin/book/addForm}" class="btn btn mr-2 mb-2 btn-outline-secondary">등록하기</a>
+			</form>
+			<!-- // 아이템 등록 -->
+			<div class="table-responsive">
+				<table class="table table-striped table-sm">
+					<thead>
+					<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작가</th>
+						<th>출판사</th>
+						<th>수량</th>
+						<th>관리</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="book : ${books}">
+						<td th:text="${book.id}">번호1</td>
+						<td th:text="${book.title}">제목1</td>
+						<td th:text="${book.author}">작가1</td>
+						<td th:text="${book.publisher}">출판사1</td>
+						<td th:text="${book.quantity}">수량1</td>
+						<td><a th:href="@{/admin/book/detail/{bookId}(bookId=${book.id})}">상세</a></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="fragments/common :: footer"/>
+</div>
 </body>
 </html>
