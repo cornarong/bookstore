@@ -19,6 +19,7 @@ public interface UserMapper {
     @Mapping(target = "address", ignore = true)
     default UserDto toUserDto(User user) { // Builder로 처리해보자. 잠시 대기.
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setUid(user.getUid());
         userDto.setName(user.getName());
         userDto.setNickname(user.getNickname());
@@ -36,7 +37,7 @@ public interface UserMapper {
             userDto.setProfileUseDto(user.getProfile());
             userDto.setProfilePathUseDto(user.getProfilePath());
         }
-        userDto.setSinceUseDto(user.getSince());
+        userDto.setSinceUseDto(String.valueOf(user.getSince()));
         userDto.setRoleUseDto(user.getRoles().get(0).getName());
         return userDto;
     }

@@ -10,9 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelExtensionsKt;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/user")
+@RequestMapping("/admin")
 public class UserController {
 
     @Autowired
@@ -30,20 +29,35 @@ public class UserController {
     private final UserService userService;
 
     // 회원 목록(관리자)
-    @GetMapping
+    @GetMapping("/user")
     public String list(Model model){
         List<User> users = userRepository.findAll();
         model.addAttribute("users",users);
         return "/admin/user/list";
     }
 
-    @GetMapping("/{userId}")
+    /* 회원정보 상세페이지 */
+    @GetMapping("/user/{userId}")
     public String detail(@PathVariable Long userId, Model model){
-
         UserDto userDto = userService.UserDetail(userId);
-
-        model.addAttribute("user", userDto);
+        model.addAttribute("userDto", userDto);
         return "/admin/user/detail";
     }
+
+    /* 회원정보 수정페이지 */
+    @PostMapping("/edit/{userId}")
+    public String editForm(@PathVariable Long userId, @ModelAttribute UserDto userDto, Model model){
+        userDto.setId(userId);
+        model.addAttribute("userDto", userDto);
+        return "/admin/user/edit";
+    }
+
+    /* 회원정보 수정하기 */
+    @PutMapping("/edit/{userId}")
+    public String userEdit(@PathVariable Long userId){
+        System.out.println("컴온");
+        return "redirect:/admin/user";
+    }
+
 
 }

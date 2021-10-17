@@ -38,7 +38,8 @@ public class UserDto {
     /* Entity -> DTO 변환시 사용하는 추가 필드 */
     private String profileUseDto; // 이미지 파일명
     private String profilePathUseDto; // 이미지 파일경로
-    private LocalDate sinceUseDto; // 가입일
+    private String sinceUseDto; // 가입일
     private String roleUseDto; // 권한
+    private Long id; // userId
 }
 
