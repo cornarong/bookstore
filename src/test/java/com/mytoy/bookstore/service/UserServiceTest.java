@@ -1,6 +1,6 @@
 package com.mytoy.bookstore.service;
 
-import com.mytoy.bookstore.form.UserForm;
+import com.mytoy.bookstore.form.UserDto;
 import com.mytoy.bookstore.model.Role;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -37,9 +35,9 @@ class UserServiceTest {
 
     @Test
     public void test(){
-        UserForm userForm = new UserForm();
+        UserDto userDto = new UserDto();
         ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userForm, User.class);
+        User user = modelMapper.map(userDto, User.class);
 
     }
 

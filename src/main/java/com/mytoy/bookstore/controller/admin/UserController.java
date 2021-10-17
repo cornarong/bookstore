@@ -1,8 +1,7 @@
 package com.mytoy.bookstore.controller.admin;
 
 
-import com.mytoy.bookstore.form.UserDetailForm;
-import com.mytoy.bookstore.form.UserForm;
+import com.mytoy.bookstore.form.UserDto;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
@@ -40,11 +39,10 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public String detail(@PathVariable Long userId, Model model){
-        User findUser = userRepository.findById(userId).orElse(null);
 
-        userService.UserDetail(findUser);
+        UserDto userDto = userService.UserDetail(userId);
 
-        model.addAttribute("user",findUser);
+        model.addAttribute("user", userDto);
         return "/admin/user/detail";
     }
 

@@ -1,6 +1,6 @@
 package com.mytoy.bookstore.service;
 
-import com.mytoy.bookstore.form.UserForm;
+import com.mytoy.bookstore.form.UserDto;
 import com.mytoy.bookstore.model.*;
 import com.mytoy.bookstore.repository.BookRepository;
 import com.mytoy.bookstore.repository.OrderRepository;
@@ -41,11 +41,11 @@ class OrderServiceTest {
     }
 
     private User createUser() throws IOException {
-        UserForm userForm = new UserForm();
-        userForm.setUid("memberA");
+        UserDto userDto = new UserDto();
+        userDto.setUid("memberA");
 //        userForm.setAbode("시흥시 호반 베르디움 더 프라임 배미골길23 1507동 1203호");
-        userForm.setPassword("1111");
-        User savedUser = userService.save(userForm);
+        userDto.setPassword("1111");
+        User savedUser = userService.save(userDto);
         return savedUser;
     }
 

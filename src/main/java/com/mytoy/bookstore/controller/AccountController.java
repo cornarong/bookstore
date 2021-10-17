@@ -1,7 +1,6 @@
 package com.mytoy.bookstore.controller;
 
-import com.mytoy.bookstore.form.UserForm;
-import com.mytoy.bookstore.model.User;
+import com.mytoy.bookstore.form.UserDto;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -34,22 +32,22 @@ public class AccountController {
 
     @GetMapping("/register")
     public String register(Model model){
-        UserForm userForm = new UserForm();
-        model.addAttribute(userForm);
+        UserDto userDto = new UserDto();
+        model.addAttribute(userDto);
         return "account/register";
     }
 
     @PostMapping("/register")
-    public String register(@Valid UserForm userForm, BindingResult bindingResult) throws IOException {
-        if(userRepository.findByUid(userForm.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.
-            FieldError fieldError = new FieldError("userForm","uid","아이디를 다시 작성해주세요");
+    public String register(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+        if(userRepository.findByUid(userDto.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.
+            FieldError fieldError = new FieldError("userDto","uid","아이디를 다시 작성해주세요");
             bindingResult.addError(fieldError);
         }
         if(bindingResult.hasErrors()){
             log.info("에러 = {}", bindingResult.getFieldError());
             return "account/register";
         }
-        userService.save(userForm);
+        userService.save(userDto);
         return "redirect:/";
     }
 

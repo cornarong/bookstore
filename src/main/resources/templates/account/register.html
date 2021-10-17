@@ -3,11 +3,6 @@
 <head th:replace="fragments/common :: head('회원가입 - 콘아롱 책방')">
 </head>
 <link th:href="@{/css/login_register.css}" rel="stylesheet">
-<style>
-    h1, h2, h3, h4, h5, h6, label{
-        font-family: 나눔바른고딕;
-    }
-</style>
 <body>
     <div id='wrap'>
         <section>
@@ -26,7 +21,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 order-md-1">
                         <h3 class="mb-3">회원가입</h3>
-                        <form class="needs-validation" th:action="@{/account/register}" th:object="${userForm}" method="post" enctype="multipart/form-data">
+                        <form class="needs-validation" th:action="@{/account/register}" th:object="${userDto}" method="post" enctype="multipart/form-data">
 
                         <!-- 아이디, 비밀번호 -->
                             <div class="row">

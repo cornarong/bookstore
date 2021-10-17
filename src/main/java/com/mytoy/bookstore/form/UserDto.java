@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-public class UserForm {
+public class UserDto {
 
     @NotBlank(message = "필수 항목입니다.")
     private String uid;
@@ -34,4 +34,11 @@ public class UserForm {
     private String detailAddress;
 
     private MultipartFile profile; // 프로필 이미지
+
+    /* Entity -> DTO 변환시 사용하는 추가 필드 */
+    private String profileUseDto; // 이미지 파일명
+    private String profilePathUseDto; // 이미지 파일경로
+    private LocalDate sinceUseDto; // 가입일
+    private String roleUseDto; // 권한
 }
+
