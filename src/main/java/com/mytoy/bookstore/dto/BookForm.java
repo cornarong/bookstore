@@ -1,4 +1,4 @@
-package com.mytoy.bookstore.form;
+package com.mytoy.bookstore.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

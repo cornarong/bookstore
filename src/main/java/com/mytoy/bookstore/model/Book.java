@@ -1,7 +1,7 @@
 package com.mytoy.bookstore.model;
 
 import com.mytoy.bookstore.exception.NotEnoughStockException;
-import com.mytoy.bookstore.form.BookForm;
+import com.mytoy.bookstore.dto.BookForm;
 import lombok.Data;
 
 import javax.persistence.*;

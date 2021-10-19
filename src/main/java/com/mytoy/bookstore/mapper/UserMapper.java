@@ -1,14 +1,12 @@
 package com.mytoy.bookstore.mapper;
 
-import com.mytoy.bookstore.form.UserDto;
+import com.mytoy.bookstore.dto.UserSaveDto;
+import com.mytoy.bookstore.dto.UserInfoDto;
 import com.mytoy.bookstore.model.Address;
 import com.mytoy.bookstore.model.Role;
 import com.mytoy.bookstore.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,23 +17,22 @@ import java.util.ArrayList;
 @Mapper
 public interface UserMapper {
 
-    /* 0. UserDto -> User 기본 샘플 */
-//    User editFormtoUserEntity(UserDto userDto);
+//    User toUserEntity(UserSaveDto userSaveDto);
 
-    /* 1. UserDto -> User */
+    /* 1. UserSaveDto -> UserEntity */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profile", ignore = true)
     @Mapping(target = "address", ignore = true)
-    default User toUserEntity(UserDto userDto) throws IOException {
+    default User toUserEntity(UserSaveDto userSaveDto) throws IOException {
         User user = User.builder()
-                .uid(userDto.getUid())
-                .password(userDto.getPassword())
-                .name(userDto.getName())
-                .nickname(userDto.getNickname())
-                .birth(LocalDate.parse(userDto.getBirth()))
-                .phone(userDto.getPhone())
-                .gender(userDto.getGender())
-                .email(userDto.getEmail())
+                .uid(userSaveDto.getUid())
+                .password(userSaveDto.getPassword())
+                .name(userSaveDto.getName())
+                .nickname(userSaveDto.getNickname())
+                .birth(LocalDate.parse(userSaveDto.getBirth()))
+                .phone(userSaveDto.getPhone())
+                .gender(userSaveDto.getGender())
+                .email(userSaveDto.getEmail())
                 .roles(new ArrayList<>())
                 .build();
         /* 사용자 기본 권한 : ROLE_USER */
@@ -44,14 +41,14 @@ public interface UserMapper {
         user.getRoles().add(role);
         user.setEnabled(true);
         /* 내장타입 주소 */
-        Address address = new Address(userDto.getPostcode(), userDto.getAddress(), userDto.getDetailAddress());
+        Address address = new Address(userSaveDto.getPostcode(), userSaveDto.getAddress(), userSaveDto.getDetailAddress());
         user.setAddress(address);
         /* 파일 업로드 */
-        if(userDto.getProfile().getSize() != 0 || !userDto.getProfile().getOriginalFilename().equals("")){
+        if(userSaveDto.getProfile().getSize() != 0 || !userSaveDto.getProfile().getOriginalFilename().equals("")){
             String baseDir = "D:\\study\\profile_image"; // 저장파일 물리경로
-            String filePath = baseDir + "\\" + userDto.getProfile().getOriginalFilename(); // 저장파일명
-            userDto.getProfile().transferTo(new File(filePath));
-            user.setProfile(userDto.getProfile().getOriginalFilename());
+            String filePath = baseDir + "\\" + userSaveDto.getProfile().getOriginalFilename(); // 저장파일명
+            userSaveDto.getProfile().transferTo(new File(filePath));
+            user.setProfile(userSaveDto.getProfile().getOriginalFilename());
             user.setProfilePath(filePath);
         }else{
             user.setProfile(null);
@@ -62,10 +59,10 @@ public interface UserMapper {
         return user;
     }
 
-    /* User -> UserDto */
+    /* UserEntity -> UserInfoDto */
     @Mapping(target = "address", ignore = true)
-    default UserDto toUserDto(User user) {
-        UserDto userDto = UserDto.builder()
+    default UserInfoDto toUserInfoDto(User user) {
+        UserInfoDto userInfoDto = UserInfoDto.builder()
                 .id(user.getId())
                 .uid(user.getUid())
                 .name(user.getName())
@@ -77,19 +74,19 @@ public interface UserMapper {
                 .postcode(user.getAddress().getPostcode())
                 .address(user.getAddress().getAddress())
                 .detailAddress(user.getAddress().getDetailAddress())
-                .sinceUseDto(String.valueOf(user.getSince()))
-                .roleUseDto(new ArrayList<String>())
+                .since(String.valueOf(user.getSince()))
+                .roles(new ArrayList<String>())
                 .build();
         for(Role role : user.getRoles()){
-            userDto.getRoleUseDto().add(role.getName());
+            userInfoDto.getRoles().add(role.getName());
         }
         if(user.getProfile() == null){
-            userDto.setProfileUseDto("noImage.jpg");
-            userDto.setProfilePathUseDto("");
+            userInfoDto.setProfileName("noImage.jpg");
+            userInfoDto.setProfilePath("");
         }else {
-            userDto.setProfileUseDto(user.getProfile());
-            userDto.setProfilePathUseDto(user.getProfilePath());
+            userInfoDto.setProfileName(user.getProfile());
+            userInfoDto.setProfilePath(user.getProfilePath());
         }
-        return userDto;
+        return userInfoDto;
     }
 }

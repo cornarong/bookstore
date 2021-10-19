@@ -58,7 +58,7 @@
             <a class="p-2 text-danger" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원 관리</a>
           </div>
           <div class="col-4 text-center">
-            <a class="blog-header-logo text-dark" href="#">Cornarong BookStore</a>
+            <a class="blog-header-logo text-dark" th:href="@{/}">Cornarong BookStore</a>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a class="btn btn-sm mr-2 btn-outline-secondary" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">로그인</a>

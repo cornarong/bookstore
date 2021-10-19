@@ -1,7 +1,6 @@
 package com.mytoy.bookstore.controller.admin;
 
-
-import com.mytoy.bookstore.form.UserDto;
+import com.mytoy.bookstore.dto.UserInfoDto;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
@@ -29,7 +28,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
-    // 회원 목록(관리자)
+    /* 회원 전체목록 */
     @GetMapping("/user")
     public String list(Model model){
         List<User> users = userRepository.findAll();
@@ -40,27 +39,27 @@ public class UserController {
     /* 회원정보 상세페이지 */
     @GetMapping("/user/{userId}")
     public String detail(@PathVariable Long userId, Model model){
-        UserDto userDto = userService.detail(userId);
-        model.addAttribute("userDto", userDto);
+        UserInfoDto userInfoDto = userService.detail(userId);
+        model.addAttribute("userInfoDto", userInfoDto);
         return "/admin/user/detailForm";
     }
 
     /* 회원정보 수정페이지 */
-    @PostMapping("/edit/{userId}")
-    public String editForm(@PathVariable Long userId, @ModelAttribute UserDto userDto, Model model){
-        userDto.setId(userId);
-        model.addAttribute("userDto", userDto);
-        return "/admin/user/editForm";
+    @PostMapping("/update/{userId}")
+    public String updateForm(@PathVariable Long userId, @ModelAttribute UserInfoDto userInfoDto, Model model){
+        userInfoDto.setId(userId);
+        model.addAttribute("userInfoDto", userInfoDto);
+        return "admin/user/updateForm";
     }
 
     /* 회원정보 수정하기 */
-    @PutMapping("/edit/{userId}")
-    public String userEdit(@PathVariable Long userId, @Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+    @PutMapping("/update/{userId}")
+    public String Update(@PathVariable Long userId, @Valid UserInfoDto userInfoDto, BindingResult bindingResult) throws IOException {
         if(bindingResult.hasErrors()){
             log.info("error = {}", bindingResult.getFieldError());
-            return "/admin/user/editForm";
+            return "admin/user/updateForm";
         }
-        userService.edit(userId, userDto);
+        userService.update(userId, userInfoDto);
         return "redirect:/admin/user";
     }
 }

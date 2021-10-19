@@ -1,6 +1,6 @@
 package com.mytoy.bookstore.controller.admin;
 
-import com.mytoy.bookstore.form.BookForm;
+import com.mytoy.bookstore.dto.BookForm;
 import com.mytoy.bookstore.model.Book;
 import com.mytoy.bookstore.repository.BookRepository;
 import lombok.RequiredArgsConstructor;

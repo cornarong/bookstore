@@ -1,11 +1,9 @@
 package com.mytoy.bookstore.service;
 
-import com.mytoy.bookstore.form.UserDto;
 import com.mytoy.bookstore.model.Role;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -35,9 +33,6 @@ class UserServiceTest {
 
     @Test
     public void test(){
-        UserDto userDto = new UserDto();
-        ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userDto, User.class);
 
     }
 
