@@ -25,14 +25,18 @@
 					</tr>
 					</thead>
 					<tbody>
-					<tr th:each="user : ${users}">
-						<td th:text="${user.id}">번호</td>
-						<td th:text="${user.uid}">회원ID</td>
-						<td th:text="${user.nickname}">닉네임</td>
-						<td th:text="${user.roles.get(0).name}">권한</td>
-						<td th:text="${user.since}">가입일</td>
-						<td><a th:href="@{/admin/user/{userId}(userId=${user.id})}">상세</a></td>
-					</tr>
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}">번호</td>
+							<td th:text="${user.uid}">회원ID</td>
+							<td th:text="${user.nickname}">닉네임</td>
+							<td>
+								<p th:each="role : ${user.roles}" th:text="*{role.name}">권한</p>
+							</td>
+							<td th:text="${user.since}">가입일</td>
+							<td>
+								<a th:href="@{/admin/user/{userId}(userId=${user.id})}">상세</a>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

@@ -10,11 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelExtensionsKt;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -39,9 +40,9 @@ public class UserController {
     /* 회원정보 상세페이지 */
     @GetMapping("/user/{userId}")
     public String detail(@PathVariable Long userId, Model model){
-        UserDto userDto = userService.UserDetail(userId);
+        UserDto userDto = userService.detail(userId);
         model.addAttribute("userDto", userDto);
-        return "/admin/user/detail";
+        return "/admin/user/detailForm";
     }
 
     /* 회원정보 수정페이지 */
@@ -49,15 +50,17 @@ public class UserController {
     public String editForm(@PathVariable Long userId, @ModelAttribute UserDto userDto, Model model){
         userDto.setId(userId);
         model.addAttribute("userDto", userDto);
-        return "/admin/user/edit";
+        return "/admin/user/editForm";
     }
 
     /* 회원정보 수정하기 */
     @PutMapping("/edit/{userId}")
-    public String userEdit(@PathVariable Long userId){
-        System.out.println("컴온");
+    public String userEdit(@PathVariable Long userId, @Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+        if(bindingResult.hasErrors()){
+            log.info("error = {}", bindingResult.getFieldError());
+            return "/admin/user/editForm";
+        }
+        userService.edit(userId, userDto);
         return "redirect:/admin/user";
     }
-
-
 }

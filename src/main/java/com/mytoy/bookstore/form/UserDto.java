@@ -1,14 +1,17 @@
 package com.mytoy.bookstore.form;
 
+import com.mytoy.bookstore.model.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
+@Builder
+@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
 public class UserDto {
 
     @NotBlank(message = "필수 항목입니다.")
@@ -39,7 +42,7 @@ public class UserDto {
     private String profileUseDto; // 이미지 파일명
     private String profilePathUseDto; // 이미지 파일경로
     private String sinceUseDto; // 가입일
-    private String roleUseDto; // 권한
+    private List<String> roleUseDto; // 권한
     private Long id; // userId
 }
 

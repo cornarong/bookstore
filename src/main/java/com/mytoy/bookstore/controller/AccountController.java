@@ -32,7 +32,7 @@ public class AccountController {
 
     @GetMapping("/register")
     public String register(Model model){
-        UserDto userDto = new UserDto();
+        UserDto userDto = UserDto.builder().build();
         model.addAttribute(userDto);
         return "account/register";
     }
@@ -44,18 +44,14 @@ public class AccountController {
             bindingResult.addError(fieldError);
         }
         if(bindingResult.hasErrors()){
-            log.info("에러 = {}", bindingResult.getFieldError());
+            log.info("error = {}", bindingResult.getFieldError());
             return "account/register";
         }
         userService.save(userDto);
         return "redirect:/";
     }
 
-    /**
-     * 아이디 중복 확인
-     * @param uid
-     * @return checkValue (0 - 사용가능, 1 - 아이디중복)
-     */
+    /* 아이디 중복 확인 (0 - 사용가능, 1 - 아이디중복) */
     @ResponseBody
     @GetMapping("/uidDuplicateCheck/{uid}")
     public String uidDuplicateCheck(@PathVariable String uid){

@@ -1,16 +1,26 @@
 package com.mytoy.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mytoy.bookstore.form.UserDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
+@NoArgsConstructor // 파라미터가 없는 기본 생성자를 생성
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,4 +60,39 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Order> order = new ArrayList<>();
+
+    /* 회원 수정 메소드 */
+    public User editUser(UserDto userDto) throws IOException {
+        this.name = userDto.getName();
+        this.phone = userDto.getPhone();
+        this.nickname = userDto.getNickname();
+        this.address = new Address(userDto.getPostcode(), userDto.getAddress(), userDto.getDetailAddress());
+        this.email = userDto.getEmail();
+        /* 파일 업로드 처리 */
+        if(userDto.getProfile().getSize() != 0 || !userDto.getProfile().getOriginalFilename().equals("")){
+            String baseDir = "D:\\study\\profile_image"; // 저장파일 물리경로
+            String filePath = baseDir + "\\" + userDto.getProfile().getOriginalFilename(); // 저장파일명
+            userDto.getProfile().transferTo(new File(filePath));
+            this.setProfile(userDto.getProfile().getOriginalFilename());
+            this.setProfilePath(filePath);
+        }else{
+            this.setProfile(null);
+        }
+        /* 권한 추가, 기본 권한 : ROLE_USER */
+        this.roles.clear();
+        if(userDto.getRoleUseDto().size() == 0) {
+            Role role = new Role();
+            role.setId(1L);
+            this.roles.add(role);
+        }else{
+            for(String roleName : userDto.getRoleUseDto()){
+                Role role = new Role();
+                if(roleName.equals("ROLE_USER")) role.setId(1L);
+                if(roleName.equals("ROLE_MANAGER")) role.setId(2L);
+                if(roleName.equals("ROLE_ADMIN")) role.setId(3L);
+                this.roles.add(role);
+            }
+        }
+        return this;
+    }
 }
