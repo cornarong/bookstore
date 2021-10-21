@@ -26,6 +26,8 @@
                             <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회수</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +35,8 @@
                             <td th:text="${board.id}">번호</td>
                             <td><a href="#" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a></td>
                             <td th:text="${board.user.uid}"></td>
+                            <td th:text="${board.regdate}"></td>
+                            <td th:text="${board.views}"></td>
                         </tr>
                     </tbody>
                 </table>

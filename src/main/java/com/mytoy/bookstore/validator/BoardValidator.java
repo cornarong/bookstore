@@ -7,7 +7,7 @@ import org.springframework.validation.Validator;
 import org.thymeleaf.util.StringUtils;
 
 @Component
-public class BoardValidator implements Validator {
+public class BoardValidator implements Validator { // 유효성 검사 커스텀
     @Override
     public boolean supports(Class<?> clazz) {
         return Board.class.equals(clazz);

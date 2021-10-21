@@ -1,4 +1,4 @@
-package com.mytoy.bookstore.controller;
+package com.mytoy.bookstore.controller.api;
 
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.QUser;

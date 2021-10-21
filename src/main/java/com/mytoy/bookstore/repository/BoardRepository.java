@@ -10,6 +10,7 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByTitleOrContent(String title, String content);
+
     // Containing : like와 비슷한 문법
     Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 }

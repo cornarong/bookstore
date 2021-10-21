@@ -8,12 +8,23 @@
                 <div class="container" data-aos="fade-up">
                     <h3 class="pb-1 font-italic">Register a book</h3>
                     <div class="mb-5"><strong style="color: red; float:right">✎필수 입력 항목입니다.</strong></div>
-                    <form action="#" th:action="@{/admin/book/addForm}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
+                    <form action="#" th:action="@{/admin/book/addForm}" th:object="${bookDto}" method="post" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="col-lg-4 col-md-6 pb-3 form-group">
+                                <p class="my-1">분류</p>
+                                <select class="custom-select" th:field="*{type}">
+                                    <option value="DOMESTIC" selected>국내도서</option>
+                                    <option value="INTERNATIONAL">외국도서</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-row">
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">제목 <strong>✎</strong></p>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" th:field="*{title}">
-                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">제목 에러 메시지</p>
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">error message</p>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">부제목</p>
@@ -22,17 +33,17 @@
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">저자 <strong>✎</strong></p>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'" th:field="*{author}">
-                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">저자 에러 메시지</p>
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">error message</p>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">수량 <strong>✎</strong></p>
                                 <input type="number" class="form-control" th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'" th:field="*{quantity}">
-                                <p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">수량 에러 메시지</p>
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">error message</p>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">출판사 <strong>✎</strong></p>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('publisher')} ? 'is-invalid'" th:field="*{publisher}">
-                                <p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">출판사 에러 메시지</p>
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">error message</p>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">발행일</p>
@@ -41,17 +52,17 @@
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">가격 <strong>✎</strong></p>
                                 <input type="number" class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" th:field="*{price}">
-                                <p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">가격 에러 메시지</p>
+                                <p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">error message</p>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
                                 <p class="my-1">할인율</p>
                                 <select class="custom-select" th:field="*{disRate}">
-                                    <option value="0" selected th:selected="'javascript:test()'">0%</option>
-                                    <option value="5" th:onclick="test()">5%</option>
-                                    <option value="10" th:onclick="test()">10%</option>
-                                    <option value="15" th:onclick="test()">15%</option>
-                                    <option value="30" th:onclick="test()">30%</option>
-                                    <option value="50" th:onclick="test()">50%</option>
+                                    <option value="0">0%</option>
+                                    <option value="5">5%</option>
+                                    <option value="10">10%</option>
+                                    <option value="15">15%</option>
+                                    <option value="30">30%</option>
+                                    <option value="50">50%</option>
                                 </select>
                             </div>
                             <div class="col-lg-4 col-md-6 pb-3 form-group">
@@ -72,8 +83,7 @@
                                     <input type="file" class="custom-file-input" th:classappend="${#fields.hasErrors('thumbnail')} ? 'is-invalid'"
                                            id="thumbnail" th:field="*{thumbnail}" th:onchange="'javascript:fileUpload(event)'" accept="image/*">
                                     <label class="custom-file-label" for="thumbnail">파일을 선택하세요.</label>
-                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">파일 에러 메시지</p>
-            <!--                        <hidden th:field="*{t}"></hidden>-->
+                                    <p class="invalid-feedback" th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}">error message</p>
                                 </div>
                             </div>
                         </div>

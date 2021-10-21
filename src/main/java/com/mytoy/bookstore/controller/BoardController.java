@@ -1,5 +1,6 @@
 package com.mytoy.bookstore.controller;
 
+import com.mytoy.bookstore.dto.BoardDto;
 import com.mytoy.bookstore.service.BoardService;
 import com.mytoy.bookstore.validator.BoardValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -34,7 +33,7 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    // 게시글 목록
+    /* 게시글 목록 */
     @GetMapping
     public String list(Model model, @PageableDefault(size = 4) Pageable pageable,
                        @RequestParam(defaultValue = "") String searchTerm){
@@ -47,70 +46,55 @@ public class BoardController {
         return "board/list";
     }
 
-    // 게시글 상세페이지
-    @GetMapping("/{boardId}")
-    public String from(@PathVariable Long boardId, Model model){
-        Board board = boardRepository.findById(boardId).orElse(null);
-        if(board==null){
-            return "redirect:/board";
-        }
-        model.addAttribute("board",board);
-        return "board/post";
-    }
-
-    // 신규 게시글 작성화면
+    /* 게시글 등록 페이지 */
     @GetMapping("/add")
     public String addForm(Model model){
-        model.addAttribute("board", new Board());
+        BoardDto boardDto = new BoardDto();
+        model.addAttribute("boardDto", boardDto);
         return "board/addForm";
     }
 
-    // 신규 게시글 저장
+    /* 게시글 등록 */
     @PostMapping("/add")
-    public String add(@Valid Board board, BindingResult bindingResult,
+    public String add(@Valid BoardDto boardDto, BindingResult bindingResult,
                       RedirectAttributes riRedirectAttributes, Authentication authentication){
-        boardValidator.validate(board, bindingResult);
+//        boardValidator.validate(boardDto, bindingResult); // * 유효성 검사 커스텀
         if (bindingResult.hasErrors()) {
             return "board/addForm";
         }
-        String username = authentication.getName();
-        Board savedBoard = boardService.save(board, username);
-        riRedirectAttributes.addAttribute("savedBoardId",savedBoard.getId());
+        String uid = authentication.getName();
+        Board board = boardService.save(boardDto, uid);
         riRedirectAttributes.addAttribute("saved",true);
-        return "redirect:/board/{savedBoardId}";
+        return "redirect:/board/"+board.getId();
     }
 
-    // 게시글 수정화면
+    /* 게시글 상세페이지 */
+    @GetMapping("/{boardId}")
+    public String detailForm(@PathVariable Long boardId, Model model, Authentication authentication){
+        BoardDto boardDto = boardService.detail(boardId,"detail");
+        String uid = authentication.getName();
+        model.addAttribute("boardDto",boardDto);
+        model.addAttribute("auth_uid",uid);
+        return "/board/detailForm";
+    }
+
+    /* 게시글 수정페이지 */
     @GetMapping("/edit/{boardId}")
-    public String editForm(@PathVariable Long boardId, Model model){
-        Board board = boardRepository.findById(boardId).orElse(null);
-        if(board==null){
-            return "redirect:/board";
-        }
-        model.addAttribute("board",board);
+    public String updateForm(@PathVariable Long boardId, Model model){
+        BoardDto boardDto = boardService.detail(boardId,"update");
+        model.addAttribute("boardDto",boardDto);
         return "board/editForm";
     }
 
-    // 게시글 수정
+    /* 게시글 수정 */
     @PutMapping("/edit/{boardId}") // HiddenHttpMethodFilter 사용
-    public String edit(@Valid Board board, BindingResult bindingResult,
+    public String update(@Valid BoardDto boardDto, BindingResult bindingResult,
                        @PathVariable Long boardId, RedirectAttributes redirectAttributes, Authentication authentication){
-        boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             return "board/editForm";
         }
-        String uid = authentication.getName();
-        Board editedBoard = boardService.edit(board, uid);
-        redirectAttributes.addAttribute("editedBoardId",editedBoard.getId());
+        Board board = boardService.update(boardDto, boardId);
         redirectAttributes.addAttribute("edited",true);
-        return "redirect:/board/{editedBoardId}";
-    }
-
-    // 게시글 삭제
-    @Secured("ROLE_USER")
-    @ResponseBody
-    @DeleteMapping("/delete/{boardId}") // ajax 전송
-    void delete(@PathVariable Long boardId){
-        boardRepository.deleteById(boardId);
+        return "redirect:/board/"+board.getId();
     }
 }

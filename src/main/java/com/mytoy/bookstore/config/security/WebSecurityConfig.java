@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .csrf().disable() // CSRF : 이용자가 의도하지 하지 않은 요청을 하도록 함 (설정 해제)
             .authorizeRequests()
                 //구체적인 경로가 먼저 오고 그것보다 큰 범위의 경로가 뒤에 오도록 한다.
                 .antMatchers("/user/**").hasRole("USER") //  hasRole : default prefix = "ROLE_" 이다.

@@ -1,15 +1,14 @@
 package com.mytoy.bookstore.controller.admin;
 
-import com.mytoy.bookstore.dto.BookForm;
-import com.mytoy.bookstore.model.Book;
-import com.mytoy.bookstore.repository.BookRepository;
+import com.mytoy.bookstore.dto.BookDto;
+import com.mytoy.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -18,44 +17,62 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/book")
+@RequestMapping("/admin")
 public class BookController {
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
-    // 아이템 리스트(관리자)
-    @GetMapping
-    public String list(Model model){
-        List<Book> books = bookRepository.findAll();
-        model.addAttribute("books",books);
+    /* 책 목록 */
+    @GetMapping("/book")
+        public String list(Model model){
+        List<BookDto> bookDtoList = bookService.list();
+        model.addAttribute("bookDtoList", bookDtoList);
         return "/admin/book/list";
     }
 
-    // 아이템 등록 화면(관리자)
-    @GetMapping("/addForm")
+    /* 책 등록 페이지 */
+    @GetMapping("/book/addForm")
     public String addForm(Model model){
-        model.addAttribute("bookForm", new BookForm());
+        model.addAttribute("bookDto", new BookDto());
         return "admin/book/addForm";
     }
 
-    // 아이템 등록(관리자)
-    @PostMapping("/addForm") // BookForm에 MultipartFile 타입의 값을 이미 받았기에 @RequestParam는 필요 없긴한데..
-    public String add(@Valid BookForm bookForm, BindingResult bindingResult, @RequestParam MultipartFile thumbnail) throws IOException {
+    /* 책 등록 */
+    @PostMapping("/book/addForm")
+    public String add(@Valid BookDto bookDto, BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
-            log.info("에러 = {}", bindingResult.getFieldError());
             return"admin/book/addForm";
         }
-        Book book = new Book();
-        Book newBook = book.createBook(bookForm);
-        bookRepository.save(newBook);
+        bookService.add(bookDto);
+        // 상세 페이지로 이동하도록 수정. + 저장되엇씁니다 파라미터 처리. ture
         return "redirect:/admin/book";
     }
 
-    // 아이템 상세페이지 화면(관리자)
-    @GetMapping("/detail/{bookId}")
-    public String detail(@PathVariable Long bookId, Model model){
-        Book findBook = bookRepository.findById(bookId).orElse(null);
-        model.addAttribute("book",findBook);
-        return "admin/book/detail";
+    /* 책 상세 페이지 */
+    @GetMapping("/book/{bookId}")
+    public String detail(@PathVariable Long bookId, Authentication authentication, Model model){
+        BookDto bookDto = bookService.detail(bookId);
+        String uid = authentication.getName();
+        model.addAttribute("bookDto", bookDto);
+        model.addAttribute("auth_uid", uid);
+        return "/admin/book/detailForm";
     }
-}
+
+    /* 책 수정 페이지 */
+    @GetMapping("/book/edit/{bookId}")
+    public String editForm(@PathVariable Long bookId, Model model){
+        BookDto bookDto = bookService.detail(bookId);
+        model.addAttribute("bookDto", bookDto);
+        return "/admin/book/editForm";
+    }
+
+    /* 책 수정 */
+    @PutMapping("/book/edit/{bookId}")
+    public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult) throws IOException {
+        if(bindingResult.hasErrors()){
+            return "/admin/book/editForm";
+        }
+        bookService.edit(bookId, bookDto);
+        return "redirect:/admin/book/" + bookId;
+    }
+ }

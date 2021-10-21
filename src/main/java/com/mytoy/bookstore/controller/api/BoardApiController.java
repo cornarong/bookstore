@@ -1,7 +1,9 @@
-package com.mytoy.bookstore.controller;
+package com.mytoy.bookstore.controller.api;
 
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
+import com.mytoy.bookstore.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
@@ -9,12 +11,16 @@ import org.thymeleaf.util.StringUtils;
 import java.util.List;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
-class BoardApiController {
+public class BoardApiController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardService boardService;
 
     // 게시글 조회
     @GetMapping("/boards")
@@ -51,8 +57,10 @@ class BoardApiController {
                 });
     }
 
-    @DeleteMapping("/boards/{boardId}")
+    /* 게시글 삭제 */
+//    @Secured("ROLE_USER") // 해당 권한만 접근 가능
+    @DeleteMapping("/board/{boardId}")
     void deleteBoard(@PathVariable Long boardId) {
-        boardRepository.deleteById(boardId);
+        boardService.delete(boardId);
     }
 }

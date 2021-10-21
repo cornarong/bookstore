@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
+<body>
+    <div id='wrap'>
+        <section>
+            <div class="container" th:replace="fragments/common :: menu('board')"/>
+            <main role="main" class="container pt-4">
+                <h3 class="pb-4 font-italic">
+                    Board Post
+                </h3>
+                <h6 th:if="${param.saved}">게시글 저장이 완료 되었습니다.</h6>
+                <h6 th:if="${param.edited}">게시글 수정이 완료 되었습니다.</h6>
+
+                <!-- 작성자 -->
+                <div class="form-row">
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <label for="writer" class="form-label">작성자</label>
+                        <input type="text" class="form-control" id="writer" th:value="${boardDto.writer}" readonly>
+                    </div>
+                </div>
+
+                <!-- 제목 -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" class="form-control" id="title" th:value="${boardDto.title}" readonly>
+                </div>
+
+                <!-- 내용 -->
+                <div class="mb-3">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea class="form-control" style="height: 450px;" id="content" th:text="${boardDto.content}" readonly></textarea>
+                </div>
+
+                <div class="pb-5 text-right">
+                    <a class="btn btn-outline-secondary" th:href="@{/board}">목록으로</a>
+                    <a class="btn btn-outline-primary" th:if="${auth_uid} == *{boardDto.writer}" th:href="@{/board/edit/{boardId}(boardId=${boardDto.id})}">수정하기</a>
+                    <a class="btn btn-outline-danger" th:if="${auth_uid} == *{boardDto.writer}" th:onclick="|deletePost(${boardDto.id})|" >삭제하기</a>
+                </div>
+            </main>
+        </section>
+        <footer th:replace="fragments/common :: footer"/>
+    </div>
+</body>
+<script>
+    function deletePost(boardId) {
+        // DELETE /board/delete/{boardId}
+        $.ajax({
+            url: '/api/board/' + boardId,
+            type: 'DELETE',
+            success: function (){
+                alert('삭제 되었습니다');
+                window.location.href = '/board';
+            },
+            error: function (){
+              alert("문제발생");
+            }
+        });
+    };
+</script>
+</html>
