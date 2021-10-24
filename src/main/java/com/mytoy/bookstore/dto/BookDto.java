@@ -1,25 +1,21 @@
 package com.mytoy.bookstore.dto;
 
 import com.mytoy.bookstore.model.BookType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.mapstruct.Mapper;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
-@Mapper
+@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookDto {
 
-    private Long id;
-    private BookType type;      // 타입
+    private Long id;            // 책id
+    private BookType type;      // 타입(국내, 외국)
     @NotBlank(message = "필수 항목입니다")
     private String title;       // 제목
     @NotBlank(message = "필수 항목입니다")
@@ -35,13 +31,22 @@ public class BookDto {
     @Max(value = 10000, message = "최대 금액은 10000개 입니다")
     private int quantity;       // 수량
     private String content;     // 설명
+    @NotBlank(message = "필수 항목입니다")
     private String publishedDate; // 발행일
+    private String regDate;       // 등록일
     private int disRate;        // 할인율
     private int disPrice;       // 할인가
     private int shippingFee;    // 배송비
+    private String uid;         // 등록자
 
     /* 첨부파일 */
     private MultipartFile thumbnail; // 책 이미지 객체
     private String thumbnailName; // 책 이미지 파일명
     private String thumbnailPath; // 책 이미지 물리경로
+
+    /* 첨부파일 기본값 */
+    public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 보여지는 DTO 기본값 처리.
+        this.thumbnailName = "noImage.jpg";
+        this.thumbnailPath = "";
+    }
 }

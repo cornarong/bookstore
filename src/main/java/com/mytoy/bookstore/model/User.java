@@ -54,6 +54,9 @@ public class User {
     @JsonIgnore
     private List<Board> boards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Book> books = new ArrayList<>();
+
     @OneToMany(mappedBy = "user")
     private List<Order> order = new ArrayList<>();
 

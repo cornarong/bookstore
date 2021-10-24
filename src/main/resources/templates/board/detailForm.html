@@ -43,19 +43,21 @@
     </div>
 </body>
 <script>
+    /* 게시글 삭제 api */
     function deletePost(boardId) {
-        // DELETE /board/delete/{boardId}
-        $.ajax({
-            url: '/api/board/' + boardId,
-            type: 'DELETE',
-            success: function (){
-                alert('삭제 되었습니다');
-                window.location.href = '/board';
-            },
-            error: function (){
-              alert("문제발생");
-            }
-        });
+        if(confirm("정말로 삭제 하시겠습니까?") == true){
+            $.ajax({
+                url: '/api/board/' + boardId,
+                type: 'DELETE',
+                success: function (){
+                    alert('삭제 되었습니다');
+                    window.location.href = '/board';
+                },
+                error: function (){
+                    alert("문제발생");
+                }
+            });
+        }
     };
 </script>
 </html>

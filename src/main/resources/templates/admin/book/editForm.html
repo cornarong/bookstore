@@ -12,7 +12,9 @@
 				      th:object="${bookDto}" enctype="multipart/form-data">
 					<input type="hidden" name="_method" value="put"> <!-- HiddenHttpMethodFilter 사용 -->
 					<input type="hidden" th:field="*{id}">
-					<div class="form-row">
+
+					<!-- 이미지 미리보기, 분류, 등록인, 등록일 -->
+					<div class="form-row pt-4">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
 							<p class="my-1">책 이미지</p>
 							<img class="form-control" id="thumbnail_container" th:src="'/files/' + *{thumbnailName}"
@@ -25,11 +27,19 @@
 								<option value="INTERNATIONAL">외국도서</option>
 							</select>
 						</div>
+						<div class="col-lg-4 col-md-6 pb-3 form-group">
+							<p class="my-1">등록인</p>
+							<input type="text" class="form-control" th:field="*{uid}" readonly>
+							<p class="my-1">등록일</p>
+							<input type="text" class="form-control" th:field="*{regDate}" readonly>
+						</div>
 					</div>
+					<!--// 이미지, 분류, 등록인, 등록일 -->
 
+					<!-- 이미지 파일 -->
 					<div class="form-row">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">이미지 <strong>✎</strong></p>
+							<p class="my-1">이미지<strong style="color:#dc3545"> &#149</strong></p>
 							<div class="custom-file">
 								<input type="file" class="custom-file-input"
 								       th:classappend="${#fields.hasErrors('thumbnail')} ? 'is-invalid'"
@@ -46,49 +56,74 @@
 							</div>
 						</div>
 					</div>
+					<!--// 이미지 파일 -->
 
+					<!-- 제목, 부제목, 저자 -->
 					<div class="form-row">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">제목 <strong>✎</strong></p>
+							<p class="my-1">제목<strong style="color:#dc3545"> &#149</strong></p>
 							<input type="text" class="form-control"
 							       th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" th:field="*{title}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">error message</p>
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">error
+								message</p>
 						</div>
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">부제목 <strong>✎</strong></p>
-							<input type="text" class="form-control" th:field="*{subTitle}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('subTitle')}" th:errors="*{subTitle}">error message</p>
+							<p class="my-1">부제목<strong style="color:#dc3545"> &#149</strong></p>
+							<input type="text" class="form-control"
+							       th:classappend="${#fields.hasErrors('subTitle')} ? 'is-invalid'"
+							       th:field="*{subTitle}">
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('subTitle')}"
+							   th:errors="*{subTitle}">error message</p>
 						</div>
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">저자 <strong>✎</strong></p>
+							<p class="my-1">저자<strong style="color:#dc3545"> &#149</strong></p>
 							<input type="text" class="form-control"
 							       th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'" th:field="*{author}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">error message</p>
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{author}">
+								error message</p>
 						</div>
+					</div>
+					<!--// 제목, 부제목, 저자 -->
+
+					<!-- 수량, 출판사, 발행일 -->
+					<div class="form-row">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">수량 <strong>✎</strong></p>
+							<p class="my-1">수량<strong style="color:#dc3545"> &#149</strong></p>
 							<input type="number" maxlength="8" th:oninput="'javascript:numberMaxLength(this)'"
 							       class="form-control" th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'"
 							       th:field="*{quantity}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">error message</p>
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}"
+							   th:errors="*{quantity}">error message</p>
 						</div>
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">출판사 <strong>✎</strong></p>
+							<p class="my-1">출판사<strong style="color:#dc3545"> &#149</strong></p>
 							<input type="text" class="form-control"
 							       th:classappend="${#fields.hasErrors('publisher')} ? 'is-invalid'"
 							       th:field="*{publisher}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">error message</p>
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('publisher')}"
+							   th:errors="*{publisher}">error message</p>
 						</div>
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">발행일</p>
-							<input type="date" class="form-control" th:field="*{publishedDate}">
+							<p class="my-1">발행일<strong style="color:#dc3545"> &#149</strong></p>
+							<input type="date" class="form-control"
+							       th:classappend="${#fields.hasErrors('publishedDate')} ? 'is-invalid'"
+							       th:field="*{publishedDate}">
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('publishedDate')}"
+							   th:errors="*{publisher}">
+								error message</p>
 						</div>
+					</div>
+					<!--// 수량, 출판사, 발행일 -->
+
+					<!-- 가격, 할인률, 할인가 -->
+					<div class="form-row">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
-							<p class="my-1">가격 <strong>✎</strong></p>
+							<p class="my-1">가격<strong style="color:#dc3545"> &#149</strong></p>
 							<input type="number" maxlength="8" th:oninput="'javascript:numberMaxLength(this)'"
 							       class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'"
 							       th:field="*{price}">
-							<p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">error message</p>
+							<p class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">error
+								message</p>
 						</div>
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
 							<p class="my-1">할인율</p>
@@ -105,6 +140,11 @@
 							<p class="my-1">할인가</p>
 							<input type="number" class="form-control" th:field="*{disPrice}" readonly>
 						</div>
+					</div>
+					<!--// 가격, 할인률, 할인가 -->
+
+					<!-- 배송비 -->
+					<div class="form-row">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
 							<p class="my-1">배송비</p>
 							<select class="custom-select" th:field="*{shippingFee}">
@@ -114,7 +154,9 @@
 							</select>
 						</div>
 					</div>
+					<!--// 배송비 -->
 
+					<!-- 설명 및 줄거리 -->
 					<div class="form-row">
 						<div class="col-md-12 pb-3 form-group">
 							<p class="my-1">설명 및 줄거리</p>
@@ -122,6 +164,7 @@
 							          placeholder="설명 및 줄거리를 간략하게 입력해주세요."></textarea>
 						</div>
 					</div>
+					<!--// 설명 및 줄거리 -->
 
 					<div class="pb-5 text-right">
 						<a th:href="@{/admin/book/{bookId}(bookId=*{id})}"
@@ -160,6 +203,7 @@
             }
         }
     }
+
     /* 할인가 자동계산 */
     document.body.onclick = function () {
         if (document.getElementById("price").value !== '0') {
@@ -168,6 +212,7 @@
             document.getElementById("disPrice").value = Math.round(price - (price * (disRate / 100)));
         }
     }
+
     /* type=number -> 자릿수 제한 */
     function numberMaxLength(e) {
         if (e.value.length > e.maxLength) {

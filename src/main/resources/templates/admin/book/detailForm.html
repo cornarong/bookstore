@@ -8,19 +8,35 @@
 		<main role="main" class="container pt-4">
 			<div class="container" data-aos="fade-up">
 				<h3 class="pb-1 font-italic">Product Details</h3>
+				<!-- RedirectAttributes -->
+				<strong style="color: #007bff" th:if="${param.save}">* 책이 저장되었습니다</strong>
+				<strong style="color: #007bff" th:if="${param.edit}">* 책이 수정되었습니다</strong>
 
-				<div class="form-row">
+				<!-- 책 이미지, 분류, 등록인, 등록일 -->
+				<div class="form-row pt-4">
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">책 이미지</p>
-						<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${bookDto.thumbnailName}" style="max-width: 100%; height: 250px;">
+						<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${bookDto.thumbnailName}"
+						     style="max-width: 100%; height: 250px;">
 					</div>
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">분류</p>
-						<input type="text" class="form-control" th:if="${bookDto.type.toString() == 'DOMESTIC'}" value="국내도서" readonly>
-						<input type="text" class="form-control" th:if="${bookDto.type.toString() == 'INTERNATIONAL'}" value="외국도서" readonly>
+						<input type="text" class="form-control" th:if="${bookDto.type.toString() == 'DOMESTIC'}"
+						       value="국내도서" readonly>
+						<input type="text" class="form-control" th:if="${bookDto.type.toString() == 'INTERNATIONAL'}"
+						       value="외국도서" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 pb-3 form-group">
+						<p class="my-1">등록인</p>
+						<input type="text" class="form-control" th:value="${bookDto.uid}" readonly>
+						<p class="my-1">등록일</p>
+						<input type="text" class="form-control" th:value="${bookDto.regDate}" readonly>
 					</div>
 				</div>
+				<!--// 책 이미지, 분류, 등록인, 등록일 -->
 
+
+				<!-- 제목, 부제목, 저자 -->
 				<div class="form-row">
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">제목</p>
@@ -34,6 +50,11 @@
 						<p class="my-1">저자</p>
 						<input type="text" class="form-control" th:value="${bookDto.author}" readonly>
 					</div>
+				</div>
+				<!--// 제목, 부제목, 저자 -->
+
+				<!-- 수량, 출판사, 발행일 -->
+				<div class="form-row">
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">수량</p>
 						<input type="number" class="form-control" th:value="${bookDto.quantity}" readonly>
@@ -46,6 +67,11 @@
 						<p class="my-1">발행일</p>
 						<input type="date" class="form-control" th:value="${bookDto.publishedDate}" readonly>
 					</div>
+				</div>
+				<!--// 수량, 출판사, 발행일 -->
+
+				<!-- 가격, 할인률, 할인가 -->
+				<div class="form-row">
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">가격</p>
 						<input type="number" class="form-control" th:value="${bookDto.price}" readonly>
@@ -58,18 +84,38 @@
 						<p class="my-1">할인가</p>
 						<input type="number" class="form-control" th:value="${bookDto.disPrice}" readonly>
 					</div>
+				</div>
+				<!--// 가격, 할인률, 할인가 -->
+
+				<!-- 배송비 -->
+				<div class="form-row">
 					<div class="col-lg-4 col-md-6 pb-3 form-group">
 						<p class="my-1">배송비</p>
-						<input type="text" class="form-control" th:if="${bookDto.shippingFee == 0}" value="무료배송" readonly>
-						<input type="text" class="form-control" th:unless="${bookDto.shippingFee == 0}" th:value="|${bookDto.shippingFee}원|" readonly>
+						<input type="text" class="form-control" th:if="${bookDto.shippingFee == 0}" value="무료배송"
+						       readonly>
+						<input type="text" class="form-control" th:unless="${bookDto.shippingFee == 0}"
+						       th:value="|${bookDto.shippingFee}원|" readonly>
 					</div>
 				</div>
+				<!--// 배송비 -->
 
-					<div class="pb-5 text-right">
-						<a class="btn btn mr-2 mb-2 btn-outline-secondary" th:href="@{/admin/book}" >목록으로</a>
-						<a class="btn btn mr-2 mb-2 btn-outline-primary" th:href="@{/admin/book/edit/{bookId}(bookId=${bookDto.id})}" >수정하기</a>
-						<a class="btn btn-outline-danger" th:if="${auth_uid} == *{bookDto.writer}" th:onclick="|deletePost(${boardDto.id})|" >삭제하기</a>
+				<!-- 설명 및 줄거리 -->
+				<div class="form-row">
+					<div class="col-md-12 pb-3 form-group">
+						<p class="my-1">설명 및 줄거리</p>
+						<textarea type="text" class="form-control" style="height: 250px;" th:text="${bookDto.content}" readonly />
 					</div>
+				</div>
+				<!--// 설명 및 줄거리 -->
+
+				<div class="pb-5 text-right">
+					<a class="btn btn mr-2 mb-2 btn-outline-secondary" th:href="@{/admin/book}">목록으로</a>
+					<a class="btn btn mr-2 mb-2 btn-outline-primary"
+					   th:href="@{/admin/book/edit/{bookId}(bookId=${bookDto.id})}">수정하기</a>
+					<a class="btn btn mr-2 mb-2 btn-outline-danger" th:if="${auth_uid} == *{bookDto.uid}"
+					   th:onclick="|deletePost(${bookDto.id})|">삭제하기</a>
+				</div>
+
 				</form>
 			</div>
 		</main>
@@ -79,19 +125,20 @@
 </body>
 <script>
     /* 책 삭제 api */
-    function deletePost(boardId) {
-        // DELETE /board/delete/{boardId}
-        $.ajax({
-            url: '/api/board/' + boardId,
-            type: 'DELETE',
-            success: function (){
-                alert('삭제 되었습니다');
-                window.location.href = '/board';
-            },
-            error: function (){
-                alert("문제발생");
-            }
-        });
+    function deletePost(bookId) {
+        if(confirm("정말로 삭제 하시겠습니까?") == true){
+            $.ajax({
+                url: '/api/book/' + bookId,
+                type: 'DELETE',
+                success: function () {
+                    alert('해당 책이 삭제되었습니다');
+                    window.location.href = '/admin/book';
+                },
+                error: function () {
+                    alert("delete error");
+                }
+            });
+        }
     };
 </script>
 </html>

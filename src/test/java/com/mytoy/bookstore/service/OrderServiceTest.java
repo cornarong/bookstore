@@ -31,14 +31,14 @@ class OrderServiceTest {
     UserService userService;
 
     // 파라미터 밖으로 빼기 Ctrl + Alt + P
-    private Book createItem(String title, int price, int stockQuantity) {
-        Book book = new Book();
-        book.setTitle(title);
-        book.setPrice(price);
-        book.setQuantity(stockQuantity);
-        bookRepository.save(book);
-        return book;
-    }
+//    private Book createItem(String title, int price, int stockQuantity) {
+//        Book book = new Book();
+//        book.setTitle(title);
+//        book.setPrice(price);
+//        book.setQuantity(stockQuantity);
+//        bookRepository.save(book);
+//        return book;
+//    }
 
     private User createUser() throws IOException {
         UserSaveDto userSaveDto = new UserSaveDto();
@@ -49,28 +49,28 @@ class OrderServiceTest {
         return savedUser;
     }
 
-    @Test
-    @Rollback(false)
-    void 상품주문() throws Exception {
-        //Given
-        User user = createUser();
-        Book book = createItem("JPA", 10000, 10);
-
-        int orderCount = 2;
-        //When
-        Long orderId = orderService.order(user.getId(), book.getId(), orderCount);
-
-        //Then
-        Order getOrder = orderRepository.findById(orderId).orElse(null);
-
-        System.out.println(user.getRoles().get(0).getId());
-//        System.out.println(user.getRoles().get(0).getUid());
-        Assertions.assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "상품 주문시 상태는 ORDER");
-        Assertions.assertEquals(getOrder.getOrderBooks().size(), 1, "주문한 상품 종류 수가 정확해야 한다.");
-        Assertions.assertEquals(getOrder.getTotalPrice(), 10000 * 2, "주문 가격은 가격 * 수량이다.");
-        Assertions.assertEquals(book.getQuantity(), 8, "주문 수량만큼 재고가 줄어야 한다.");
-
-    }
+//    @Test
+//    @Rollback(false)
+//    void 상품주문() throws Exception {
+//        //Given
+//        User user = createUser();
+//        Book book = createItem("JPA", 10000, 10);
+//
+//        int orderCount = 2;
+//        //When
+//        Long orderId = orderService.order(user.getId(), book.getId(), orderCount);
+//
+//        //Then
+//        Order getOrder = orderRepository.findById(orderId).orElse(null);
+//
+//        System.out.println(user.getRoles().get(0).getId());
+////        System.out.println(user.getRoles().get(0).getUid());
+//        Assertions.assertEquals(OrderStatus.ORDER, getOrder.getStatus(), "상품 주문시 상태는 ORDER");
+//        Assertions.assertEquals(getOrder.getOrderBooks().size(), 1, "주문한 상품 종류 수가 정확해야 한다.");
+//        Assertions.assertEquals(getOrder.getTotalPrice(), 10000 * 2, "주문 가격은 가격 * 수량이다.");
+//        Assertions.assertEquals(book.getQuantity(), 8, "주문 수량만큼 재고가 줄어야 한다.");
+//
+//    }
 
 /*    @Test
     void 주문취소() throws Exception {

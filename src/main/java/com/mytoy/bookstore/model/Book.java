@@ -3,15 +3,19 @@ package com.mytoy.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mytoy.bookstore.dto.BookDto;
 import com.mytoy.bookstore.exception.NotEnoughStockException;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book {
 
     @Id
@@ -23,7 +27,8 @@ public class Book {
     private String content;     // 설명
     private String author;      // 저자
     private String publisher;   // 출판사
-    private String publishedDate; // 발행일
+    private LocalDate publishedDate; // 발행일
+    private LocalDate regDate;       // 등록일
     private int price;          // 가격
     private int disRate;        // 할인율
     private int disPrice;       // 할인가
@@ -32,29 +37,37 @@ public class Book {
     private String thumbnailName; // 섬네일
     private String thumbnailPath; // 섬네일 물리 경로
 
-
-    // 잠시 대기.. DB에 사용자ID를 외래키로 같이 들어가야함.
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;
+    private User user;          // 책 등록자
 
     /**
      * 비즈니스 로직
      * 객체 지향에 가깝게 직접 엔티디에 설계함으로써 관리하기에도 편한다.
      */
 
+    /* 책 등록자 저장 */
+    public void registrant(Book book, User user){
+        this.user = user;
+    }
+
+    /* 책 등록일 저장 */
+    public void regDate(Book book){
+        book.regDate = LocalDate.now();
+    }
+
     /* 책 이미지 저장 */
     public void saveThumbnail(MultipartFile thumbnail) throws IOException {
-        if(thumbnail.getSize() != 0 || !thumbnail.getOriginalFilename().equals("")){
+        if(thumbnail.getSize() != 0){
             String baseDir = "D:\\study\\profile_image"; // 현재 회원 프로필 물리경로와 같은 경로를 사용중..(임시)
             String filePath = baseDir + "\\" + thumbnail.getOriginalFilename();
             thumbnail.transferTo(new File(filePath));
             this.thumbnailName = thumbnail.getOriginalFilename();
             this.thumbnailPath = filePath;
         }else{
-            this.thumbnailName = null;
-            this.thumbnailPath = null;
+            this.thumbnailName = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
+            this.thumbnailPath = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
         }
     }
 
@@ -67,19 +80,17 @@ public class Book {
         this.subTitle = bookDto.getSubTitle();
         this.quantity = bookDto.getQuantity();
         this.publisher = bookDto.getPublisher();
-        this.publishedDate = bookDto.getPublishedDate();
+        this.publishedDate = LocalDate.parse(bookDto.getPublishedDate());
         this.price = bookDto.getPrice();
         this.disRate = bookDto.getDisRate();
         this.disPrice = bookDto.getDisPrice();
         this.shippingFee = bookDto.getShippingFee();
-        if(bookDto.getThumbnail().getSize() != 0){
+        if(bookDto.getThumbnail().getSize() != 0 || bookDto.getThumbnailName().equals("noImage.jpg")){
             this.saveThumbnail(bookDto.getThumbnail());
         }else{
             this.thumbnailName = bookDto.getThumbnailName();
             this.thumbnailPath = bookDto.getThumbnailPath();
         }
-        System.out.println(this.getThumbnailName());
-        System.out.println(this.getThumbnailPath());
     }
 
     /* stock(재고) 증가 */

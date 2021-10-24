@@ -30,13 +30,14 @@ public class AccountController {
         return "account/login";
     }
 
+    /* 회원가입 페이지 */
     @GetMapping("/register")
     public String register(Model model){
-        UserSaveDto userSaveDto = UserSaveDto.builder().build();
-        model.addAttribute(userSaveDto);
+//        UserSaveDto userSaveDto = UserSaveDto.builder().build();
+        model.addAttribute("userSaveDto", new UserSaveDto());
         return "account/register";
     }
-
+    /* 회원가입 */
     @PostMapping("/register")
     public String register(@Valid UserSaveDto userSaveDto, BindingResult bindingResult) throws IOException {
         if(userRepository.findByUid(userSaveDto.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.

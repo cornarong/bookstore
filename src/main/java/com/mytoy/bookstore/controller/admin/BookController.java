@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -25,27 +26,36 @@ public class BookController {
     /* 책 목록 */
     @GetMapping("/book")
         public String list(Model model){
-        List<BookDto> bookDtoList = bookService.list();
+        List<BookDto> bookDtoList = bookService.all();
+
         model.addAttribute("bookDtoList", bookDtoList);
+
         return "/admin/book/list";
     }
 
     /* 책 등록 페이지 */
     @GetMapping("/book/addForm")
     public String addForm(Model model){
-        model.addAttribute("bookDto", new BookDto());
+        BookDto bookDto = new BookDto();
+
+        model.addAttribute("bookDto", bookDto);
+
         return "admin/book/addForm";
     }
 
     /* 책 등록 */
     @PostMapping("/book/addForm")
-    public String add(@Valid BookDto bookDto, BindingResult bindingResult) throws IOException {
+    public String add(@Valid BookDto bookDto, BindingResult bindingResult, Authentication authentication,
+                      RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
-            return"admin/book/addForm";
+            return "admin/book/addForm";
         }
-        bookService.add(bookDto);
-        // 상세 페이지로 이동하도록 수정. + 저장되엇씁니다 파라미터 처리. ture
-        return "redirect:/admin/book";
+        String uid = authentication.getName();
+        Long bookId = bookService.add(bookDto, uid);
+
+        redirectAttributes.addAttribute("save", true);
+
+        return "redirect:/admin/book/" + bookId;
     }
 
     /* 책 상세 페이지 */
@@ -53,8 +63,10 @@ public class BookController {
     public String detail(@PathVariable Long bookId, Authentication authentication, Model model){
         BookDto bookDto = bookService.detail(bookId);
         String uid = authentication.getName();
+
         model.addAttribute("bookDto", bookDto);
         model.addAttribute("auth_uid", uid);
+
         return "/admin/book/detailForm";
     }
 
@@ -62,17 +74,23 @@ public class BookController {
     @GetMapping("/book/edit/{bookId}")
     public String editForm(@PathVariable Long bookId, Model model){
         BookDto bookDto = bookService.detail(bookId);
+
         model.addAttribute("bookDto", bookDto);
+
         return "/admin/book/editForm";
     }
 
     /* 책 수정 */
     @PutMapping("/book/edit/{bookId}")
-    public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult) throws IOException {
+    public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
             return "/admin/book/editForm";
         }
         bookService.edit(bookId, bookDto);
+
+        redirectAttributes.addAttribute("edit", true);
+
         return "redirect:/admin/book/" + bookId;
     }
  }
