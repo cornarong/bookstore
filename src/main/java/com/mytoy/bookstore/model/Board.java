@@ -26,9 +26,9 @@ public class Board {
     private LocalDate regdate;
     private int views;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     @JsonIgnore
+    @JoinColumn(name = "user_id")
+    @ManyToOne
     private User user;
 
     /**

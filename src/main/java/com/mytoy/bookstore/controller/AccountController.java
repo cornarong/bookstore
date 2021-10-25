@@ -1,6 +1,6 @@
 package com.mytoy.bookstore.controller;
 
-import com.mytoy.bookstore.dto.UserSaveDto;
+import com.mytoy.bookstore.dto.UserDto;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +33,13 @@ public class AccountController {
     /* 회원가입 페이지 */
     @GetMapping("/register")
     public String register(Model model){
-//        UserSaveDto userSaveDto = UserSaveDto.builder().build();
-        model.addAttribute("userSaveDto", new UserSaveDto());
+        model.addAttribute("userDto", new UserDto());
         return "account/register";
     }
     /* 회원가입 */
     @PostMapping("/register")
-    public String register(@Valid UserSaveDto userSaveDto, BindingResult bindingResult) throws IOException {
-        if(userRepository.findByUid(userSaveDto.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.
+    public String register(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+        if(userRepository.findByUid(userDto.getUid()) != null){ // 서버에서 아이디 중복 한번 더 확인.
             FieldError fieldError = new FieldError("userDto","uid","아이디를 다시 작성해주세요");
             bindingResult.addError(fieldError);
         }
@@ -48,7 +47,7 @@ public class AccountController {
             log.info("error = {}", bindingResult.getFieldError());
             return "account/register";
         }
-        userService.save(userSaveDto);
+        userService.save(userDto);
         return "redirect:/";
     }
 

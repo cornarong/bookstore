@@ -1,18 +1,11 @@
 package com.mytoy.bookstore.service;
 
-import com.mytoy.bookstore.dto.UserSaveDto;
-import com.mytoy.bookstore.model.*;
 import com.mytoy.bookstore.repository.BookRepository;
 import com.mytoy.bookstore.repository.OrderRepository;
 import com.mytoy.bookstore.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 
 @SpringBootTest
@@ -40,14 +33,14 @@ class OrderServiceTest {
 //        return book;
 //    }
 
-    private User createUser() throws IOException {
-        UserSaveDto userSaveDto = new UserSaveDto();
-        userSaveDto.setUid("memberA");
+//    private User createUser() throws IOException {
+//        UserSaveDto userSaveDto = new UserSaveDto();
+//        userSaveDto.setUid("memberA");
 //        userForm.setAbode("시흥시 호반 베르디움 더 프라임 배미골길23 1507동 1203호");
-        userSaveDto.setPassword("1111");
-        User savedUser = userService.save(userSaveDto);
-        return savedUser;
-    }
+//        userSaveDto.setPassword("1111");
+//        User savedUser = userService.save(userSaveDto);
+//        return savedUser;
+//    }
 
 //    @Test
 //    @Rollback(false)

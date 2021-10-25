@@ -49,7 +49,7 @@ class UserApiController {
         return userRepository.findById(userId).orElse(null);
     }
 
-    @PutMapping("/users/{userId}")
+/*    @PutMapping("/users/{userId}")
     User replaceUser(@RequestBody User newUser, @PathVariable Long userId) {
         return userRepository.findById(userId)
                 .map(user -> {
@@ -67,9 +67,10 @@ class UserApiController {
                     newUser.setId(userId);
                     return userRepository.save(newUser);
                 });
-    }
+    }*/
 
-    @DeleteMapping("/users/{userId}")
+    /* 회원 삭제  */
+    @DeleteMapping("/user/{userId}")
     void deleteUser(@PathVariable Long userId) {
         userRepository.deleteById(userId);
     }

@@ -8,9 +8,10 @@
             <main role="main" class="container pt-4">
                 <div class="container" data-aos="fade-up">
                     <h3 class="pb-3 font-italic">User Edit</h3>
-                    <form th:action="@{/admin/update/{userId}(userId=*{id})}" method="post" role="form" th:object="${userInfoDto}" enctype="multipart/form-data">
+                    <form th:action="@{/admin/user/edit/{userId}(userId=*{id})}" method="post" role="form" th:object="${userDto}" enctype="multipart/form-data">
                         <input type="hidden" name="_method" value="put"> <!-- HiddenHttpMethodFilter 사용 -->
                         <input type="hidden" th:field="*{id}">
+                        <input type="hidden" th:field="*{password}">
 
                     <!-- 프로필이미지, 아이디, 가입일, 권한 -->
                         <div class="form-row">
@@ -115,7 +116,7 @@
                     <!--// 주소 -->
 
                         <div class="pb-5 text-right">
-                            <a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-danger" style="float: left">계정삭제</a>
+                            <a class="btn btn mr-2 mb-2 btn-outline-danger" style="float:left" th:onclick="|deleteUser(*{id})|" >계정삭제</a>
                             <a th:href="@{/admin/user/{userId}(userId=*{id})}" class="btn btn mr-2 mb-2 btn-outline-secondary">이전으로</a>
                             <button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">수정완료</button>
                         </div>
@@ -151,6 +152,22 @@
             }
         }
     }
+    /* 회원 삭제 api */
+    function deleteUser(userId) {
+        if(confirm("정말로 삭제 하시겠습니까?") == true){
+            $.ajax({
+                url: '/api/user/' + userId,
+                type: 'DELETE',
+                success: function (){
+                    alert('삭제 되었습니다');
+                    window.location.href = '/admin/user';
+                },
+                error: function (){
+                    alert("delete error");
+                }
+            });
+        }
+    };
 </script>
 <!-- 카카오 우편번호 서비스 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

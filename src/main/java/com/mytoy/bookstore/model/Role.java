@@ -15,7 +15,7 @@ public class Role {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users;
 
 }

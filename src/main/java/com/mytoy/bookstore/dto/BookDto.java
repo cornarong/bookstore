@@ -4,6 +4,7 @@ import com.mytoy.bookstore.model.BookType;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 public class BookDto {
 
     private Long id;            // 책id
-    private BookType type;      // 타입(국내, 외국)
+    private BookType type;      // 타입 : 국내, 외국
     @NotBlank(message = "필수 항목입니다")
     private String title;       // 제목
     @NotBlank(message = "필수 항목입니다")

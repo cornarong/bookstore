@@ -1,21 +1,15 @@
 package com.mytoy.bookstore.service;
 
 import com.mytoy.bookstore.dto.BoardDto;
-import com.mytoy.bookstore.dto.UserInfoDto;
 import com.mytoy.bookstore.mapper.BoardMapper;
 import com.mytoy.bookstore.mapper.BoardMapperImpl;
-import com.mytoy.bookstore.mapper.UserMapper;
-import com.mytoy.bookstore.mapper.UserMapperImpl;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.BoardRepository;
 import com.mytoy.bookstore.repository.UserRepository;
-import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

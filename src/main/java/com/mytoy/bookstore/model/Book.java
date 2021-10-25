@@ -21,7 +21,10 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+//    @Enumerated(EnumType.STRING) // 잠시 대기 이슈해결 후 처리 예정.
     private BookType type;      // 타입
+
     private String title;       // 제목
     private String subTitle;    // 부제목
     private String content;     // 설명

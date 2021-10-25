@@ -8,32 +8,31 @@
 		<main role="main" class="container pt-4">
 			<div class="container" data-aos="fade-up">
 				<h3 class="pb-3 font-italic">User Details</h3>
-				<form th:action="@{/admin/update/{userId}(userId=*{id})}" method="post" role="form" th:object="${userInfoDto}">
+				<!-- RedirectAttributes -->
+				<strong style="color: #007bff" th:if="${param.edit}">* 정보가 수정되었습니다</strong>
 
 					<!-- 프로필사진, 아이디, 권한, 가입일-->
-					<div class="form-row">
+					<div class="form-row pt-4">
 						<div class="col-lg-4 col-md-6 pb-3 form-group">
 							<p class="my-1">프로필 사진</p>
-							<img class="form-control" id="thumbnail_container" th:src="'/files/' + *{profileName}"
+							<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${userDto.profileName}"
 							     style="max-width: 100%; height: auto;">
-							<input type="hidden" th:field="*{profileName}">
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">아이디</label>
-							<input type="text" class="form-control" th:field="*{uid}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.uid}" readonly>
 							<label class="my-1">가입일</label>
-							<input type="text" class="form-control" th:field="*{since}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.since}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">권한</label><br>
-							<input type="hidden" th:field="*{roles}">
 							<div class="roles-box">
 								<label for="ROLE_USER" class="my-1">ROLE_USER</label>
-								<input type="checkbox" id="ROLE_USER" value="ROLE_USER" th:field="*{roles}" disabled><br>
+								<input type="checkbox" id="ROLE_USER" value="ROLE_USER" th:field="${userDto.roles}" disabled><br>
 								<label for="ROLE_MANAGER" class="my-1">ROLE_MANAGER</label>
-								<input type="checkbox" id="ROLE_MANAGER" value="ROLE_MANAGER" th:field="*{roles}" disabled><br>
+								<input type="checkbox" id="ROLE_MANAGER" value="ROLE_MANAGER" th:field="${userDto.roles}" disabled><br>
 								<label for="ROLE_ADMIN" class="my-1">ROLE_ADMIN</label>
-								<input type="checkbox" id="ROLE_ADMIN" value="ROLE_ADMIN" th:field="*{roles}" disabled><br>
+								<input type="checkbox" id="ROLE_ADMIN" value="ROLE_ADMIN" th:field="${userDto.roles}" disabled><br>
 							</div>
 						</div>
 					</div>
@@ -43,15 +42,15 @@
 					<div class="form-row">
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">이름</label>
-							<input type="text" class="form-control" th:field="*{name}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.name}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">휴대전화</label>
-							<input type="tel" class="form-control" th:field="*{phone}" readonly>
+							<input type="tel" class="form-control" th:value="${userDto.phone}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">닉네임</label>
-							<input type="text" class="form-control" th:field="*{nickname}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.nickname}" readonly>
 						</div>
 					</div>
 					<!--// 이름, 휴대전화, 닉네임 -->
@@ -60,15 +59,15 @@
 					<div class="form-row">
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">이메일</label>
-							<input type="email" class="form-control" th:field="*{email}" readonly>
+							<input type="email" class="form-control" th:value="${userDto.email}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">생년월일</label>
-							<input type="text" class="form-control" th:field="*{birth}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.birth}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">성별</label>
-							<input type="text" class="form-control" th:field="*{gender}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.gender}" readonly>
 						</div>
 					</div>
 					<!--// 이메일, 생년월일, 성별 -->
@@ -77,22 +76,22 @@
 					<div class="form-row">
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">우편번호</label>
-							<input type="text" class="form-control" th:field="*{postcode}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.postcode}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">주소</label>
-							<input type="text" class="form-control" th:field="*{address}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.address}" readonly>
 						</div>
 						<div class="col-lg-4 col-md-6 form-group">
 							<label class="my-1">상세주소</label>
-							<input type="text" class="form-control" th:field="*{detailAddress}" readonly>
+							<input type="text" class="form-control" th:value="${userDto.detailAddress}" readonly>
 						</div>
 					</div>
 					<!--// 주소 -->
 
 					<div class="pb-5 text-right">
 						<a th:href="@{/admin/user}" class="btn btn mr-2 mb-2 btn-outline-secondary">목록으로</a>
-						<button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">수정하기</button>
+						<a th:href="@{/admin/user/edit/{userId}(userId=${userId})}" class="btn btn mr-2 mb-2 btn-outline-primary">수정하기</a>
 					</div>
 
 				</form>

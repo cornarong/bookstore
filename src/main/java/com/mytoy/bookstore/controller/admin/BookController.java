@@ -33,7 +33,7 @@ public class BookController {
         return "/admin/book/list";
     }
 
-    /* 책 등록 페이지 */
+    /* 책 등록페이지 */
     @GetMapping("/book/addForm")
     public String addForm(Model model){
         BookDto bookDto = new BookDto();
@@ -58,7 +58,7 @@ public class BookController {
         return "redirect:/admin/book/" + bookId;
     }
 
-    /* 책 상세 페이지 */
+    /* 책정보 상세페이지 */
     @GetMapping("/book/{bookId}")
     public String detail(@PathVariable Long bookId, Authentication authentication, Model model){
         BookDto bookDto = bookService.detail(bookId);
@@ -70,7 +70,7 @@ public class BookController {
         return "/admin/book/detailForm";
     }
 
-    /* 책 수정 페이지 */
+    /* 책정보 수정페이지 */
     @GetMapping("/book/edit/{bookId}")
     public String editForm(@PathVariable Long bookId, Model model){
         BookDto bookDto = bookService.detail(bookId);
@@ -80,7 +80,7 @@ public class BookController {
         return "/admin/book/editForm";
     }
 
-    /* 책 수정 */
+    /* 책정보 수정 */
     @PutMapping("/book/edit/{bookId}")
     public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
