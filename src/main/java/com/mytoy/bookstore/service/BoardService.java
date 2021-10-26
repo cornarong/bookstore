@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Transactional(readOnly = true)
 public class BoardService {
@@ -21,40 +22,45 @@ public class BoardService {
     @Autowired
     private UserRepository userRepository;
 
-    /* 게시글 저장 */
+    /* 게시글 저장 하기 */
     @Transactional(readOnly = false)
     public Board save(BoardDto boardDto, String uid){
-        User user = userRepository.findByUid(uid);
 
         BoardMapper boardMapper = new BoardMapperImpl();
-        Board board = boardMapper.toBoardEntity(boardDto, user);
+        Board board = boardMapper.toBoardEntity(boardDto);
+
+        User user = userRepository.findByUid(uid);
+        board.saveUser(user);
+        board.saveRegDate();
+        board.saveType();
 
         return boardRepository.save(board);
     }
 
-    /* 게시글 상세정보 */
+    /* 게시글 단건 가져오기 */
     @Transactional(readOnly = false)
     public BoardDto detail(Long boardId, String from){
-        Board findBoard = boardRepository.findById(boardId).orElse(null);
-
-        if(from.equals("detail")) findBoard.setViews(findBoard.getViews() + 1);
-        else findBoard.setViews(findBoard.getViews());
+        Board board = boardRepository.findById(boardId).orElse(null);
 
         BoardMapper boardMapper = new BoardMapperImpl();
-        BoardDto boardDto = boardMapper.toBoardDto(findBoard);
+        BoardDto boardDto = boardMapper.toBoardDto(board);
+
+        if(from.equals("detail")) board.addViews();
+        boardDto.saveWriter(board.getUser().getUid());
+
         return boardDto;
     }
 
-    /* 게시글 수정 */
-    @Transactional(readOnly = false)
-    public Board update(BoardDto boardDto, Long boardId){
+    /* 게시글 수정 하기 */
+    @Transactional
+    public Board edit(BoardDto boardDto, Long boardId){
         Board board = boardRepository.findById(boardId).orElse(null);
-        board.update(boardDto);
+        board.edit(boardDto);
         return board;
     }
 
-    /* 게시글 삭제 */
-    @Transactional(readOnly = false)
+    /* 게시글 삭제 하기 */
+    @Transactional
     public void delete(Long boardId){
         boardRepository.deleteById(boardId);
     }

@@ -16,7 +16,6 @@ public class BookApiController {
     @Autowired
     BookService bookService;
 
-
     /* 책 삭제 */
     @DeleteMapping("/book/{bookId}")
     public void delete(@PathVariable Long bookId){

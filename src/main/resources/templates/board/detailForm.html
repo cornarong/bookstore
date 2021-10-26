@@ -6,14 +6,13 @@
         <section>
             <div class="container" th:replace="fragments/common :: menu('board')"/>
             <main role="main" class="container pt-4">
-                <h3 class="pb-4 font-italic">
-                    Board Post
-                </h3>
-                <h6 th:if="${param.saved}">게시글 저장이 완료 되었습니다.</h6>
-                <h6 th:if="${param.edited}">게시글 수정이 완료 되었습니다.</h6>
+                <h3 class="pb-4 font-italic">Board Post</h3>
+                <!-- RedirectAttributes -->
+                <h6 th:if="${param.save}">게시글이 저장되었습니다.</h6>
+                <h6 th:if="${param.edit}">게시글이 수정되었습니다.</h6>
 
                 <!-- 작성자 -->
-                <div class="form-row">
+                <div class="form-row pt-4">
                     <div class="col-lg-4 col-md-6 form-group">
                         <label for="writer" class="form-label">작성자</label>
                         <input type="text" class="form-control" id="writer" th:value="${boardDto.writer}" readonly>

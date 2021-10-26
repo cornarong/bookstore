@@ -71,11 +71,17 @@ public class UserService {
         return userDto;
     }
 
-    /* 회원정보 수정하기 */
+    /* 회원정보 수정 하기 */
     @Transactional(readOnly = false)
     public void edit(Long userId, UserDto userDto) throws IOException {
         User user = userRepository.findById(userId).orElse(null);
         user.edit(userDto);
+    }
+
+    /* 게시글 삭제 하기 */
+    @Transactional(readOnly = false)
+    public void delete(Long boardId){
+        userRepository.deleteById(boardId);
     }
 
 }

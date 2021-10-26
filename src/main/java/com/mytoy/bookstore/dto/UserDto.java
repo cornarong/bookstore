@@ -18,36 +18,35 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDto {
 
-    private Long id;
+    private Long id;            // ID
     @NotBlank(message = "필수 항목입니다.")
-    private String uid;
+    private String uid;         // 계정 아이디
     @NotBlank(message = "필수 항목입니다.")
-    private String password;
+    private String password;    // 계정 비밀번호
     @NotBlank(message = "필수 항목입니다.")
-    private String name;
+    private String name;        // 이름
     @NotBlank(message = "필수 항목입니다.")
-    private String nickname;
+    private String nickname;    // 닉네임
     @NotBlank(message = "필수 항목입니다.")
-    private String gender;
+    private String gender;      // 성별
     @NotBlank(message = "필수 항목입니다.")
-    private String birth;
+    private String birth;       // 생년월일
     @NotBlank(message = "필수 항목입니다.")
-    private String phone;
-    private String email;
-    private String since;
+    private String phone;       // 휴대전화
+    private String email;       // 이메일
+    private String since;       // 가입일
 
     @NotBlank(message = "필수 항목입니다.")
-    private String postcode;
+    private String postcode;        // 우편번호
     @NotBlank(message = "필수 항목입니다.")
-    private String address;
-    private String detailAddress;
+    private String address;         // 주소
+    private String detailAddress;   // 상세주소
 
-    private List<String> roles;
+    private List<String> roles;     // 권한
 
-    /* 첨부파일 */
     private MultipartFile profile; // 프로필 이미지 객체
-    private String profileName; // 프로필 이미지 파일명
-    private String profilePath; // 프로필 이미지 물리경로
+    private String profileName;    // 프로필 이미지 파일명
+    private String profilePath;    // 프로필 이미지 물리경로
 
     /* 주소 처리 */
     public void saveAddress(Address address){
@@ -65,7 +64,7 @@ public class UserDto {
     }
 
     /* 첨부파일 기본값 처리 */
-    public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 보여지는 DTO 기본값 처리.
+    public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 노출 할 클라이언트단의 DTO 기본값 처리.
         this.profileName = "noImage.jpg";
         this.profilePath = "";
     }

@@ -4,7 +4,6 @@ import com.mytoy.bookstore.model.BookType;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookDto {
 
-    private Long id;            // 책id
+    private Long id;            // ID
     private BookType type;      // 타입 : 국내, 외국
     @NotBlank(message = "필수 항목입니다")
     private String title;       // 제목
@@ -29,7 +28,7 @@ public class BookDto {
     @Max(value = 10000000, message = "최대 금액은 10000000원 입니다")
     private int price;          // 가격
     @Min(value = 1, message = "최소 수량은 1개 입니다")
-    @Max(value = 10000, message = "최대 금액은 10000개 입니다")
+    @Max(value = 10000, message = "최대 수량은 10000개 입니다")
     private int quantity;       // 수량
     private String content;     // 설명
     @NotBlank(message = "필수 항목입니다")
@@ -40,12 +39,11 @@ public class BookDto {
     private int shippingFee;    // 배송비
     private String uid;         // 등록자
 
-    /* 첨부파일 */
     private MultipartFile thumbnail; // 책 이미지 객체
     private String thumbnailName; // 책 이미지 파일명
     private String thumbnailPath; // 책 이미지 물리경로
 
-    /* 첨부파일 기본값 */
+    /* 첨부파일 기본값 처리 */
     public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 보여지는 DTO 기본값 처리.
         this.thumbnailName = "noImage.jpg";
         this.thumbnailPath = "";

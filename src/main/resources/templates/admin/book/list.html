@@ -26,6 +26,7 @@
 						<th>출판사</th>
 						<th>수량</th>
 						<th>등록인</th>
+						<th>등록일</th>
 						<th>관리</th>
 					</tr>
 					</thead>
@@ -39,6 +40,7 @@
 						<td th:text="${book.publisher}">출판사</td>
 						<td th:text="${book.quantity}">수량</td>
 						<td th:text="${book.uid}">등록인</td>
+						<td th:text="${book.regDate}">등록인</td>
 						<td><a th:href="@{/admin/book/{bookId}(bookId=${book.id})}">상세</a></td>
 					</tr>
 					</tbody>

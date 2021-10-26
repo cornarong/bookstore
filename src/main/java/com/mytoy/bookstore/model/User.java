@@ -118,19 +118,19 @@ public class User {
         }
         // 권한 처리 - 기본 값 : ROLE_USER
         this.roles.clear();
-//        if(userDto.getRoles().size() == 0) {
+        if(userDto.getRoles().size() == 0) {
             Role role = new Role();
             role.setId(1L);
             this.roles.add(role);
-//        }else{
-//            for(String roleName : userDto.getRoles()){
-//                Role role = new Role();
-//                if(roleName.equals("ROLE_USER")) role.setId(1L);
-//                if(roleName.equals("ROLE_MANAGER")) role.setId(2L);
-//                if(roleName.equals("ROLE_ADMIN")) role.setId(3L);
-//                this.roles.add(role);
-//            }
-//        }
+        }else{
+            for(String roleName : userDto.getRoles()){
+                Role role = new Role();
+                if(roleName.equals("ROLE_USER")) role.setId(1L);
+                if(roleName.equals("ROLE_MANAGER")) role.setId(2L);
+                if(roleName.equals("ROLE_ADMIN")) role.setId(3L);
+                this.roles.add(role);
+            }
+        }
         return this;
     }
 }

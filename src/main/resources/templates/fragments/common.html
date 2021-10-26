@@ -54,8 +54,8 @@
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
             <a class="p-2 text-muted" th:href="@{/}">Home</a>
-            <a class="p-2 text-danger" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품 관리</a>
-            <a class="p-2 text-danger" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원 관리</a>
+            <a class="p-2 text-muted" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품관리</a>
+            <a class="p-2 text-muted" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원관리</a>
           </div>
           <div class="col-4 text-center">
             <a class="blog-header-logo text-dark" th:href="@{/}">Cornarong BookStore</a>
@@ -63,9 +63,10 @@
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a class="btn btn-sm mr-2 btn-outline-secondary" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">로그인</a>
             <a class="btn btn-sm btn-outline-secondary" th:href="@{/account/register}" sec:authorize="!isAuthenticated()">회원가입</a>
-            <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-              <span class="text-muted" sec:authentication="name">사용자</span>
-              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>
+            <span class="text-muted mx-2" sec:authentication="name" sec:authorize="isAuthenticated()">사용자</span>
+            <a href="" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()">내 정보</a>
+            <form class="form-inline my-2 my-lg-0 mx-2" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+<!--              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>-->
               <button class="btn btn-sm btn-outline-secondary" type="submit">로그아웃</button>
             </form>
           </div>
@@ -74,11 +75,11 @@
       <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex">
           <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
+          <a href="#" class="p-2 text-muted">모든도서</a>
           <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold' : ''">국내도서</a>
           <a href="#" class="p-2 text-muted">외국도서</a>
           <a href="#" class="p-2 text-muted">신작도서</a>
-          <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판1</a>
-          <a href="#" class="p-2 text-muted">게시판2</a>
+          <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
         </nav>
       </div>
       </div>

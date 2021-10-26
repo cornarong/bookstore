@@ -13,4 +13,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // Containing : like와 비슷한 문법
     Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+
 }

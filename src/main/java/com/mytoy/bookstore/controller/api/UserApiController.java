@@ -4,9 +4,11 @@ import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.QUser;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
+import com.mytoy.bookstore.service.UserService;
 import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,9 @@ class UserApiController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     // 사용자 조회
     @GetMapping("/users")
@@ -70,8 +75,9 @@ class UserApiController {
     }*/
 
     /* 회원 삭제  */
+    @Secured("ROLE_ADMIN") // 해당 권한만 접근 가능
     @DeleteMapping("/user/{userId}")
     void deleteUser(@PathVariable Long userId) {
-        userRepository.deleteById(userId);
+        userService.delete(userId);
     }
 }

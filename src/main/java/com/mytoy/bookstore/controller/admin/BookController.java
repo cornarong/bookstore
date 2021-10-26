@@ -48,6 +48,7 @@ public class BookController {
     public String add(@Valid BookDto bookDto, BindingResult bindingResult, Authentication authentication,
                       RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
+            log.info("error = {}", bindingResult.getFieldError());
             return "admin/book/addForm";
         }
         String uid = authentication.getName();
@@ -85,6 +86,7 @@ public class BookController {
     public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
+            log.info("error = {}", bindingResult.getFieldError());
             return "/admin/book/editForm";
         }
         bookService.edit(bookId, bookDto);

@@ -12,7 +12,7 @@
                 </h3>
                 <!-- 게시글 검색 -->
                 <form class="form-inline d-flex" method="get" th:action="@{/board}">
-                    <div class="mr-auto p-2">총 건수 : <span th:text="${boards.totalElements}"></span></div>
+                    <div class="mr-auto p-2">총 건수 : <span th:text="${boardDtoList.totalElements}"></span></div>
                     <div class="form-group mx-sm-2 mb-2">
                         <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
                     </div>
@@ -31,12 +31,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="board : ${boards}">
-                            <td th:text="${board.id}">번호</td>
-                            <td><a href="#" th:href="@{/board/{boardId}(boardId=${board.id})}" th:text="${board.title}">제목</a></td>
-                            <td th:text="${board.user.uid}"></td>
-                            <td th:text="${board.regdate}"></td>
-                            <td th:text="${board.views}"></td>
+                        <tr th:each="boardDto : ${boardDtoList}">
+                            <td th:text="${boardDto.id}">번호</td>
+                            <td><a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a></td>
+                            <td th:text="${boardDto.writer}"></td>
+                            <td th:text="${boardDto.regdate}"></td>
+                            <td th:text="${boardDto.views}"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -49,14 +49,14 @@
                 <!-- 페이징 처리 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item" th:classappend="${1 == boards.pageable.pageNumber + 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+                        <li class="page-item" th:classappend="${1 == boardDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link" th:href="@{/board(page=${boardDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
                         </li>
-                        <li class="page-item" th:classappend="${page == boards.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                        <li class="page-item" th:classappend="${page == boardDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
                             <a class="page-link" th:href="@{/board(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
                         </li>
-                        <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.pageNumber + 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{/board(page=${boards.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+                        <li class="page-item" th:classappend="${boardDtoList.totalPages == boardDtoList.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link" th:href="@{/board(page=${boardDtoList.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
                         </li>
                     </ul>
                 </nav>

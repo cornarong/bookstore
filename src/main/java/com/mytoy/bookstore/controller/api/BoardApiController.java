@@ -58,7 +58,6 @@ public class BoardApiController {
     }
 
     /* 게시글 삭제 */
-//    @Secured("ROLE_USER") // 해당 권한만 접근 가능
     @DeleteMapping("/board/{boardId}")
     void deleteBoard(@PathVariable Long boardId) {
         boardService.delete(boardId);

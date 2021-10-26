@@ -28,21 +28,22 @@ public class BoardController {
     private BoardRepository boardRepository;
 
     @Autowired
-    private BoardValidator boardValidator;
+    private BoardValidator boardValidator; // 유효성 검사 커스텀
 
     @Autowired
     private BoardService boardService;
 
     /* 게시글 목록 */
     @GetMapping
-    public String list(Model model, @PageableDefault(size = 4) Pageable pageable,
-                       @RequestParam(defaultValue = "") String searchTerm){
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
-        int startPage = Math.max(1,boards.getPageable().getPageNumber() - 10);
-        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 10);
+    public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
+        Page<Board> boardList = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
+        Page<BoardDto> boardDtoList = new BoardDto().toDtoList(boardList); // Page<Entity> -> Page<Dto> 변환.
+        int startPage = Math.max(1, boardDtoList.getPageable().getPageNumber() - 10);
+        int endPage = Math.min(boardDtoList.getTotalPages(), boardDtoList.getPageable().getPageNumber() + 10);
+
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("boards", boards);
+        model.addAttribute("boardDtoList", boardDtoList);
         return "board/list";
     }
 
@@ -50,6 +51,7 @@ public class BoardController {
     @GetMapping("/add")
     public String addForm(Model model){
         BoardDto boardDto = new BoardDto();
+
         model.addAttribute("boardDto", boardDto);
         return "board/addForm";
     }
@@ -60,41 +62,52 @@ public class BoardController {
                       RedirectAttributes riRedirectAttributes, Authentication authentication){
 //        boardValidator.validate(boardDto, bindingResult); // * 유효성 검사 커스텀
         if (bindingResult.hasErrors()) {
+            log.info("error = {}", bindingResult.getFieldError());
             return "board/addForm";
         }
+
         String uid = authentication.getName();
         Board board = boardService.save(boardDto, uid);
-        riRedirectAttributes.addAttribute("saved",true);
-        return "redirect:/board/"+board.getId();
+
+        riRedirectAttributes.addAttribute("save",true);
+        return "redirect:/board/" + board.getId();
     }
 
     /* 게시글 상세페이지 */
     @GetMapping("/{boardId}")
     public String detailForm(@PathVariable Long boardId, Model model, Authentication authentication){
         BoardDto boardDto = boardService.detail(boardId,"detail");
-        String uid = authentication.getName();
+
+        if(authentication != null) { // 수정,삭제 가능 여부를 판단하기 위해 사용자의 uid 값을 인자로 가져간다.
+            String uid = authentication.getName();
+            model.addAttribute("auth_uid",uid);
+        }
+
         model.addAttribute("boardDto",boardDto);
-        model.addAttribute("auth_uid",uid);
         return "/board/detailForm";
     }
 
     /* 게시글 수정페이지 */
     @GetMapping("/edit/{boardId}")
-    public String updateForm(@PathVariable Long boardId, Model model){
-        BoardDto boardDto = boardService.detail(boardId,"update");
+    public String editForm(@PathVariable Long boardId, Model model){
+        BoardDto boardDto = boardService.detail(boardId,"edit");
+
         model.addAttribute("boardDto",boardDto);
         return "board/editForm";
     }
 
     /* 게시글 수정 */
-    @PutMapping("/edit/{boardId}") // HiddenHttpMethodFilter 사용
-    public String update(@Valid BoardDto boardDto, BindingResult bindingResult,
-                       @PathVariable Long boardId, RedirectAttributes redirectAttributes, Authentication authentication){
+    @PutMapping("/edit/{boardId}")
+    public String edit(@Valid BoardDto boardDto, BindingResult bindingResult,
+                       @PathVariable Long boardId, RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()) {
+            log.info("error = {}", bindingResult.getFieldError());
             return "board/editForm";
         }
-        Board board = boardService.update(boardDto, boardId);
-        redirectAttributes.addAttribute("edited",true);
-        return "redirect:/board/"+board.getId();
+
+        Board board = boardService.edit(boardDto, boardId);
+
+        redirectAttributes.addAttribute("edit",true);
+        return "redirect:/board/" + board.getId();
     }
 }
