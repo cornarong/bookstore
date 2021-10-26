@@ -37,6 +37,7 @@ public class BookService {
         for (Book book : bookList) {
             BookMapper bookMapper = new BookMapperImpl();
             BookDto bookDto = bookMapper.toBookDto(book);
+            if(book.getThumbnailName() == null) bookDto.defaultThumbnail();
             bookDtoList.add(bookDto);
             bookDto.setUid(book.getUser().getUid());
         }

@@ -19,7 +19,8 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
-public class UserController {
+/* 관리자 전용 회원관리 컨트롤러 입니다 */
+public class MemberController {
 
     @Autowired
     private final UserService userService;

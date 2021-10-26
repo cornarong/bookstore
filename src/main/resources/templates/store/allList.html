@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+    <body>
+    <div id='wrap'>
+        <section>
+            <div class="container" th:replace="fragments/common :: menu('store')"/>
+            <div class="container pt-4">
+                <h3 class="pb-4 font-italic">Show Book list</h3>
+                <div class="row mb-2">
+                    <div class="col-md-6" th:each="bookDto : ${bookDtoList}">
+                        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                            <div class="col p-4 d-flex flex-column position-static">
+                                <strong class="d-inline-block mb-2 text-primary" th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</strong>
+                                <strong class="d-inline-block mb-2 text-primary" th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</strong>
+                                <h3 class="mb-0" th:text="${bookDto.title}">제목</h3>
+                                <div class="mb-1 text-muted" th:text="|발행일 : ${bookDto.publishedDate}|">발행일</div>
+                                <div class="card-text mb-auto" th:text="${bookDto.content}">내용 및 줄거리</div>
+                                <div class="row">
+                                    <a href="#" class="mx-2">장바구니</a>
+                                    <a href="#">구매하기</a>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <img style="width: inherit; height: 248px; border:solid 3px; border-color:#6c757d;" th:src="'/files/' + ${bookDto.thumbnailName}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="blog-footer" th:replace="fragments/common :: footer"/>
+    </div>
+    </body>
+</html>

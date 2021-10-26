@@ -27,18 +27,9 @@
         font-family: 나눔바른고딕;
         font-weight: 500;
       }
-
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
       @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        .container {
+          max-width: 1145px;
         }
       }
     </style>
@@ -61,11 +52,20 @@
             <a class="blog-header-logo text-dark" th:href="@{/}">Cornarong BookStore</a>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="btn btn-sm mr-2 btn-outline-secondary" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">로그인</a>
-            <a class="btn btn-sm btn-outline-secondary" th:href="@{/account/register}" sec:authorize="!isAuthenticated()">회원가입</a>
-            <span class="text-muted mx-2" sec:authentication="name" sec:authorize="isAuthenticated()">사용자</span>
-            <a href="" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()">내 정보</a>
-            <form class="form-inline my-2 my-lg-0 mx-2" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+            <a th:href="@{/account/login}" class="btn btn-sm mr-2 btn-outline-secondary" sec:authorize="!isAuthenticated()">로그인</a>
+
+            <a th:href="@{/account/register}" class="btn btn-sm btn-outline-secondary" sec:authorize="!isAuthenticated()">회원가입</a>
+
+            <a th:href="@{/user/basket}" class="btn btn-sm mx-1"
+               th:classappend="${menu} == 'basket' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">장바구니</a>
+
+            <a th:href="@{/user/order}" class="btn btn-sm mx-1"
+               th:classappend="${menu} == 'order' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">주문내역</a>
+
+            <a th:href="@{/user/info}" class="btn btn-sm mx-1"
+               th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-secondary'"sec:authorize="isAuthenticated()">내 정보</a>
+
+            <form class="form-inline my-2 my-lg-0 mx-1" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
 <!--              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>-->
               <button class="btn btn-sm btn-outline-secondary" type="submit">로그아웃</button>
             </form>
@@ -73,14 +73,18 @@
         </div>
       </header>
       <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex">
-          <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
-          <a href="#" class="p-2 text-muted">모든도서</a>
-          <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold' : ''">국내도서</a>
-          <a href="#" class="p-2 text-muted">외국도서</a>
-          <a href="#" class="p-2 text-muted">신작도서</a>
-          <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
-        </nav>
+        <nav class="nav d-flex justify-content-between">
+          <div>
+            <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
+            <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold' : ''">모든도서</a>
+            <a href="#" class="p-2 text-muted">국내도서</a>
+            <a href="#" class="p-2 text-muted">외국도서</a>
+            <a href="#" class="p-2 text-muted">신작도서</a>
+            <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
+          </div>
+          <div>
+            <span class="text-muted mx-2" sec:authentication="name" sec:authorize="isAuthenticated()">사용자</span><span>님 환영합니다</span>
+          </div>
       </div>
       </div>
       <!--// menu 상단바 fragment -->
