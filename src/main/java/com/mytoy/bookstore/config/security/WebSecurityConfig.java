@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasRole("USER") //  hasRole : default prefix = "ROLE_" 이다.
                 .antMatchers("/manager/**").hasRole("MANAGER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**").permitAll()
+                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/files/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

@@ -3,6 +3,7 @@ package com.mytoy.bookstore.controller.api;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
 import com.mytoy.bookstore.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +14,12 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class BoardApiController {
 
-    @Autowired
-    private BoardRepository boardRepository;
-
-    @Autowired
-    private BoardService boardService;
+    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
     // 게시글 조회
     @GetMapping("/boards")

@@ -3,6 +3,7 @@ package com.mytoy.bookstore.controller;
 import com.mytoy.bookstore.dto.BoardDto;
 import com.mytoy.bookstore.service.BoardService;
 import com.mytoy.bookstore.validator.BoardValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.repository.BoardRepository;
@@ -22,13 +23,11 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
 
-    @Autowired
-    private BoardRepository boardRepository;
-
-    @Autowired
-    private BoardValidator boardValidator; // 유효성 검사 커스텀
+    private final BoardRepository boardRepository;
+    private final BoardValidator boardValidator; // 유효성 검사 커스텀
 
     @Autowired
     private BoardService boardService;
@@ -84,7 +83,7 @@ public class BoardController {
         }
 
         model.addAttribute("boardDto",boardDto);
-        return "/board/detailForm";
+        return "/board/detail";
     }
 
     /* 게시글 수정페이지 */
@@ -93,7 +92,7 @@ public class BoardController {
         BoardDto boardDto = boardService.detail(boardId,"edit");
 
         model.addAttribute("boardDto",boardDto);
-        return "board/editForm";
+        return "/board/editForm";
     }
 
     /* 게시글 수정 */
@@ -102,7 +101,7 @@ public class BoardController {
                        @PathVariable Long boardId, RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()) {
             log.info("error = {}", bindingResult.getFieldError());
-            return "board/editForm";
+            return "/board/editForm";
         }
 
         Board board = boardService.edit(boardDto, boardId);

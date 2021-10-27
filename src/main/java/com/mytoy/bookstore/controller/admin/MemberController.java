@@ -4,7 +4,6 @@ import com.mytoy.bookstore.dto.UserDto;
 import com.mytoy.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +21,6 @@ import java.util.List;
 /* 관리자 전용 회원관리 컨트롤러 입니다 */
 public class MemberController {
 
-    @Autowired
     private final UserService userService;
 
     /* 회원 목록 */
@@ -40,7 +38,7 @@ public class MemberController {
         UserDto userDto = userService.detail(userId);
 
         model.addAttribute("userDto", userDto);
-        return "/admin/user/detailForm";
+        return "/admin/user/detail";
     }
 
     /* 회원정보 수정페이지 */

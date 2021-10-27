@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/store")
 public class StoreController {
 
-    @Autowired
     private final BookService bookService;
 
     @GetMapping
@@ -26,5 +25,13 @@ public class StoreController {
         List<BookDto> BookDtoList = bookService.all();
         model.addAttribute("bookDtoList", BookDtoList);
         return "/store/allList";
+    }
+
+    /* 책정보 상세페이지 */
+    @GetMapping("/{bookId}")
+    public String detail(@PathVariable Long bookId, Model model){
+        BookDto bookDto = bookService.detail(bookId);
+        model.addAttribute("bookDto", bookDto);
+        return "/store/detail";
     }
 }

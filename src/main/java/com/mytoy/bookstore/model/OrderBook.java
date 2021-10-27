@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class OrderBook {
 
     @Id @GeneratedValue
-    @Column(name = "order_item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -6,6 +6,7 @@ import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
 import com.querydsl.core.types.Predicate;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,14 +17,12 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 class UserApiController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     // 사용자 조회
     @GetMapping("/users")

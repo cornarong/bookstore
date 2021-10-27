@@ -10,7 +10,7 @@
 			<div class="mb-5">
 				<strong style="color:#dc3545; float: right">&#149 필수 항목입니다</strong>
 			</div>
-			<form action="#" th:action="@{/admin/book/addForm}" th:object="${bookDto}" method="post"
+			<form th:action="@{/admin/book/addForm}" th:object="${bookDto}" method="post"
 			      enctype="multipart/form-data">
 
 				<!-- 분류 -->

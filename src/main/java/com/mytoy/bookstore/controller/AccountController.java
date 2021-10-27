@@ -3,6 +3,7 @@ package com.mytoy.bookstore.controller;
 import com.mytoy.bookstore.dto.UserDto;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +18,11 @@ import java.io.IOException;
 @Slf4j
 @Controller
 @RequestMapping("/account")
+@RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping("/login")
     public String login(){

@@ -23,7 +23,7 @@ public class BookController {
 
     private final BookService bookService;
 
-    /* 책 목록 */
+    /* 책관리 목록 */
     @GetMapping("/book")
         public String list(Model model){
         List<BookDto> bookDtoList = bookService.all();
@@ -33,7 +33,7 @@ public class BookController {
         return "/admin/book/list";
     }
 
-    /* 책 등록페이지 */
+    /* 책관리 등록페이지 */
     @GetMapping("/book/addForm")
     public String addForm(Model model){
         BookDto bookDto = new BookDto();
@@ -59,7 +59,7 @@ public class BookController {
         return "redirect:/admin/book/" + bookId;
     }
 
-    /* 책정보 상세페이지 */
+    /* 책관리 상세페이지 */
     @GetMapping("/book/{bookId}")
     public String detail(@PathVariable Long bookId, Authentication authentication, Model model){
         BookDto bookDto = bookService.detail(bookId);
@@ -68,10 +68,10 @@ public class BookController {
         model.addAttribute("bookDto", bookDto);
         model.addAttribute("auth_uid", uid);
 
-        return "/admin/book/detailForm";
+        return "/admin/book/detail";
     }
 
-    /* 책정보 수정페이지 */
+    /* 책관리 수정페이지 */
     @GetMapping("/book/edit/{bookId}")
     public String editForm(@PathVariable Long bookId, Model model){
         BookDto bookDto = bookService.detail(bookId);

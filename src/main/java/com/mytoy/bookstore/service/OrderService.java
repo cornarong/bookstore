@@ -21,9 +21,9 @@ public class OrderService {
      * 주문
      */
     @Transactional(readOnly = false)
-    public Long order(Long memberId, Long bookId, int count){
+    public Long order(Long bookId, String uid, int count){
         // 엔티티 조회
-        User user = userRepository.findById(memberId).orElse(null);
+        User user = userRepository.findByUid(uid);
         Book book = bookRepository.findById(bookId).orElse(null);
         // 배송정보 생성
         Delivery delivery = new Delivery();

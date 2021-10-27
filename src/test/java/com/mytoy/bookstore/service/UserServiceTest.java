@@ -18,18 +18,18 @@ class UserServiceTest {
     @Autowired
     UserService userService;
 
-    @Test
-    @Rollback(false)
-    public void save(){
-        User user = new User();
-        user.setUid("아이디");
-        user.setPassword("비밀번호");
-        Role role = new Role();
-        role.setId(1L);
-        user.getRoles().add(role);
-        User savedUser = userRepository.save(user);
-        userRepository.findById(savedUser.getId());
-    }
+//    @Test
+//    @Rollback(false)
+//    public void save(){
+//        User user = new User();
+//        user.setUid("아이디");
+//        user.setPassword("비밀번호");
+//        Role role = new Role();
+//        role.setId(1L);
+//        user.getRoles().add(role);
+//        User savedUser = userRepository.save(user);
+//        userRepository.findById(savedUser.getId());
+//    }
 
     @Test
     public void test(){

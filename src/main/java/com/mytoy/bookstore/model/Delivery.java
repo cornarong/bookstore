@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class Delivery {
 
     @Id @GeneratedValue
-    @Column(name = "delivery_id")
     private Long id;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)

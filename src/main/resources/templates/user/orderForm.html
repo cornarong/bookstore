@@ -3,34 +3,51 @@
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
 <body>
 <div id='wrap'>
-  <section>
-    <div class="container" th:replace="fragments/common :: menu('order')"/>
-    <div>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>상품명</th>
-          <th>가격</th>
-          <th>재고수량</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>상품아이디</td>
-          <td>상품명</td>
-          <td>상품가격</td>
-          <td>상품수량</td>
-          <td>
-            <a href="#" class="btn btn-primary" role="button">수정</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-  <footer class="blog-footer" th:replace="fragments/common :: footer"/>
+	<section>
+		<div class="container" th:replace="fragments/common :: menu('order')"/>
+		<main role="main" class="container pt-4">
+			<h3 class="pb-4 font-italic">ALL ORDERS</h3>
+
+			<div class="row d-flex justify-content-center">
+				<div class="pt-4 mx-4" style="width: 500px">
+					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
+						<div class="card-header">
+							<h4 class="my-0 font-weight-normal">주문정보</h4>
+						</div>
+						<div class="card-body">
+							<h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+							<ul class="list-unstyled mt-3 mb-4">
+								<li>아이템 1</li>
+								<li>아이템 2</li>
+								<li>아이템 3</li>
+								<li>아이템 4</li>
+							</ul>
+							<button type="button" class="btn btn-lg btn-block btn-outline-primary">수정하기</button>
+						</div>
+					</div>
+				</div>
+				<div class="pt-4 mx-4" style="width: 500px">
+					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
+						<div class="card-header">
+							<h4 class="my-0 font-weight-normal">주문정보</h4>
+						</div>
+						<div class="card-body">
+							<h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+							<ul class="list-unstyled mt-3 mb-4">
+								<li>아이템 1</li>
+								<li>아이템 2</li>
+								<li>아이템 3</li>
+								<li>아이템 4</li>
+							</ul>
+							<button type="button" class="btn btn-lg btn-block btn-outline-primary">수정하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</main>
+	</section>
+	<footer class="blog-footer" th:replace="fragments/common :: footer"/>
 </div>
 </body>
 </html>
