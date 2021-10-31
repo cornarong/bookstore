@@ -1,6 +1,6 @@
 package com.mytoy.bookstore.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Builder
+@Table(name = "orders")
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
@@ -34,51 +38,48 @@ public class Order {
 
     //== 양방향 연관관계 메서드 ==// : 양방향 관계 일 때 셋팅해주면 한쪽에서 처리가 가능하도록 해준다.
     // ex) member과 order의 연관관계 메서드, setMember하나 order처리와 동시에 내부에서 member도 처리해준다.
-    public void setMember(User user) {
+    public void setUser(User user) {
         this.user = user;
-        user.getOrder().add(this);
+        user.getOrders().add(this);
     }
 
-    public void addOrderItem(OrderBook orderBook){
-        orderBooks.add(orderBook);
-        orderBook.setOrder(this);
-    }
+//    public void addOrderBook(OrderBook orderBook){
+//        orderBooks.add(orderBook);
+//        orderBook.setOrder(this);
+//    }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
-        delivery.setOrder(this);
-    }
+//    public void setDelivery(Delivery delivery) {
+//        this.delivery = delivery;
+//        delivery.setOrder(this);
+//    }
 
-    //== 생성 메서드 ==//
-    public static Order createOrder(User user, Delivery delivery, OrderBook... orderBooks){
-        Order order = new Order();
-        order.setMember(user);
-        order.setDelivery(delivery);
-        for(OrderBook orderBook : orderBooks){
-            order.addOrderItem(orderBook);
-        }
-        order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
+    /* 생성 메서드 */
+    public static Order createOrder(User user, Delivery delivery, OrderBook orderBook){
+        Order order = Order.builder()
+                .user(user)
+                .delivery(delivery)
+                .orderBooks(new ArrayList<>())
+                .status(OrderStatus.ORDER)
+                .orderDate(LocalDateTime.now())
+                .build();
+        order.orderBooks.add(orderBook);
+        orderBook.saveOrder(order);
+        delivery.saveOrder(order);
         return order;
     }
 
-    //== 비즈니스 로직 ==//
-    /**
-     * 주문 취소
-     */
+    /* 주문 취소 */
     public void cancel(){
         if(delivery.getStatus() == DeliveryStatus.COMP){
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능 합니다.");
         }
-        this.setStatus(OrderStatus.CANCEL);
+        this.status = OrderStatus.CANCEL;
         for(OrderBook orderBook : orderBooks){
             orderBook.cancel();
         }
     }
-    //== 조회 로직 ==//
-    /**
-     * 전체 주문 가격 조회
-     */
+
+    /* 전체 주문 가격 조회 */
     public int getTotalPrice(){
         int totalPrice = 0;
         for(OrderBook orderBook : orderBooks){

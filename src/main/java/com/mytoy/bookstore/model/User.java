@@ -57,7 +57,7 @@ public class User {
     private List<Book> books = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Order> order = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     /**
      * 비즈니스 로직

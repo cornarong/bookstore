@@ -13,31 +13,4 @@ public interface BoardMapper {
     Board toBoardEntity(BoardDto boardDto);
 
     BoardDto toBoardDto(Board board);
-
-//    /* BoardDto -> BoardEntity */
-//    default Board toBoardEntity(BoardDto boardDto, User user){
-//        Board board = Board.builder()
-//                .title(boardDto.getTitle())
-//                .content(boardDto.getContent())
-//                .type("nomal")
-//                .regdate(LocalDate.now())
-//                .views(1)
-//                .user(user)
-//                .build();
-//        return board;
-//    }
-//
-//    /* BoardEntity -> BoardDto */
-//    default BoardDto toBoardDto(Board board){
-//        BoardDto boardDto = BoardDto.builder()
-//                .id(board.getId())
-//                .title(board.getTitle())
-//                .content(board.getContent())
-//                .type("nomal")
-//                .writer(board.getUser().getUid())
-//                .regdate(board.getRegdate())
-//                .views(board.getViews() + 1)
-//                .build();
-//        return boardDto;
-//    }
 }

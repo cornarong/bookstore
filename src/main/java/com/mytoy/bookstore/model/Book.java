@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,6 +46,9 @@ public class Book {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;          // 책 등록자
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<OrderBook> orderBooks = new ArrayList<>();
 
     /**
      * 비즈니스 로직

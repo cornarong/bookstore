@@ -1,48 +1,51 @@
 package com.mytoy.bookstore.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderBook {
 
     @Id @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "orders_id")
     private Order order;
 
     private int orderPrice; // 주문 가격
     private int count; // 주문 수량
 
-    //== 생성 메서드 ==//
-    public static OrderBook createOrderItem(Book book, int orderPrice, int count){
-        OrderBook orderBook = new OrderBook();
-        orderBook.setBook(book);
-        orderBook.setOrderPrice(orderPrice);
-        orderBook.setCount(count);
+    public void saveOrder(Order order){
+        this.order = order;
+    }
 
+    /* 생성 메서드 */
+    public static OrderBook createOrderBook(Book book, int orderPrice, int count){
+        OrderBook orderBook = OrderBook.builder()
+                .book(book)
+                .orderPrice(orderPrice)
+                .count(count)
+                .build();
         book.removeStock(count);
         return orderBook;
     }
 
-    //== 비즈니스 로직 ==//
     public void cancel() { // 재고수량을 원복 해준다.
         getBook().addStock(count);
     }
 
-    //== 조회 로직 ==//
 
-    /**
-     * 주문상품 전체 가격 조회
-     */
+    /*  주문상품 전체 가격 조회  */
     public int getTotalPrice() {
         int totalPrice = getOrderPrice() * getCount();
         return totalPrice;

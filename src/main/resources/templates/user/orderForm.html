@@ -9,7 +9,7 @@
 			<h3 class="pb-4 font-italic">ALL ORDERS</h3>
 
 			<div class="row d-flex justify-content-center">
-				<div class="pt-4 mx-4" style="width: 500px">
+				<div class="pt-4 mx-4" style="width: 500px" th:each="orderDto: ${orderDtoList}">
 					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
 						<div class="card-header">
 							<h4 class="my-0 font-weight-normal">주문정보</h4>
@@ -17,24 +17,9 @@
 						<div class="card-body">
 							<h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
 							<ul class="list-unstyled mt-3 mb-4">
-								<li>아이템 1</li>
-								<li>아이템 2</li>
-								<li>아이템 3</li>
-								<li>아이템 4</li>
-							</ul>
-							<button type="button" class="btn btn-lg btn-block btn-outline-primary">수정하기</button>
-						</div>
-					</div>
-				</div>
-				<div class="pt-4 mx-4" style="width: 500px">
-					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
-						<div class="card-header">
-							<h4 class="my-0 font-weight-normal">주문정보</h4>
-						</div>
-						<div class="card-body">
-							<h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-							<ul class="list-unstyled mt-3 mb-4">
-								<li>아이템 1</li>
+								<div th:each="orderBook : ${orderDto.orderBooks}">
+									<li th:text="${orderBook.book.title}">아이템 1</li>
+								</div>
 								<li>아이템 2</li>
 								<li>아이템 3</li>
 								<li>아이템 4</li>
