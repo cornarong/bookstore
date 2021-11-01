@@ -15,9 +15,7 @@
 							        th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</strong>
 							<strong class="d-inline-block mb-2 text-primary"
 							        th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</strong>
-							<a th:href="@{/store/{bookId}(bookId=${bookDto.id})}"><h3 class="mb-0"
-							                                                          th:text="${bookDto.title}">제목</h3>
-							</a>
+							<a th:href="@{/store/{bookId}(bookId=${bookDto.id})}"><h3 class="mb-0" th:text="${bookDto.title}">제목</h3></a>
 							<div class="mb-1 text-muted" th:text="|발행일 : ${bookDto.publishedDate}|">발행일</div>
 							<div class="card-text mb-auto" th:text="${bookDto.content}">내용 및 줄거리</div>
 							<div class="row">

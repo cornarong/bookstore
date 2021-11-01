@@ -63,12 +63,11 @@
 					<!-- 여기 본문 상단 -->
 					<div class="row">
 						<div class="col-md-6 pb-3 form-group">
-							<img class="form-control" id="thumbnail_container" th:src="'/files/고양이.jpg'"
-							     style="width: inherit; height: inherit;">
+							<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${bookDto.thumbnailName}" style="width: inherit; height: inherit;">
 						</div>
 						<div class="col-md-6 pb-3 form-group">
-							<h3 class="mb-3">콘이의 연대기</h3>
-							<h5 class="mb-3">정보1</h5>
+							<h3 class="mb-3" th:text="${bookDto.title}">제목</h3>
+							<h5 class="mb-3" th:text="${bookDto.subTitle}">부제목</h5>
 							<hr class="mb-4">
 							<h6 class="mb-3" th:text="|원가 : ${bookDto.price} 원|">가격</h6>
 							<h6 class="mb-3" th:text="|할인률 : ${bookDto.disRate}%|">할인률</h6>
@@ -127,11 +126,10 @@
 						</div>
 						<div class="col-md-5 mb-3 card p-2">
 							<div class="input-group">
-								<button class="btn-sm btn-secondary btn-block" type="submit">장바구니 담기</button>
+								<button class="btn-sm btn-secondary btn-block" type="button" th:onclick="|addBasket(${bookDto.id})|">장바구니 담기</button>
 							</div>
 						</div>
 					</div>
-
 				</form>
 			</div>
 		</main>
@@ -140,6 +138,28 @@
 </div>
 </body>
 <script>
+    /* 장바구니 담기 api */
+    function addBasket(bookId) {
+        console.log(cnt);
+        if(confirm("장바구니에 담겠습니까?") == true){
+            let cnt = document.getElementById('cnt').value;
+            $.ajax({
+                url: '/api/basket/' + bookId,
+                type: 'post',
+	            data: {
+                    cnt : parseInt(cnt)
+	            },
+                success: function () {
+                    alert('장바구니에 담았습니다');
+                    // window.location.href = '/admin/book';
+                },
+                error: function () {
+                    console.error();
+                    alert("post error");
+                }
+            });
+        }
+    };
 	<!-- 수량 증/감 및 자동 합계금액 계산 -->
     function count(type) {
         let cnt = document.getElementById('cnt').value;

@@ -58,7 +58,7 @@ public class BoardApiController {
 
     /* 게시글 삭제 */
     @DeleteMapping("/board/{boardId}")
-    void deleteBoard(@PathVariable Long boardId) {
+    void delete(@PathVariable Long boardId) {
         boardService.delete(boardId);
     }
 }

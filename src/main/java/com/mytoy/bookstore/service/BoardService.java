@@ -7,6 +7,7 @@ import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.BoardRepository;
 import com.mytoy.bookstore.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class BoardService {
 
-    @Autowired
-    private BoardRepository boardRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     /* 게시글 저장 하기 */
     @Transactional(readOnly = false)

@@ -59,6 +59,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Basket> baskets = new ArrayList<>();
+
     /**
      * 비즈니스 로직
      * 객체 지향에 가깝게 직접 엔티디에 설계함으로써 관리하기에도 편한다.
