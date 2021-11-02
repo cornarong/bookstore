@@ -35,9 +35,8 @@ public class Basket {
                 .user(user)
                 .book(book)
                 .quantity(quantity)
+                .regDate(LocalDateTime.now())
                 .build();
         return basket;
     }
-
-
 }

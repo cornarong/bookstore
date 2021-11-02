@@ -18,7 +18,9 @@ public class OrderDto {
     private Delivery delivery;
     private LocalDateTime orderDate;
     private OrderStatus status;
+    private int totalPrice;
 
+    /* 생성 메소드 */
     public OrderDto createOrderDto(Order order){
         this.id = order.getId();
         this.user = order.getUser();
@@ -26,6 +28,7 @@ public class OrderDto {
         this.delivery = order.getDelivery();
         this.orderDate = order.getOrderDate();
         this.status = order.getStatus();
+        this.totalPrice = order.totalPrice(order.getOrderBooks());
         return this;
     }
 

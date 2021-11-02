@@ -30,10 +30,10 @@ public class OrderBook {
     }
 
     /* 생성 메서드 */
-    public static OrderBook createOrderBook(Book book, int orderPrice, int count){
+    public static OrderBook createOrderBook(Book book, int count){
         OrderBook orderBook = OrderBook.builder()
                 .book(book)
-                .orderPrice(orderPrice)
+                .orderPrice(book.getDisPrice())
                 .count(count)
                 .build();
         book.removeStock(count);
@@ -45,8 +45,8 @@ public class OrderBook {
     }
 
 
-    /*  주문상품 전체 가격 조회  */
-    public int getTotalPrice() {
+    /* 주문 합계 금액 */
+    public int totalPrice() {
         int totalPrice = getOrderPrice() * getCount();
         return totalPrice;
     }

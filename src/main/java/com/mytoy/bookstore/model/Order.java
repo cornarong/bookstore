@@ -1,6 +1,7 @@
 package com.mytoy.bookstore.model;
 
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -54,7 +55,7 @@ public class Order {
 //    }
 
     /* 생성 메서드 */
-    public static Order createOrder(User user, Delivery delivery, OrderBook orderBook){
+    public static Order createOrder(User user, Delivery delivery, OrderBook... orderBooks){
         Order order = Order.builder()
                 .user(user)
                 .delivery(delivery)
@@ -62,8 +63,10 @@ public class Order {
                 .status(OrderStatus.ORDER)
                 .orderDate(LocalDateTime.now())
                 .build();
-        order.orderBooks.add(orderBook);
-        orderBook.saveOrder(order);
+        for(OrderBook orderBook : orderBooks){
+            order.orderBooks.add(orderBook);
+            orderBook.saveOrder(order);
+        }
         delivery.saveOrder(order);
         return order;
     }
@@ -79,11 +82,11 @@ public class Order {
         }
     }
 
-    /* 전체 주문 가격 조회 */
-    public int getTotalPrice(){
+    /* 주문 합계 금액 */
+    public int totalPrice(List<OrderBook> orderBooks) {
         int totalPrice = 0;
         for(OrderBook orderBook : orderBooks){
-            totalPrice += orderBook.getTotalPrice();
+            totalPrice += orderBook.totalPrice();
         }
         return totalPrice;
     }

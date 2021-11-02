@@ -12,19 +12,39 @@
 				<div class="pt-4 mx-4" style="width: 500px" th:each="orderDto: ${orderDtoList}">
 					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
 						<div class="card-header">
-							<h4 class="my-0 font-weight-normal">주문정보</h4>
+							<h4 class="font-weight-normal">주문정보</h4>
+							<span class="text-muted" th:text="'상태 : ' + ${orderDto.status}"></span>
 						</div>
 						<div class="card-body">
-							<h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-							<ul class="list-unstyled mt-3 mb-4">
-								<div th:each="orderBook : ${orderDto.orderBooks}">
-									<li th:text="${orderBook.book.title}">아이템 1</li>
+							<div class="row d-flex justify-content-center">
+								<h3>결제금액：</h3>
+								<h3 th:text="'&#8361;' + ${orderDto.totalPrice}">합계금액</h3>
+							</div>
+							<ul class="list-unstyled mt-3">
+								<div>
+									<table class="table">
+										<tr>
+											<th scope="col">번호</th>
+											<th scope="col">제목</th>
+											<th scope="col">수량</th>
+											<th scope="col">가격</th>
+										</tr>
+										<tr th:each="orderBook, iterState : ${orderDto.orderBooks}">
+											<td th:text="${iterState.index + 1}"></td>
+											<td th:text="${orderBook.book.title}"></td>
+											<td th:text="${orderBook.count}"></td>
+											<td th:text="'&#8361;' + ${orderBook.book.disPrice}"></td>
+										</tr>
+									</table>
 								</div>
-								<li>아이템 2</li>
-								<li>아이템 3</li>
-								<li>아이템 4</li>
 							</ul>
-							<button type="button" class="btn btn-lg btn-block btn-outline-primary">수정하기</button>
+							<hr>
+							<div class="row d-flex justify-content-end align-items-center">
+							<span class="text-muted" th:text="'주문일시 : ' + ${#temporals.format(orderDto.orderDate, '20'+'yy-mm-dd HH:mm')}"></span>
+								<div class="col-lg-4 col-md-6">
+									<button type="button" class="btn btn-outline-danger" th:onclick="|deleteOrder(${orderDto.id})|">주문취소</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -35,4 +55,22 @@
 	<footer class="blog-footer" th:replace="fragments/common :: footer"/>
 </div>
 </body>
+<script>
+    /* 주문내역 삭제 api */
+    function deleteOrder(orderId) {
+        if(confirm("해당 주문내역을 삭제 하시겠습니까?") == true){
+            $.ajax({
+                url: '/api/board/' + orderId,
+                type: 'DELETE',
+                success: function (){
+                    alert('삭제 되었습니다');
+                    window.location.href = '/board';
+                },
+                error: function (){
+                    alert("delete error");
+                }
+            });
+        }
+    };
+</script>
 </html>

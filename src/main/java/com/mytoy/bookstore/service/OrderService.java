@@ -4,6 +4,7 @@ import com.mytoy.bookstore.dto.OrderDto;
 import com.mytoy.bookstore.mapper.OrderMapper;
 import com.mytoy.bookstore.mapper.OrderMapperImpl;
 import com.mytoy.bookstore.model.*;
+import com.mytoy.bookstore.repository.BasketRepository;
 import com.mytoy.bookstore.repository.BookRepository;
 import com.mytoy.bookstore.repository.OrderRepository;
 import com.mytoy.bookstore.repository.UserRepository;
@@ -27,19 +28,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final BasketRepository basketRepository;
 
-    /* 내 주문 전체 조회 */
+    /* 주문내역 전체 조회 */
     public List<OrderDto> orders(String uid){
         Long userId = userRepository.findByUid(uid).getId();
         List<Order> orders = orderRepository.findAllByUserId(userId);
-        log.info("orderBooks 1 > = {}", orders.get(0).getOrderBooks().get(0).getBook().getTitle());
-        log.info("orderBooks 2 > = {}", orders.get(1).getOrderBooks().get(0).getBook().getTitle());
         List<OrderDto> orderDtoList = new ArrayList<>();
-
-//        ## Mapstruct 매핑방식 잠시 보류. ##
-//        OrderMapper orderMapper = new OrderMapperImpl();
-//        OrderDto orderDto = orderMapper.toOrderDto(order);
-//        orderDtoList.add(orderDto);
 
         for(Order order : orders){
             OrderDto orderDto = new OrderDto().createOrderDto(order);
@@ -58,7 +53,7 @@ public class OrderService {
         Delivery delivery = Delivery.builder().status(DeliveryStatus.READY).build();
         delivery.saveAddress(user.getAddress());
         // 주문/책 생성
-        OrderBook orderBook = OrderBook.createOrderBook(book, book.getDisPrice(), count);
+        OrderBook orderBook = OrderBook.createOrderBook(book, count);
         // 주문 생성
         Order order = Order.createOrder(user, delivery, orderBook);
 
@@ -72,5 +67,27 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElse(null);
         // 주문 취소
         order.cancel();
+    }
+
+    /* 장바구니 주문 */
+    @Transactional
+    public void basketOrder(String uid){
+        User user = userRepository.findByUid(uid);
+        Long userId = user.getId();
+        // 배송 생성
+        Delivery delivery = Delivery.builder().status(DeliveryStatus.READY).build();
+        delivery.saveAddress(user.getAddress());
+
+        List<Basket> basketList = basketRepository.findAllByUserId(user.getId());
+
+        // 주문/책 생성
+        OrderBook[] orderBooks = new OrderBook[basketList.size()];
+        for(int i=0; i<basketList.size(); i++){
+            orderBooks[i] = OrderBook.createOrderBook(basketList.get(i).getBook(), basketList.get(i).getQuantity());
+        }
+
+        // 주문 생성
+        Order order = Order.createOrder(user, delivery, orderBooks);
+        orderRepository.save(order);
     }
 }

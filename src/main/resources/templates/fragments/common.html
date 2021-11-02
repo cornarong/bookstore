@@ -56,13 +56,13 @@
 
             <a th:href="@{/account/register}" class="btn btn-sm btn-outline-secondary" sec:authorize="!isAuthenticated()">회원가입</a>
 
-            <a th:href="@{/user/basket}" class="btn btn-sm mx-1"
+            <a th:href="@{/basket}" class="btn btn-sm mx-1"
                th:classappend="${menu} == 'basket' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">장바구니</a>
 
-            <a th:href="@{/user/order}" class="btn btn-sm mx-1"
+            <a th:href="@{/order}" class="btn btn-sm mx-1"
                th:classappend="${menu} == 'order' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">주문내역</a>
 
-            <a th:href="@{/user/info}" class="btn btn-sm mx-1"
+            <a th:href="@{/info}" class="btn btn-sm mx-1"
                th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-secondary'"sec:authorize="isAuthenticated()">내 정보</a>
 
             <form class="form-inline my-2 my-lg-0 mx-1" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">

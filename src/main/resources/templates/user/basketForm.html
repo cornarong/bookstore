@@ -25,18 +25,14 @@
 											<span class="my-0" th:text="${basketDto.title}">책제목</span>
 										</div>
 										<div class="col-mb-1" style="align-self:center;">
-											<div class="d-flex justify-content-center" id="cntParent">
-												<button class="btn-light border" onclick='count(this)'>-</button>
-												<span class="mx-2" maxlength="3" th:text="${basketDto.quantity}">수량</span>
-												<button class="btn-light border" onclick='count(this)'>+</button>
-											</div>
+											<small class="text-muted" th:text="|주문수량 : ${basketDto.quantity}|">수량</small>
 										</div>
 										<div class="col-mb-1" style="align-self:center; display: inline-grid;">
 											<small class="text-muted" th:text="|상품가격 : ${basketDto.price}원|">가격</small>
 											<small class="text-muted" th:text="|적용된 할인률 : ${basketDto.disRate}%|">할인률</small>
 										</div>
 										<div class="col-mb-1" style="align-self:center;">
-											<span id="disPrice" th:text="'구매가：&#8361;' + ${basketDto.disPrice * basketDto.quantity}">구매가</span>
+											<span id="disPrice" th:text="'구매가：&#8361; ' + ${basketDto.disPrice * basketDto.quantity}">구매가</span>
 
 										</div>
 										<div class="col-mb-1" style="align-self:center;">
@@ -47,11 +43,11 @@
 
 								<ul class="list-group mb-3">
 									<li class="list-group-item d-flex justify-content-center lh-condensed">
-										<span th:text="'총 결제가격：&#8361;' + ${totalPrice} + ' + 배송비?'"></span>
+										<span th:text="'총 구매 가격：&#8361; ' + ${totalPrice}"></span>
 									</li>
 								</ul>
 
-								<form class="card p-2">
+								<form class="card p-2" th:action="@{/basket}" method="post">
 									<div class="input-group">
 										<button class="btn btn-primary btn-block" type="submit">구매하기</button>
 									</div>
@@ -80,35 +76,6 @@
                 }
             });
         }
-    };
-    <!-- 수량 증/감 및 자동 구매가 계산 -->
-    function count(e) {
-
-        if(e.textContent == '-'){
-            console.log("마이너스 "+e.textContent)
-	        let cnt = Number($(e).element);
-            if(cnt == 1) return;
-            $(e).next().text(cnt - 1);
-
-
-        }else{
-            console.log("플러스 "+e.textContent)
-            let cnt = Number($(e).prev().text());
-            $(e).prev().text(cnt + 1);
-        }
-
-
-        // let disPrice = document.getElementById('disPrice').value;
-        // if (type === 'plus') {
-        //     cnt = parseInt(cnt) + 1;
-        // } else if (type === 'minus') {
-        //     cnt = parseInt(cnt) - 1;
-        // }
-        // if(cnt >= 1) {
-        //     if(cnt == 0) return;
-        //     document.getElementById('cnt').value = cnt;
-        //     document.getElementById('totalPrice').innerText = '￦ ' + (disPrice * cnt).toLocaleString();
-        // }
     }
 </script>
 </html>
