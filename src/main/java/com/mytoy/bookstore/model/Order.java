@@ -44,16 +44,6 @@ public class Order {
         user.getOrders().add(this);
     }
 
-//    public void addOrderBook(OrderBook orderBook){
-//        orderBooks.add(orderBook);
-//        orderBook.setOrder(this);
-//    }
-
-//    public void setDelivery(Delivery delivery) {
-//        this.delivery = delivery;
-//        delivery.setOrder(this);
-//    }
-
     /* 생성 메서드 */
     public static Order createOrder(User user, Delivery delivery, OrderBook... orderBooks){
         Order order = Order.builder()

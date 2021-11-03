@@ -30,6 +30,7 @@ public class BasketController {
     @GetMapping
     public String basket(Model model, Authentication authentication){
         String uid = authentication.getName();
+
         List<BasketDto> basketDtoList = basketService.all(uid);
         int totalPrice = basketService.totalPrice(basketDtoList);
 
@@ -42,7 +43,9 @@ public class BasketController {
     @PostMapping
     public String basketOrder(Authentication authentication){
         String uid = authentication.getName();
+
         orderService.basketOrder(uid);
+        basketService.deleteAll(uid);
 
         return "redirect:/order";
     }

@@ -4,10 +4,8 @@ import com.mytoy.bookstore.repository.OrderRepository;
 import com.mytoy.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -17,10 +15,19 @@ public class OrderApiController {
 
     private final OrderService orderService;
 
+    /* 주문 취소 하기 */
+    @PutMapping("/order/{orderId}")
+    public void edit(@PathVariable Long orderId){
+        log.info("orderId >>> {}", orderId);
+
+        orderService.edit(orderId);
+    }
+
+    /* 내역 삭제 하기 */
     @DeleteMapping("/order/{orderId}")
     public void delete(@PathVariable Long orderId){
 
-        orderService.
-
+        orderService.delete(orderId);
     }
+
 }

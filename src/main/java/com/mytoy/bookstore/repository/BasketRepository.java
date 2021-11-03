@@ -9,4 +9,6 @@ public interface BasketRepository extends JpaRepository<Basket, Long> {
 
     List<Basket> findAllByUserId(Long id);
 
+    void deleteAllByUserId(Long userId);
+
 }

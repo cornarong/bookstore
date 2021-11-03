@@ -28,11 +28,11 @@
 											<small class="text-muted" th:text="|주문수량 : ${basketDto.quantity}|">수량</small>
 										</div>
 										<div class="col-mb-1" style="align-self:center; display: inline-grid;">
-											<small class="text-muted" th:text="|상품가격 : ${basketDto.price}원|">가격</small>
-											<small class="text-muted" th:text="|적용된 할인률 : ${basketDto.disRate}%|">할인률</small>
+											<small class="text-muted" th:text="|상품가격 : ${#numbers.formatInteger(basketDto.price, 0, 'COMMA')}원|">가격</small>
+											<small class="text-muted" th:text="|* 적용된 할인률 : ${basketDto.disRate}%|">할인률</small>
 										</div>
 										<div class="col-mb-1" style="align-self:center;">
-											<span id="disPrice" th:text="'구매가：&#8361; ' + ${basketDto.disPrice * basketDto.quantity}">구매가</span>
+											<span id="disPrice" th:text="'구매가：&#8361; ' + ${#numbers.formatInteger(basketDto.disPrice * basketDto.quantity, 0, 'COMMA')}">구매가</span>
 
 										</div>
 										<div class="col-mb-1" style="align-self:center;">
@@ -43,13 +43,18 @@
 
 								<ul class="list-group mb-3">
 									<li class="list-group-item d-flex justify-content-center lh-condensed">
-										<span th:text="'총 구매 가격：&#8361; ' + ${totalPrice}"></span>
+										<span th:if="${basketDtoList.size() != 0}">
+											<strong th:text="'총 구매가격：&#8361; ' + ${#numbers.formatInteger(totalPrice, 0, 'COMMA')}"></strong>
+										</span>
+										<span th:if="${basketDtoList.size() == 0}">
+											<strong>장바구니가 비어있습니다</strong>
+										</span>
 									</li>
 								</ul>
 
-								<form class="card p-2" th:action="@{/basket}" method="post">
+								<form class="card p-2" id="basketOrder" th:action="@{/basket}" method="post">
 									<div class="input-group">
-										<button class="btn btn-primary btn-block" type="submit">구매하기</button>
+										<button type="button" class="btn btn-primary btn-block" th:onclick="|askOrder()|">전체 주문하기</button>
 									</div>
 								</form>
 
@@ -61,6 +66,17 @@
 		</div>
 	</body>
 <script>
+    /* 장바구니 주문 */
+	function askOrder(){
+        if([[${basketDtoList.size()}]] == 0){
+            alert("장바구니가 비어있습니다 ")
+        }else{
+            if(confirm("상품을 전체 주문하시겠습니까?") == true){
+	            let form = document.getElementById('basketOrder');
+	            form.submit();
+            }
+        }
+	}
     /* 장바구니 삭제 api */
     function deleteBasket(basketId) {
         if(confirm("해당 상품을 삭제하시겠습니까?") == true){
@@ -69,7 +85,7 @@
                 type: 'DELETE',
                 success: function (){
                     alert('삭제 되었습니다');
-                    window.location.href = '/user/basket';
+                    window.location.href = '/basket';
                 },
                 error: function (){
                     alert("delete error");

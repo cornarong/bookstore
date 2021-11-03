@@ -46,17 +46,24 @@ public class BasketService {
         basketRepository.save(basket);
     }
 
-    /* 장바구니 삭제 하기 */
+    /* 장바구니 삭제*/
     @Transactional
     public void delete(Long basketId){
         basketRepository.deleteById(basketId);
+    }
+
+    /* 장바구니 전체 삭제*/
+    @Transactional
+    public void deleteAll(String uid){
+        Long userId = userRepository.findByUid(uid).getId();
+        basketRepository.deleteAllByUserId(userId);
     }
 
     /* 총 합계 금액 */
     public int totalPrice(List<BasketDto> basketDtoList){
         int totalPrice = 0;
         for(BasketDto basketDto : basketDtoList){
-            totalPrice += (basketDto.getPrice() * basketDto.getQuantity());
+            totalPrice += (basketDto.getDisPrice() * basketDto.getQuantity());
         }
         return totalPrice;
     }

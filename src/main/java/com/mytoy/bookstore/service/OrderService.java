@@ -60,15 +60,6 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    /* 주문 취소 */
-    @Transactional
-    public void cancelOrder(Long orderId){
-        // 주문 엔티티 조회
-        Order order = orderRepository.findById(orderId).orElse(null);
-        // 주문 취소
-        order.cancel();
-    }
-
     /* 장바구니 주문 */
     @Transactional
     public void basketOrder(String uid){
@@ -89,5 +80,18 @@ public class OrderService {
         // 주문 생성
         Order order = Order.createOrder(user, delivery, orderBooks);
         orderRepository.save(order);
+    }
+
+    /* 주문 취소 하기 */
+    @Transactional
+    public void edit(Long orderId){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        order.cancel();
+    }
+
+    /* 내역 삭제 하기 */
+    @Transactional
+    public void delete(Long orderId){
+        orderRepository.deleteById(orderId);
     }
 }

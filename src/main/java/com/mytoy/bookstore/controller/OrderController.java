@@ -35,7 +35,7 @@ public class OrderController {
         String uid = authentication.getName();
         orderService.order(bookId, uid, cnt);
 
-        return "redirect:/user/order";
+        return "redirect:/order";
     }
 
 }
