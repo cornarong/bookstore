@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link th:href="@{/css/kyoboCustom.css}" href="../css/kyoboCustom.css" rel="stylesheet">
 <body>
 <div id='wrap'>
 	<section>
@@ -58,7 +59,10 @@
 					<!-- 여기 본문 상단 -->
 					<div class="row">
 						<div class="col-md-6 pb-3 form-group">
-							<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${bookDto.thumbnailName}" style="width: inherit; height: inherit;">
+							<img class="form-control" style="width: inherit; height: inherit;"
+							     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}">
+							<img class="form-control" style="width: inherit; height: inherit;"
+							     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}">
 						</div>
 						<div class="col-md-6 pb-3 form-group">
 							<h6 class="mb-3" th:text="${bookDto.type} + ' 도서'">타입</h6>
@@ -86,12 +90,10 @@
 						</h4>
 <!--						<pre type="text" class="form-control" style="height: 250px;" th:text="${bookDto.content}"/>-->
 
-						<!-- *** s:상세이미지 *** -->
-						<h2 class="title_detail_basic">상세이미지</h2>
-						<div class="box_detail_article">
-							<img src="http://image.kyobobook.co.kr/images/book/illustrate/729/i9791165343729.jpg"  alt="달러구트 꿈 백화점. 2 도서 상세이미지"/>
-						</div>
-						<!-- *** //e:상세이미지 *** -->
+
+						<!-- 여기 내용 부분 -->
+
+
 
 					</div>
 
@@ -136,6 +138,17 @@
 </div>
 </body>
 <script>
+	/* 더보기 항목 */
+    $('.btn_more').click(function(e){
+        e.preventDefault();
+        var $boxes = $(this).closest('.box_detail_article').find('.content');
+        var isFirst = $boxes.first().is(':visible');
+        var speed = isFirst ? 300 : 0;
+        $('body, html').animate({ scrollTop: $(this).closest('.box_detail_article').offset().top -30 -50 }, speed);
+        $boxes.eq( isFirst ? 0 : 1 ).hide();
+        $boxes.eq( isFirst ? 1 : 0 ).show();
+    });
+
     /* 장바구니 주문 */
     function askOrder(){
         if([[${basketDtoList.size()}]] == 0){

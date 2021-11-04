@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -24,7 +25,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated(EnumType.STRING) // 잠시 대기 이슈해결 후 처리 예정.
+    @Enumerated(EnumType.STRING)
     private BookType type;      // 타입
 
     private String title;       // 제목
@@ -39,8 +40,8 @@ public class Book {
     private int disPrice;       // 할인가
     private int quantity;       // 수량
     private int shippingFee;    // 배송비
-    private String thumbnailName; // 섬네일
-    private String thumbnailPath; // 섬네일 물리 경로
+    private String thumbnailType; // 책 이미지 타입(파일 or url)
+    private String thumbnailPath; // 책 이미지 물리 경로
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -58,6 +59,28 @@ public class Book {
      * 객체 지향에 가깝게 직접 엔티디에 설계함으로써 관리하기에도 편한다.
      */
 
+    /* 생성자 메소드 */
+    public static Book createBook(BookType bookType, String title, String subTitle, String author, String publisher, LocalDate publishedDate,
+                              int price, int disRate, int disPrice, String imageUrl, String content, User user){
+        Book book = Book.builder()
+                .type(bookType)
+                .title(title)
+                .subTitle(subTitle)
+                .author(author)
+                .publisher(publisher)
+                .publishedDate(publishedDate)
+                .regDate(LocalDate.now())
+                .price(price)
+                .disRate(disRate)
+                .disPrice(disPrice)
+                .quantity((int)(Math.random()*(50 - 1)) + 1)
+                .shippingFee(0)
+                .thumbnailType(imageUrl)
+                .content(content)
+                .user(user)
+                .build();
+        return book;
+    }
     /* 책 등록자 저장 */
     public void registrant(Book book, User user){
         this.user = user;
@@ -74,10 +97,10 @@ public class Book {
             String baseDir = "D:\\study\\profile_image"; // 현재 회원 프로필 물리경로와 같은 경로를 사용중..(임시)
             String filePath = baseDir + "\\" + thumbnail.getOriginalFilename();
             thumbnail.transferTo(new File(filePath));
-            this.thumbnailName = thumbnail.getOriginalFilename();
+            this.thumbnailType = thumbnail.getOriginalFilename();
             this.thumbnailPath = filePath;
         }else{
-            this.thumbnailName = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
+            this.thumbnailType = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
             this.thumbnailPath = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
         }
     }
@@ -90,16 +113,17 @@ public class Book {
         this.content = bookDto.getContent();
         this.subTitle = bookDto.getSubTitle();
         this.quantity = bookDto.getQuantity();
+        this.author = bookDto.getAuthor();
         this.publisher = bookDto.getPublisher();
         this.publishedDate = LocalDate.parse(bookDto.getPublishedDate());
         this.price = bookDto.getPrice();
         this.disRate = bookDto.getDisRate();
         this.disPrice = bookDto.getDisPrice();
         this.shippingFee = bookDto.getShippingFee();
-        if(bookDto.getThumbnail().getSize() != 0 || bookDto.getThumbnailName().equals("noImage.jpg")){
+        if(bookDto.getThumbnail().getSize() != 0 || bookDto.getThumbnailType().equals("noImage.jpg")){
             this.saveThumbnail(bookDto.getThumbnail());
         }else{
-            this.thumbnailName = bookDto.getThumbnailName();
+            this.thumbnailType = bookDto.getThumbnailType();
             this.thumbnailPath = bookDto.getThumbnailPath();
         }
     }

@@ -1,0 +1,29 @@
+/* 책소개 본문, 목차, 책속으로, 출판사 서평, 저자소개 */
+.box_detail_article {margin-top:10px;line-height:22px;*zoom:1;}
+.box_detail_article:after {content:'';display:block;clear:both;}
+.box_detail_article .photo {float:left;margin:2px 10px 8px 0;}
+.box_detail_article .photo img {border:1px solid #ddd;width:96px;}
+.box_detail_article img {max-width:690px;}
+.box_detail_author {margin-top:-20px;min-height:20px;}
+.box_detail_author .box_detail_article {margin-top:20px;}
+
+/* °øÅë¿ä¼Ò */
+.title_detail_basic {font-size:20px;font-weight: bold;line-height:18px;height:26px;margin-top:45px;color:#000;font-family:'Malgun Gothic','Apple SD Gothic Neo','Dotum','Sans-Serif';}
+.title_detail_basic small {margin-left:4px;font-size:12px;font-weight:normal;color:#444;font-family:dotum;}
+.title_detail_basic small em {color:#3c5fdf;font-style:normal;}
+.title_detail_basic a {color:#000;}
+.title_detail_basic a:hover,
+.title_detail_basic a:active {color:#3c5fdf;text-decoration:underline;}
+.title_detail_basic img {vertical-align:baseline;}
+.title_detail_basic .total {font-size:14px;color:#3c5fdf;font-weight:normal;font-style:normal;}
+
+.title_detail_basic2 {margin:40px 0 7px;font-size:12px;color:#555;font-weight: bold; line-height: 1.5;}
+
+/* »ó¼¼ÆäÀÌÁö ³»¿ë ¹Ú½º */
+.box_detail_content {padding:30px 40px 60px 20px;word-wrap:break-word;}
+.box_detail_content .title_detail_basic {margin-top:40px;height:auto;}
+.box_detail_content .title_detail_basic:first-child {margin-top:0;}
+.box_detail_content .title_detail_first {margin-top:0;} /* IE7 ÆÐÄ¡ */
+.box_detail_content .hd {overflow:hidden;}
+.box_detail_content .hd .title_detail_basic {display:inline-block;}
+.box_detail_content .hd small em {color:#3c5fdf;font-style:normal;}

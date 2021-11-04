@@ -8,27 +8,53 @@
 		<div class="container pt-4">
 			<h3 class="pb-4 font-italic">Show Book list</h3>
 			<div class="row mb-2">
-				<div class="col-md-6" th:each="bookDto : ${bookDtoList}">
-					<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-						<div class="col p-4 d-flex flex-column position-static">
-							<strong class="d-inline-block mb-2 text-primary"
-							        th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</strong>
-							<strong class="d-inline-block mb-2 text-primary"
-							        th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</strong>
-							<a th:href="@{/store/{bookId}(bookId=${bookDto.id})}"><h3 class="mb-0" th:text="${bookDto.title}">제목</h3></a>
-							<div class="mb-1 text-muted" th:text="|발행일 : ${bookDto.publishedDate}|">발행일</div>
-							<div class="card-text mb-auto" th:text="${bookDto.content}">내용 및 줄거리</div>
-							<div class="row">
-								<a href="#" class="mx-2">장바구니</a>
-								<a href="#">구매하기</a>
+				<div class="col-md-6 mb-3" th:each="bookDto : ${bookDtoList}">
+
+					<div class="row no-gutters border rounded overflow-hidden mb-3">
+
+						<div class="col-sm-8 d-flex flex-column bd-highlight">
+							<div class="mx-2 pt-2">
+								<span style="font-weight: bold" th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</span>
+								<span style="font-weight: bold" th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</span>
+							</div>
+							<div class="mx-2 pt-2">
+								<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+									<h3 style="font-weight: bold" th:text="${bookDto.title}">제목</h3>
+								</a>
+							</div>
+							<div class="mx-2">
+								<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+									<span class="text-muted" th:text="${bookDto.subTitle}">부제목</span>
+								</a>
+							</div>
+							<div class="mx-2">
+								<small class="text-muted" th:text="${bookDto.author} + ' 지음'">작가</small>
+							</div>
+							<div class="mx-2 mb-auto">
+								<small class="text-muted" th:text="'발행일 : ' + ${bookDto.publishedDate}">발행일</small>
+							</div>
+							<div class="mx-2 pb-2">
+								<hr class="mb-2">
+								<span th:text="'판매가 : ' + ${#numbers.formatInteger(bookDto.disPrice, 0, 'COMMA')} + '원'">가격</span>
+								<small class="mx-0" style="color: #dc3545" th:text="|(${bookDto.disRate}% 할인)|">할인률</small>
+							</div>
+							<div class="mx-2 pb-2">
+								<button type="button" class="btn btn-sm btn-outline-secondary" href="#">장바구니</button>
+								<button type="button" class="btn btn-sm btn-outline-success" href="#">구매하기</button>
 							</div>
 						</div>
-						<div class="col">
+
+						<div class="col-sm-4">
 							<a th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
-								<img style="width: inherit; height: 248px; border:solid 3px; border-color:#6c757d;" th:src="'/files/' + ${bookDto.thumbnailName}"/>
+								<img style="width: -webkit-fill-available; height: 248px; border:solid 3px; border-color:#6c757d;"
+								     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
+								<img style="width: -webkit-fill-available; height: 248px; border:solid 3px; border-color:#6c757d;"
+								     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
 							</a>
 						</div>
+
 					</div>
+
 				</div>
 			</div>
 		</div>

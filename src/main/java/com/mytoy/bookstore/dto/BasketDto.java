@@ -23,7 +23,7 @@ public class BasketDto {
     private int quantity;
     private int shippingFee;
 
-    private String thumbnailName;
+    private String thumbnailType;
 
 
     /* 장바구니Dto 생성 메소드 */
@@ -36,7 +36,7 @@ public class BasketDto {
                 .disPrice(basket.getBook().getDisPrice())
                 .shippingFee(basket.getBook().getShippingFee())
                 .quantity(basket.getQuantity())
-                .thumbnailName(basket.getBook().getThumbnailName())
+                .thumbnailType(basket.getBook().getThumbnailType())
                 .build();
         return basketDto;
     }

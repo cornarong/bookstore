@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -40,12 +41,12 @@ public class BookDto {
     private String uid;         // 등록자
 
     private MultipartFile thumbnail; // 책 이미지 객체
-    private String thumbnailName; // 책 이미지 파일명
+    private String thumbnailType; // 책 이미지 타입(파일 or url)
     private String thumbnailPath; // 책 이미지 물리경로
 
     /* 첨부파일 기본값 처리 */
     public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 보여지는 DTO 기본값 처리.
-        this.thumbnailName = "noImage.jpg";
+        this.thumbnailType = "noImage.jpg";
         this.thumbnailPath = "";
     }
 }

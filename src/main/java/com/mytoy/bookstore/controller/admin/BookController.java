@@ -29,7 +29,6 @@ public class BookController {
         List<BookDto> bookDtoList = bookService.all();
 
         model.addAttribute("bookDtoList", bookDtoList);
-
         return "/admin/book/list";
     }
 
@@ -39,7 +38,6 @@ public class BookController {
         BookDto bookDto = new BookDto();
 
         model.addAttribute("bookDto", bookDto);
-
         return "admin/book/addForm";
     }
 
@@ -55,7 +53,6 @@ public class BookController {
         Long bookId = bookService.add(bookDto, uid);
 
         redirectAttributes.addAttribute("save", true);
-
         return "redirect:/admin/book/" + bookId;
     }
 
@@ -67,7 +64,6 @@ public class BookController {
 
         model.addAttribute("bookDto", bookDto);
         model.addAttribute("auth_uid", uid);
-
         return "/admin/book/detail";
     }
 
@@ -77,7 +73,6 @@ public class BookController {
         BookDto bookDto = bookService.detail(bookId);
 
         model.addAttribute("bookDto", bookDto);
-
         return "/admin/book/editForm";
     }
 
@@ -92,7 +87,6 @@ public class BookController {
         bookService.edit(bookId, bookDto);
 
         redirectAttributes.addAttribute("edit", true);
-
         return "redirect:/admin/book/" + bookId;
     }
  }

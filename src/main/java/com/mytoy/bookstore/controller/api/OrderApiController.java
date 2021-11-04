@@ -1,10 +1,8 @@
 package com.mytoy.bookstore.controller.api;
 
-import com.mytoy.bookstore.repository.OrderRepository;
 import com.mytoy.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
