@@ -75,10 +75,10 @@
       <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
           <div>
-            <a th:href="@{/}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
-            <a th:href="@{/store}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'store'? 'font-weight-bold' : ''">모든도서</a>
-            <a href="#" class="p-2 text-muted">국내도서</a>
-            <a href="#" class="p-2 text-muted">외국도서</a>
+            <a href="#" th:href="@{/}" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
+            <a href="#" th:href="@{/store}" class="p-2 text-muted" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
+            <a href="#" th:href="@{/store(type = K)}" class="p-2 text-muted" th:classappend="${menu} == 'KoreaBook'? 'font-weight-bold' : ''">국내도서</a>
+            <a href="#" th:href="@{/store(type = F)}" class="p-2 text-muted" th:classappend="${menu} == 'foreignBook'? 'font-weight-bold' : ''">외국도서</a>
             <a href="#" class="p-2 text-muted">신작도서</a>
             <a th:href="@{/board}" href="#" class="p-2 text-muted" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
           </div>

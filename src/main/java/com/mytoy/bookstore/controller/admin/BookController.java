@@ -1,9 +1,13 @@
 package com.mytoy.bookstore.controller.admin;
 
 import com.mytoy.bookstore.dto.BookDto;
+import com.mytoy.bookstore.model.BookType;
 import com.mytoy.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +29,9 @@ public class BookController {
 
     /* 책관리 목록 */
     @GetMapping("/book")
-        public String list(Model model){
-        List<BookDto> bookDtoList = bookService.all();
+        public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
+        BookType bookType = null;
+        Page<BookDto> bookDtoList = bookService.all(searchTerm, bookType, pageable);
 
         model.addAttribute("bookDtoList", bookDtoList);
         return "/admin/book/list";

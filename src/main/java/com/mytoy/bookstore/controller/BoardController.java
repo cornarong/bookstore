@@ -35,8 +35,8 @@ public class BoardController {
     /* 게시글 목록 */
     @GetMapping
     public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
-        Page<Board> boardList = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
-        Page<BoardDto> boardDtoList = new BoardDto().toDtoList(boardList); // Page<Entity> -> Page<Dto> 변환.
+        Page<BoardDto> boardDtoList = boardService.all(pageable, searchTerm);
+
         int startPage = Math.max(1, boardDtoList.getPageable().getPageNumber() - 10);
         int endPage = Math.min(boardDtoList.getTotalPages(), boardDtoList.getPageable().getPageNumber() + 10);
 

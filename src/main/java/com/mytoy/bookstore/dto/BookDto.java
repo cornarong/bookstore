@@ -1,13 +1,21 @@
 package com.mytoy.bookstore.dto;
 
+import com.mytoy.bookstore.mapper.BookMapper;
+import com.mytoy.bookstore.mapper.BookMapperImpl;
+import com.mytoy.bookstore.model.Board;
+import com.mytoy.bookstore.model.Book;
 import com.mytoy.bookstore.model.BookType;
 import lombok.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -43,6 +51,29 @@ public class BookDto {
     private MultipartFile thumbnail; // 책 이미지 객체
     private String thumbnailType; // 책 이미지 타입(파일 or url)
     private String thumbnailPath; // 책 이미지 물리경로
+
+    /* Page<Entity> -> Page<Dto> 변환처리 */
+    public Page<BookDto> toDtoList(Page<Book> bookList){
+        Page<BookDto> bookDtoList = bookList.map(m -> BookDto.builder()
+                .id(m.getId())
+                .type(m.getType())
+                .title(m.getTitle())
+                .subTitle(m.getSubTitle())
+                .content(m.getContent())
+                .author(m.getAuthor())
+                .publisher(m.getPublisher())
+                .publishedDate(String.valueOf(m.getPublishedDate()))
+                .regDate(String.valueOf(m.getRegDate()))
+                .price(m.getPrice())
+                .disRate(m.getDisRate())
+                .disPrice(m.getDisPrice())
+                .quantity(m.getQuantity())
+                .shippingFee(m.getShippingFee())
+                .thumbnailType(m.getThumbnailType())
+                .thumbnailPath(m.getThumbnailPath())
+                .build());
+        return bookDtoList;
+    }
 
     /* 첨부파일 기본값 처리 */
     public void defaultThumbnail(){ // DB의 이미지 값이 'NULL' 일 경우 보여지는 DTO 기본값 처리.

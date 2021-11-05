@@ -4,12 +4,23 @@
 <body>
 <div id='wrap'>
 	<section>
-		<div class="container" th:replace="fragments/common :: menu('store')"/>
+		<div th:if="${type.equals('all')}">
+			<div class="container" th:replace="fragments/common :: menu('allBook')"/>
+		</div>
+		<div th:if="${type.equals('korea')}">
+			<div class="container" th:replace="fragments/common :: menu('KoreaBook')"/>
+		</div>
+		<div th:if="${type.equals('foreign')}">
+			<div class="container" th:replace="fragments/common :: menu('foreignBook')"/>
+		</div>
+
+		<!-- 본문 -->
 		<div class="container pt-4">
-			<h3 class="pb-4 font-italic">Show Book list</h3>
+			<h3 class="pb-4 font-italic" th:if="${type.equals('all')}" >모든 도서</h3>
+			<h3 class="pb-4 font-italic" th:if="${type.equals('korea')}" >국내 도서</h3>
+			<h3 class="pb-4 font-italic" th:if="${type.equals('foreign')}" >외국 도서</h3>
 			<div class="row mb-2">
 				<div class="col-md-6 mb-3" th:each="bookDto : ${bookDtoList}">
-
 					<div class="row no-gutters border rounded overflow-hidden mb-3">
 
 						<div class="col-sm-8 d-flex flex-column bd-highlight">
@@ -52,11 +63,28 @@
 								     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
 							</a>
 						</div>
-
 					</div>
-
 				</div>
 			</div>
+			<!--// 본문 -->
+
+			<!-- 페이징 처리 -->
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+
+					<li class="page-item" th:classappend="${1 == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/store(page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+					</li>
+					<li class="page-item" th:classappend="${page == bookDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+						<a class="page-link" th:href="@{/store(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
+					</li>
+					<li class="page-item" th:classappend="${bookDtoList.totalPages == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/store(page=${bookDtoList.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+					</li>
+				</ul>
+			</nav>
+			<!-- // 페이징 처리 -->
+
 		</div>
 	</section>
 	<footer class="blog-footer" th:replace="fragments/common :: footer"/>

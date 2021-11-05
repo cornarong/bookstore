@@ -1,16 +1,22 @@
 package com.mytoy.bookstore.service;
 
 import com.mytoy.bookstore.dto.BoardDto;
+import com.mytoy.bookstore.dto.BookDto;
 import com.mytoy.bookstore.mapper.BoardMapper;
 import com.mytoy.bookstore.mapper.BoardMapperImpl;
 import com.mytoy.bookstore.model.Board;
+import com.mytoy.bookstore.model.BookType;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.BoardRepository;
 import com.mytoy.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -20,6 +26,14 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+
+    /* 게시글 전체 목록 가져오기 */
+    public Page<BoardDto> all(Pageable pageable, String searchTerm) {
+        Page<Board> boardList = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
+        Page<BoardDto> boardDtoList = new BoardDto().toDtoList(boardList); // Page<Entity> -> Page<Dto> 변환.
+
+        return boardDtoList;
+    }
 
     /* 게시글 저장 하기 */
     @Transactional(readOnly = false)
