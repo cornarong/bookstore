@@ -31,11 +31,21 @@ public class CrawlingService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void crawling(String uid) throws IOException {
+    public void crawling(String uid, String type) throws IOException {
         User user = userRepository.findByUid(uid);
-
-        /* 교보문고 메인(국내도서) */
-        String url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=D&range=1&kind=0&orderClick=DAb";
+        String url = "";
+        BookType bookType;
+        /* 교보문고 국내도서 */
+        if(type.equals("korea")){
+            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=D&range=1&kind=0&orderClick=DAb";
+            bookType = BookType.DOMESTIC;
+        /* 교보문고 국외도서 */
+        }else if(type.equals("foreign")){
+            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=E&range=1&kind=0&orderClick=DAb";
+            bookType = BookType.INTERNATIONAL;
+        }else{
+            return;
+        }
         Document doc = Jsoup.connect(url).get();
         Elements e1 = doc.getElementsByAttributeValue("class", "list_type01");
 
@@ -97,7 +107,6 @@ public class CrawlingService {
 
             // * 수동처리 데이터
             // type, quantity, shippingFee
-            BookType bookType = BookType.DOMESTIC;
 
             Book book = Book.createBook(bookType, title, subtitle, author, publisher, publishedDate, price, disRate, disPrice, imageUrl, content, user);
             if(bookRepository.findByTitle(title) == null){

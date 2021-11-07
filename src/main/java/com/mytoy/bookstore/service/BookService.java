@@ -14,13 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -38,17 +35,15 @@ public class BookService {
     public Page<BookDto> all(String searchTerm, BookType bookType, Pageable pageable) {
         Page<Book> bookList;
         if(bookType == null) {
-            System.out.println("1번>>>>>>>");
             bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(
                     searchTerm, searchTerm, searchTerm, pageable);
-        }
-        else {
-            System.out.println("22");
-            bookList = bookRepository.findByTypeAndTitleContainingOrAuthorContainingOrPublisherContaining(
+        } else {
+            bookList = bookRepository.findByTypeAndSearchTerm(
                     bookType, searchTerm, searchTerm, searchTerm, pageable);
-//            bookList = bookRepository.findByType(bookType, pageable);
 
         }
+        log.info("bookList size = {}", bookList.getSize());
+        log.info("bookList ele = {}", bookList.getTotalElements());
         Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
         return bookDtoList;
     }

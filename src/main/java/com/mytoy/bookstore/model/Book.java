@@ -46,7 +46,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;          // 책 등록자
+    private User user;      // 책 등록자
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<OrderBook> orderBooks = new ArrayList<>();

@@ -107,7 +107,7 @@
 						</div>
 						<div class="d-flex justify-content-center">
 							<input type='button' class="btn btn-light border border-dark" onclick='count("minus")' value=' - '/>
-							<input type="text" class="col-md-2 btn-sm mx-1 text-center" id='cnt' name="cnt" value="1" maxlength="3">
+							<input type="text" class="col-md-2 btn-sm mx-1 text-center" id="cnt" name="cnt" value="1" maxlength="3">
 							<input type='button' class="btn btn-light border border-dark" onclick='count("plus")' value=' + '/>
 						</div>
 						<div>
@@ -141,9 +141,9 @@
 	/* 더보기 항목 */
     $('.btn_more').click(function(e){
         e.preventDefault();
-        var $boxes = $(this).closest('.box_detail_article').find('.content');
-        var isFirst = $boxes.first().is(':visible');
-        var speed = isFirst ? 300 : 0;
+        let $boxes = $(this).closest('.box_detail_article').find('.content');
+        let isFirst = $boxes.first().is(':visible');
+        let speed = isFirst ? 300 : 0;
         $('body, html').animate({ scrollTop: $(this).closest('.box_detail_article').offset().top -30 -50 }, speed);
         $boxes.eq( isFirst ? 0 : 1 ).hide();
         $boxes.eq( isFirst ? 1 : 0 ).show();
@@ -160,6 +160,7 @@
             }
         }
     }
+
     /* 장바구니 담기 api */
     function addBasket(bookId) {
         let cnt = document.getElementById('cnt').value;
@@ -178,6 +179,7 @@
             }
         });
     };
+
     /* 장바구니 삭제 api */
     function deleteBasket(basketId, bookId) {
         $.ajax({
@@ -191,7 +193,8 @@
             }
         });
     }
-	<!-- 수량 증/감 및 자동 합계금액 계산 -->
+
+	/* 수량 증/감 및 자동 합계금액 계산 */
     function count(type) {
         let cnt = document.getElementById('cnt').value;
         let disPrice = document.getElementById('disPrice').value;

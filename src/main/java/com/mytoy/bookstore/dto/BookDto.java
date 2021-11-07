@@ -56,6 +56,7 @@ public class BookDto {
     public Page<BookDto> toDtoList(Page<Book> bookList){
         Page<BookDto> bookDtoList = bookList.map(m -> BookDto.builder()
                 .id(m.getId())
+                .uid(m.getUser().getUid())
                 .type(m.getType())
                 .title(m.getTitle())
                 .subTitle(m.getSubTitle())

@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -29,10 +28,17 @@ public class BookController {
 
     /* 책관리 목록 */
     @GetMapping("/book")
-        public String list(Model model, @PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "") String searchTerm){
+        public String list(Model model,
+                           @PageableDefault(size = 10) Pageable pageable,
+                           @RequestParam(defaultValue = "") String searchTerm){
         BookType bookType = null;
         Page<BookDto> bookDtoList = bookService.all(searchTerm, bookType, pageable);
 
+        int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);
+        int endPage = Math.min(bookDtoList.getTotalPages(), bookDtoList.getPageable().getPageNumber() + 10);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("bookDtoList", bookDtoList);
         return "/admin/book/list";
     }

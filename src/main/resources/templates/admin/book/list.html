@@ -12,8 +12,8 @@
 
 			<form class="pb-1 form-inline d-flex" method="get">
 				<div class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.size}"></span></div>
-				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" th:onclick="|crawlingKorea()|">국내도서 크롤링</a>
-				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" th:onclick="|crawlingForeign()|">외국도서 크롤링</a>
+				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
+				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
 				<a th:href="@{/admin/book/addForm}" class="btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
 			</form>
 
@@ -48,6 +48,23 @@
 					</tbody>
 				</table>
 			</div>
+
+			<!-- 페이징 처리 -->
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item" th:classappend="${1 == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/admin/book(page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+					</li>
+					<li class="page-item" th:classappend="${page == bookDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
+						<a class="page-link" th:href="@{/admin/book(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
+					</li>
+					<li class="page-item" th:classappend="${bookDtoList.totalPages == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/admin/book(page=${bookDtoList.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+					</li>
+				</ul>
+			</nav>
+			<!-- // 페이징 처리 -->
+
 		</div>
 	</section>
 	<footer th:replace="fragments/common :: footer"/>
@@ -55,10 +72,19 @@
 </body>
 <script>
 	/* 국내도서 크롤링 */
-	function crawlingKorea(){
-	    if(confirm("국내도서를 크롤링 하시겠습니까?") == true){
+	function crawling(e){
+	    let type = e.id;
+	    let typeText;
+	    if(type == 'korea'){
+            typeText = '국내도서';
+	    }else if(type == 'foreign'){
+            typeText = '외국도서';
+	    }else{
+	        return;
+	    }
+	    if(confirm(typeText+"를 크롤링 하시겠습니까?") == true){
 	        $.ajax({
-		        url: '/api/crawlingKorea',
+		        url: '/api/crawling/' + type,
 		        type: 'POST',
 		        success: function (){
 		            alert("크롤링이 성공적으로 완료되었습니다")

@@ -63,7 +63,7 @@
                th:classappend="${menu} == 'order' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">주문내역</a>
 
             <a th:href="@{/info}" class="btn btn-sm mx-1"
-               th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-secondary'"sec:authorize="isAuthenticated()">내 정보</a>
+               th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">내 정보</a>
 
             <form class="form-inline my-2 my-lg-0 mx-1" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
 <!--              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>-->
@@ -76,7 +76,7 @@
         <nav class="nav d-flex justify-content-between">
           <div>
             <a href="#" th:href="@{/}" class="p-2 text-muted" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
-            <a href="#" th:href="@{/store}" class="p-2 text-muted" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
+            <a href="#" th:href="@{/store(type = A)}" class="p-2 text-muted" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
             <a href="#" th:href="@{/store(type = K)}" class="p-2 text-muted" th:classappend="${menu} == 'KoreaBook'? 'font-weight-bold' : ''">국내도서</a>
             <a href="#" th:href="@{/store(type = F)}" class="p-2 text-muted" th:classappend="${menu} == 'foreignBook'? 'font-weight-bold' : ''">외국도서</a>
             <a href="#" class="p-2 text-muted">신작도서</a>

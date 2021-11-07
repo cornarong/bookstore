@@ -18,12 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     Page<Book> findByTitleContainingOrAuthorContainingOrPublisherContaining(String title, String author, String publisher, Pageable pageable);
 
     // 국내도서, 외국도서 (검색 가능 : 제목, 작가, 출판사)
-    @Query("select b from Book b where b.type = ?1 and b.type = ?1 or b.title like ?2 or b.author like ?3 or b.publisher like ?4")
-    Page<Book> findByTypeAndTitleContainingOrAuthorContainingOrPublisherContaining(BookType bookType, String title, String author, String publisher,Pageable pageable);
-
-    Page<Book> findByType(BookType bookType, Pageable pageable);
-
-
-
-
+    @Query("select b from Book b where b.type = ?1 and (b.title like %?2% or b.author like %?3% or b.publisher like %?4%)")
+    Page<Book> findByTypeAndSearchTerm(BookType bookType, String title, String author, String publisher, Pageable pageable);
 }
