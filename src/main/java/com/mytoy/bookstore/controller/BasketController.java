@@ -24,7 +24,6 @@ import java.util.List;
 public class BasketController {
 
     private final BasketService basketService;
-    private final OrderService orderService;
 
     /* 장바구니 페이지 */
     @GetMapping
@@ -38,16 +37,4 @@ public class BasketController {
         model.addAttribute("totalPrice", totalPrice);
         return "/user/basketForm";
     }
-
-    /* 장바구니 주문 하기 */
-    @PostMapping
-    public String basketOrder(Authentication authentication){
-        String uid = authentication.getName();
-
-        orderService.basketOrder(uid);
-        basketService.deleteAll(uid);
-
-        return "redirect:/order";
-    }
-
 }

@@ -1,33 +1,31 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
 <body>
 <div id='wrap'>
 	<section>
-		<div th:if="${type.equals('all')}">
-			<div class="container" th:replace="fragments/common :: menu('allBook')"/>
-		</div>
-		<div th:if="${type.equals('korea')}">
-			<div class="container" th:replace="fragments/common :: menu('KoreaBook')"/>
-		</div>
-		<div th:if="${type.equals('foreign')}">
-			<div class="container" th:replace="fragments/common :: menu('foreignBook')"/>
+		<div th:with="menu = (${type.equals('all')} == true ? 'allBook' : (${type.equals('korea')} == true ? 'koreaBook' : 'foreignBook'))">
+			<div class="container" th:replace="fragments/common :: menu(${menu})"/>
 		</div>
 
-		<!-- 본문 -->
+
 		<div class="container pt-4">
-			<h3 class="pb-4 font-italic" th:if="${type.equals('all')}" >모든 도서</h3>
-			<h3 class="pb-4 font-italic" th:if="${type.equals('korea')}" >국내 도서</h3>
-			<h3 class="pb-4 font-italic" th:if="${type.equals('foreign')}" >외국 도서</h3>
+			<h3 class="font-italic" th:if="${type.equals('all')}" >모든 도서</h3>
+			<h3 class="font-italic" th:if="${type.equals('korea')}" >국내 도서</h3>
+			<h3 class="font-italic" th:if="${type.equals('foreign')}" >외국 도서</h3>
 			<!-- 게시글 검색 -->
 			<div class="d-flex">
 				<div class="mr-auto"></div>
-				<strong class="mr-5" th:if="${type.equals('all')}">* 모든도서 내에서 검색하기</strong>
-				<strong class="mr-5" th:if="${type.equals('korea')}">* 국내도서 내에서 검색하기</strong>
-				<strong class="mr-5" th:if="${type.equals('foreign')}">* 외국도서 내에서 검색하기</strong>
+				<small class="mr-4">검색가능 여부 : 제목, 작가명, 출판사</small>
+			</div>
+			<div class="d-flex">
+				<div class="mr-auto"></div>
+				<strong class="mr-4" th:if="${type.equals('all')}">* 모든도서 내에서 검색하기</strong>
+				<strong class="mr-4" th:if="${type.equals('korea')}">* 국내도서 내에서 검색하기</strong>
+				<strong class="mr-4" th:if="${type.equals('foreign')}">* 외국도서 내에서 검색하기</strong>
 			</div>
 			<form class="form-inline d-flex" method="get" th:action="@{/store}">
-				<div class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></div>
+				<strong class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></strong>
 				<div class="form-group mx-sm-2 mb-2">
 					<input type="hidden" name="type" th:value="${param.type}">
 					<input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
@@ -35,17 +33,32 @@
 				<button type="submit" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
 			</form>
 			<!-- // 게시글 검색 -->
+
+			<!-- 결과 리스트 -->
+			<div class="d-flex justify-content-center pt-5" th:if="${bookDtoList.getTotalElements() == 0}">
+				<div class="col-md-7 mb-3">
+					<div class="text_none2">
+						<h3>
+							<strong style="color: rgba(246,29,25,0.9)" th:text="|'${param.searchTerm}'|"></strong> 에 대한 검색결과가 없습니다.
+						</h3>
+						<p>
+							1. 검색어의 <strong>철자가 정확한지</strong> 다시 한번 확인해주세요.<br />
+							2. 검색어의 <strong>단어 수를 줄이거나</strong>, 띄어쓰기를 해주세요
+						</p>
+					</div>
+				</div>
+			</div>
 			<div class="row mb-2">
 				<div class="col-md-6 mb-3" th:each="bookDto : ${bookDtoList}">
 					<div class="row no-gutters border rounded overflow-hidden mb-3">
-
 						<div class="col-sm-8 d-flex flex-column bd-highlight">
 							<div class="mx-2 pt-2">
 								<span style="font-weight: bold" th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</span>
 								<span style="font-weight: bold" th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</span>
 							</div>
 							<div class="mx-2 pt-2">
-								<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+								<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id},
+									type=(${type} == 'korea' ? 'K' : (${type} == 'foreign' ? 'F' : 'A')))}">
 									<h3 style="font-weight: bold" th:text="${bookDto.title}">제목</h3>
 								</a>
 							</div>
@@ -66,13 +79,19 @@
 								<small class="mx-0" style="color: #dc3545" th:text="|(${bookDto.disRate}% 할인)|">할인률</small>
 							</div>
 							<div class="mx-2 pb-2">
-								<button href="#" type="button" class="btn btn-sm btn-outline-secondary" th:onclick="|addBasket(${bookDto.id})|">장바구니</button>
-								<button href="#" type="button" class="btn btn-sm btn-outline-success">구매하기</button>
+								<button href="#" type="button" class="btn btn-sm btn-outline-secondary"
+								        sec:authorize="isAnonymous()" th:onclick="|addBasket(${bookDto.id},'anonymous')|">장바구니</button>
+								<button href="#" type="button" class="btn btn-sm btn-outline-success"
+										sec:authorize="isAnonymous()" th:onclick="|addOrder(${bookDto.id},'anonymous')|">구매하기</button>
+								<button href="#" type="button" class="btn btn-sm btn-outline-secondary"
+								        sec:authorize="!isAnonymous()" th:onclick="|addBasket(${bookDto.id},'user')|">장바구니</button>
+								<button href="#" type="button" class="btn btn-sm btn-outline-success"
+								        sec:authorize="!isAnonymous()" th:onclick="|addOrder(${bookDto.id},'user')|">구매하기</button>
 							</div>
 						</div>
 
 						<div class="col-sm-4">
-							<a th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+							<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=(${type} == 'korea' ? 'K' : (${type} == 'foreign' ? 'F' : 'A')))}">
 								<img style="width: -webkit-fill-available; height: 248px; border:solid 3px; border-color:#6c757d;"
 								     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
 								<img style="width: -webkit-fill-available; height: 248px; border:solid 3px; border-color:#6c757d;"
@@ -82,10 +101,10 @@
 					</div>
 				</div>
 			</div>
-			<!--// 본문 -->
+			<!--// 결과 리스트 -->
 
 			<!-- 페이징 처리 -->
-			<nav aria-label="Page navigation example">
+			<nav aria-label="Page navigation example" th:if="${bookDtoList.getTotalElements() != 0}">
 				<ul class="pagination justify-content-center">
 					<li class="page-item" th:classappend="${1 == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
 						<a class="page-link" th:href="@{/store(type=${param.type}, page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
@@ -106,24 +125,62 @@
 </div>
 </body>
 <script>
+
     /* 장바구니 담기 api */
-    function addBasket(bookId) {
-        let cnt = 1;
-        if(confirm("장바구니에 담으시겠습니까?") == true){
-	        $.ajax({
-	            url: '/api/basket/' + bookId,
-	            type: 'post',
-	            data: {
-	                cnt : parseInt(cnt)
-	            },
-	            success: function () {
-	                alert("장바구니에 추가되었습니다")
-	            },
-	            error: function () {
-	                console.error();
-	                alert("post error");
-	            }
-	        });
+    function addBasket(bookId, auth) {
+        if(auth == 'user'){
+	        let cnt = 1;
+	        if(confirm("장바구니에 담으시겠습니까?") == true){
+		        $.ajax({
+		            url: '/api/basket/' + bookId,
+		            type: 'post',
+		            data: {
+		                cnt : parseInt(cnt)
+		            },
+		            success: function () {
+		                alert("장바구니에 추가되었습니다")
+		            },
+		            error: function () {
+		                console.error();
+		                alert("post error");
+		            }
+		        });
+	        }
+        }else{
+            if(confirm("로그인이 필요한 기능입니다\n로그인 하시겠습니까?") == true){
+                window.location.href = '/login';
+            }else{
+                return;
+            }
+        }
+    };
+
+    /* 구매하기 api */
+    function addOrder(bookId, auth) {
+        if(auth == 'user'){
+            let cnt = 1;
+            if(confirm("바로 구매 하시겠습니까?") == true){
+                $.ajax({
+                    url: '/api/order/' + bookId,
+                    type: 'post',
+                    data: {
+                        cnt : parseInt(cnt)
+                    },
+                    success: function () {
+                        alert("정상적으로 주문되었습니다.")
+                    },
+                    error: function () {
+                        console.error();
+                        alert("post error");
+                    }
+                });
+            }
+        }else{
+            if(confirm("로그인이 필요한 기능입니다\n로그인 하시겠습니까?") == true){
+                window.location.href = '/login';
+            }else{
+                return;
+            }
         }
     };
 </script>

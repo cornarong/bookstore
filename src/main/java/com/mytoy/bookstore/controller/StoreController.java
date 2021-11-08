@@ -4,6 +4,7 @@ import com.mytoy.bookstore.dto.BasketDto;
 import com.mytoy.bookstore.dto.BookDto;
 import com.mytoy.bookstore.model.Book;
 import com.mytoy.bookstore.model.BookType;
+import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.service.BasketService;
 import com.mytoy.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,16 +63,23 @@ public class StoreController {
 
     /* 책정보 상세페이지 */
     @GetMapping("/{bookId}")
-    public String detail(@PathVariable Long bookId, Model model, Authentication authentication){
+    public String detail(@PathVariable Long bookId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uid = authentication.getName();
 
         BookDto bookDto = bookService.detail(bookId);
-        List<BasketDto> basketDtoList = basketService.all(uid);
-        int totalPrice = basketService.totalPrice(basketDtoList);
+
+        if(!uid.equals("anonymousUser")){
+            List<BasketDto> basketDtoList = basketService.all(uid);
+            int totalPrice = basketService.totalPrice(basketDtoList);
+            model.addAttribute("basketDtoList", basketDtoList);
+            model.addAttribute("totalPrice", totalPrice);
+        }else{
+            model.addAttribute("basketDtoList", new ArrayList<BasketDto>());
+            model.addAttribute("totalPrice", 0);
+        }
 
         model.addAttribute("bookDto", bookDto);
-        model.addAttribute("basketDtoList", basketDtoList);
-        model.addAttribute("totalPrice", totalPrice);
         return "/store/detail";
     }
 }

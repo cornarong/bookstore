@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class BasketDto {
 
     private Long id;
+    private Long bookId;
     private String title;
     private int price;
     private int disPrice;
@@ -30,6 +31,7 @@ public class BasketDto {
     public static BasketDto createBasketDto(Basket basket){
         BasketDto basketDto = BasketDto.builder()
                 .id(basket.getId())
+                .bookId(basket.getBook().getId())
                 .title(basket.getBook().getTitle())
                 .price(basket.getBook().getPrice())
                 .disRate(basket.getBook().getDisRate())

@@ -1,19 +1,20 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link th:href="@{/css/kyoboCustom.css}" href="../css/kyoboCustom.css" rel="stylesheet">
 <body>
 <div id='wrap'>
 	<section>
-		<div class="container" th:replace="fragments/common :: menu('store')"/>
-
+		<div th:with="menu = (${param.type.get(0)} == 'K' ? 'koreaBook' : (${param.type.get(0)} == 'F' ? 'foreignBook' : 'allBook'))">
+			<div class="container" th:replace="fragments/common :: menu(${menu})"/>
+		</div>
 		<main role="main" class="container row pt-4" style="margin-right: auto; margin-left: auto;">
 
 			<!-- 우측상단 장바구니 목록 -->
 			<div class="col-md-4 order-md-2 mb-4">
 				<div class="d-flex justify-content-between align-items-center">
-					<h4 class="text-muted mx-1">내 장바구니 목록</h4>
+					<h4 class="text-muted mx-1">나의 장바구니 목록</h4>
 					<h6 class="badge badge-danger badge-pill mx-1" th:if="${basketDtoList.size() != 0}" th:text="${basketDtoList.size()}">장바구니 수량</h6>
 				</div>
 
@@ -28,8 +29,8 @@
 							<small class="text-muted" style="display: grid;"
 							       th:text="|* 구매가격 : ${#numbers.formatInteger(basketDto.disPrice * basketDto.quantity, 0, 'COMMA')}원|">구매가격</small>
 						</div>
-						<div class="d-flex align-items-center">
-							<button class="btn btn-outline-danger rounded-circle" type="button" th:onclick="|deleteBasket(${basketDto.id}, ${bookId})|">
+						<div class="d-flex align-items-center"><!-- 장바구니 책 삭제 버튼-->
+							<button class="btn btn-outline-danger rounded-circle" type="button" th:onclick="deleteBasket([[${basketDto.id}]], [[${bookId}]], [[${param.type}]])">
 								<i class="fa fa-trash"></i>
 							</button>
 						</div>
@@ -41,96 +42,111 @@
 				</ul>
 				<ul class="list-group mb-3" th:if="${basketDtoList.size() == 0}">
 					<li class="list-group-item d-flex justify-content-center">
-						<span>장바구니가 비어있습니다</span>
+						<strong sec:authorize="isAuthenticated()">장바구니가 비어있습니다</strong>
+						<strong sec:authorize="!isAuthenticated()">로그인이 필요한 기능입니다</strong>
 					</li>
 				</ul>
-
-				<form class="card p-2" id="basketOrder" th:action="@{/basket}" method="post">
-					<div class="input-group">
-						<button type="button" class="btn btn-sm btn-primary btn-block" th:onclick="|askOrder()|">전체 주문하기</button>
+				<form class="card p-2" id="basketOrder" th:action="@{/basket}" method="post" sec:authorize="isAuthenticated()">
+					<div class="input-group d-flex ">
+						<a th:href="@{/basket}" class="col btn btn-sm btn-secondary mr-auto">장바구니 보기</a>
 					</div>
+					<div class="input-group d-flex mt-2">
+						<button type="button" class="col btn btn-sm btn-primary"   th:onclick="|askOrder()|">전체 주문하기</button>
+					</div>
+
 				</form>
 			</div>
 
 			<div class="col-md-8 order-md-1">
-				<h4 class="mb-3">책 정보</h4>
-				<form th:action="@{/order/{bookId}(bookId=${bookDto.id})}" method="post">
-
-					<!-- 여기 본문 상단 -->
+				<div class="row">
+					<h4 class="ml-3 mr-2 mb-3">책 정보</h4>
+					<small class="d-flex align-items-center" th:text="|등록일 : ${bookDto.regDate}|"></small>
+				</div>
+					<!-- 책 정보 -->
 					<div class="row">
-						<div class="col-md-6 pb-3 form-group">
+						<div class="col-md-6 form-group">
 							<img class="form-control" style="width: inherit; height: inherit;"
 							     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}">
 							<img class="form-control" style="width: inherit; height: inherit;"
 							     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}">
 						</div>
-						<div class="col-md-6 pb-3 form-group">
+						<div class="col-md-6 form-group">
 							<h6 class="mb-3" th:text="${bookDto.type} + ' 도서'">타입</h6>
 							<hr class="mb-4">
 							<h3 class="mb-3" th:text="${bookDto.title}">제목</h3>
 							<h5 class="mb-3" th:text="${bookDto.subTitle}">부제목</h5>
 							<h5 class="mb-3" th:text="${bookDto.author}">저자</h5>
 							<hr class="mb-4">
-							<h6 class="mb-3" th:text="|원가 : ${bookDto.price} 원|">가격</h6>
+							<h6 class="mb-3" th:text="|원가 : ${#numbers.formatInteger(bookDto.price, 0, 'COMMA')} 원|">가격</h6>
 							<h6 class="mb-3" th:text="|할인률 : ${bookDto.disRate}%|">할인률</h6>
-							<h6 class="mb-3" th:text="|할인가 : ${bookDto.disPrice} 원|">할인가</h6>
+							<h6 class="mb-3" th:text="|할인가 : ${#numbers.formatInteger(bookDto.disPrice, 0, 'COMMA')} 원|">할인가</h6>
 							<input type="hidden" id="disPrice" th:value="${bookDto.disPrice}">
 							<hr class="mb-4">
 							<h6 class="mb-3" th:text="|출판사 : ${bookDto.publisher}|">출판사</h6>
 							<h6 class="mb-3" th:text="|발행일 : ${bookDto.publishedDate}|">발행일</h6>
 							<hr class="mb-4">
+							<div class="order-md-2 mb-4">
+								<h4 class="d-flex justify-content-between align-items-center mb-3">
+									<span class="badge badge-secondary " th:text="|현재 재고량 : ${bookDto.quantity}|"></span>
+								</h4>
+							</div>
 						</div>
 					</div>
 
-					<!-- 여기 본문 -->
-					<div class="order-md-2 mb-4">
-						<h4 class="d-flex justify-content-between align-items-center mb-3">
-							<span class="text-muted">책 줄거리 및 내용</span>
-							<span class="badge badge-secondary " th:text="|현재 재고량 : ${bookDto.quantity}|"></span>
-						</h4>
-<!--						<pre type="text" class="form-control" style="height: 250px;" th:text="${bookDto.content}"/>-->
-
-
-						<!-- 여기 내용 부분 -->
-
-
-
-					</div>
-
-
-					<hr class="mb-4">
+					<hr class="mb-3 mt-3">
 
 					<!-- 수량 및 합계금액 -->
 					<div class="d-flex justify-content-between">
-						<div>
-							<p class="float-right">주문 수량</p>
+						<div class="col d-flex align-items-center">
+							<strong>주문 수량</strong>
 						</div>
-						<div class="d-flex justify-content-center">
-							<input type='button' class="btn btn-light border border-dark" onclick='count("minus")' value=' - '/>
+						<div class="col-5 d-flex justify-content-center">
+							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("minus")' value=' - '/>
 							<input type="text" class="col-md-2 btn-sm mx-1 text-center" id="cnt" name="cnt" value="1" maxlength="3">
-							<input type='button' class="btn btn-light border border-dark" onclick='count("plus")' value=' + '/>
+							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("plus")' value=' + '/>
 						</div>
-						<div>
-							<p id="totalPrice" th:text="'&#8361; ' + ${bookDto.disPrice}"></p>
+						<div class="col d-flex align-items-center">
+							<strong>합계 가격　:　</strong>
+							<strong id="totalPrice" th:text="'&#8361; ' + ${#numbers.formatInteger(bookDto.disPrice, 0, 'COMMA')}"></strong>
 						</div>
 					</div>
-					<hr class="mb-4 mt-4">
 					<!--// 수량 및 합계금액 -->
 
-					<!-- 여기 본문 하단 -->
-					<div class="row justify-content-between pb-4">
-						<div class="col-md-5 mb-3 card p-2">
+					<hr class="mb-4 mt-4">
+
+					<!-- button 부분 (구매, 장바구니담기, 로그인) -->
+					<div class="row pb-4">
+						<!-- 회원 -->
+						<div class="col-md-6 mb-3 card p-2 mr-auto" sec:authorize="isAuthenticated()">
 							<div class="input-group">
-								<button class="btn-sm btn-primary btn-block" type="submit">바로 구매하기</button>
+								<button class="btn-sm btn-primary btn-block" type="button" th:onclick="|addOrder(${bookDto.id})|">바로 구매하기</button>
 							</div>
 						</div>
-						<div class="col-md-5 mb-3 card p-2">
+						<div class="col-md-6 mb-3 card p-2" sec:authorize="isAuthenticated()">
 							<div class="input-group">
-								<button class="btn-sm btn-secondary btn-block" type="button" th:onclick="|addBasket(${bookDto.id})|">장바구니 담기</button>
+								<button class="btn-sm btn-success btn-block" type="button" th:onclick="addBasket([[${bookDto.id}]],[[${param.type}]])">장바구니 담기</button>
+							</div>
+						</div>
+						<!-- 비회원 -->
+						<div class="col-md mb-3 card p-2" sec:authorize="!isAuthenticated()">
+							<div class="input-group">
+								<a th:href="@{/account/login}" class="btn btn-block btn-primary">로그인</a>
 							</div>
 						</div>
 					</div>
-				</form>
+					<!--// button 부분 (구매, 장바구니담기, 로그인) -->
+
+					<!-- 본문 내용 -->
+					<div class="order-md-2 mb-4">
+						<h4 class="d-flex justify-content-between align-items-center mb-3">
+							<span class="text-muted">책 줄거리 및 내용</span>
+						</h4>
+						<div class="content" th:utext="${bookDto.content}" />
+					</div>
+					<!--// 본문 내용 -->
+					<!--// 책 정보 -->
+
+					<hr class="mb-4">
 			</div>
 		</main>
 	</section>
@@ -138,6 +154,7 @@
 </div>
 </body>
 <script>
+
 	/* 더보기 항목 */
     $('.btn_more').click(function(e){
         e.preventDefault();
@@ -149,52 +166,7 @@
         $boxes.eq( isFirst ? 1 : 0 ).show();
     });
 
-    /* 장바구니 주문 */
-    function askOrder(){
-        if([[${basketDtoList.size()}]] == 0){
-            alert("장바구니가 비어있습니다 ")
-        }else{
-            if(confirm("상품을 전체 주문하시겠습니까?") == true){
-                let form = document.getElementById('basketOrder');
-                form.submit();
-            }
-        }
-    }
-
-    /* 장바구니 담기 api */
-    function addBasket(bookId) {
-        let cnt = document.getElementById('cnt').value;
-        $.ajax({
-            url: '/api/basket/' + bookId,
-            type: 'post',
-            data: {
-                cnt : parseInt(cnt)
-            },
-            success: function () {
-                window.location.href = '/store/' + bookId;
-            },
-            error: function () {
-                console.error();
-                alert("post error");
-            }
-        });
-    };
-
-    /* 장바구니 삭제 api */
-    function deleteBasket(basketId, bookId) {
-        $.ajax({
-            url: '/api/basket/' + basketId,
-            type: 'DELETE',
-            success: function (){
-                window.location.href = '/store/' + bookId;
-            },
-            error: function (){
-                alert("delete error");
-            }
-        });
-    }
-
-	/* 수량 증/감 및 자동 합계금액 계산 */
+    /* 수량 증/감 및 자동 합계금액 계산 */
     function count(type) {
         let cnt = document.getElementById('cnt').value;
         let disPrice = document.getElementById('disPrice').value;
@@ -209,5 +181,80 @@
             document.getElementById('totalPrice').innerText = '￦ ' + (disPrice * cnt).toLocaleString();
         }
     }
+
+    /* 장바구니 주문 api */
+    function askOrder(){
+        if([[${basketDtoList.size()}]] == 0){
+            alert("장바구니가 비어있습니다 ")
+        }else{
+            if(confirm("상품을 전체 주문하시겠습니까?") == true){
+                $.ajax({
+                    url: '/api/basket/order',
+                    type: 'POST',
+                    success: function (){
+                        alert("정상적으로 주문되었습니다.")
+                        window.location.href = '/order';
+                    },
+                    error: function (){
+                        alert("post error");
+                    }
+                });
+            }
+        }
+    }
+
+    /* 장바구니 담기 api */
+    function addBasket(bookId, type) {
+        let cnt = document.getElementById('cnt').value;
+        $.ajax({
+            url: '/api/basket/' + bookId,
+            type: 'POST',
+            data: {
+                cnt : parseInt(cnt)
+            },
+            success: function () {
+                window.location.href = '/store/' + bookId + '?type=' + type
+            },
+            error: function () {
+                console.error();
+                alert("post error");
+            }
+        });
+    };
+
+    /* 장바구니 삭제 api */
+    function deleteBasket(basketId, bookId, type) {
+        $.ajax({
+            url: '/api/basket/' + basketId,
+            type: 'DELETE',
+            success: function (){
+                window.location.href = '/store/' + bookId + '?type=' + type;
+            },
+            error: function (){
+                alert("delete error");
+            }
+        });
+    }
+
+    /* 구매하기 api */
+    function addOrder(bookId) {
+        let cnt = document.getElementById('cnt').value;
+        if(confirm("바로 구매 하시겠습니까?") == true){
+            $.ajax({
+                url: '/api/order/' + bookId,
+                type: 'POST',
+                data: {
+                    cnt : parseInt(cnt)
+                },
+                success: function () {
+                    alert("정상적으로 주문되었습니다.")
+                },
+                error: function () {
+                    console.error();
+                    alert("post error");
+                }
+            });
+        }
+    };
 </script>
 </html>

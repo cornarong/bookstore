@@ -10,13 +10,22 @@
 				ALL ITEMS
 			</h3>
 
-			<form class="pb-1 form-inline d-flex" method="get">
-				<div class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.size}"></span></div>
-				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
-				<a href="#" class="btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
-				<a th:href="@{/admin/book/addForm}" class="btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
+			<!-- 크롤링 및 게시글 검색 -->
+			<small class="col mb-1 d-flex justify-content-end">* 크롤링 주소 : 교보문고 국내소설, 국외소설 베스트셀러</small>
+			<small class="col mb-1 d-flex justify-content-end">* 검색가능 여부 : 제목, 작가명, 출판사</small>
+			<form class="pb-1 form-inline d-flex" method="get" th:action="@{/admin/book}">
+				<strong class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></strong>
+				<a class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
+				<a class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
+				<a th:href="@{/admin/book/addForm}" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
+				<div class="form-group mx-sm-2 mb-2">
+					<input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
+				</div>
+				<button type="submit" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
 			</form>
+			<!--// 크롤링 -->
 
+			<!-- 책 목록 -->
 			<div class="table-responsive">
 				<table class="table table-striped table-sm">
 					<thead>
@@ -48,9 +57,10 @@
 					</tbody>
 				</table>
 			</div>
+			<!--// 책 목록 -->
 
 			<!-- 페이징 처리 -->
-			<nav aria-label="Page navigation example">
+			<nav aria-label="Page navigation example" th:if="${bookDtoList.totalElements != 0}">
 				<ul class="pagination justify-content-center">
 					<li class="page-item" th:classappend="${1 == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
 						<a class="page-link" th:href="@{/admin/book(page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>

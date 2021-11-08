@@ -33,10 +33,10 @@
 											<th scope="col">가격</th>
 										</tr>
 										<tr th:each="orderBook, iterState : ${orderDto.orderBooks}">
-											<td th:text="${iterState.index + 1}"></td>
-											<td th:text="${orderBook.book.title}"></td>
-											<td th:text="${orderBook.count}"></td>
-											<td th:text="'&#8361; ' + ${#numbers.formatInteger(orderBook.book.disPrice, 0, 'COMMA')}"></td>
+											<td class="col-1" th:text="${iterState.index + 1}"></td>
+											<td class="col-3" th:text="${orderBook.book.title}"></td>
+											<td class="col-1" th:text="${orderBook.count}"></td>
+											<td class="col-2" th:text="'&#8361; ' + ${#numbers.formatInteger(orderBook.book.disPrice, 0, 'COMMA')}"></td>
 										</tr>
 									</table>
 								</div>
@@ -64,6 +64,7 @@
 </div>
 </body>
 <script>
+
     /* 주문 취소 api */
     function cancelOrder(orderId) {
         if(confirm("주문을 취소 하시겠습니까?") == true){
@@ -80,6 +81,7 @@
             });
         }
     };
+
     /* 내역 삭제 api */
     function deleteOrder(orderId) {
         if(confirm("주문내역을 삭제 하시겠습니까?") == true){

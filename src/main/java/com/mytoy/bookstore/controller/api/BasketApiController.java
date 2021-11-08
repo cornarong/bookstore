@@ -1,9 +1,8 @@
 package com.mytoy.bookstore.controller.api;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mytoy.bookstore.repository.BasketRepository;
 import com.mytoy.bookstore.service.BasketService;
+import com.mytoy.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class BasketApiController {
 
     private final BasketService basketService;
+    private final OrderService orderService;
 
     /* 장바구니 담기 */
     @PostMapping("/basket/{bookId}")
@@ -30,4 +30,12 @@ public class BasketApiController {
         basketService.delete(basketId);
     }
 
+    /* 장바구니 주문 하기 */
+    @PostMapping("/basket/order")
+    public void basketOrder(Authentication authentication){
+        String uid = authentication.getName();
+
+        orderService.basketOrder(uid);
+        basketService.deleteAll(uid);
+    }
 }

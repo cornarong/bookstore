@@ -28,14 +28,4 @@ public class OrderController {
         model.addAttribute("orderDtoList", orderDtoList);
         return "/user/orderForm";
     }
-
-    /* 단건 주문 하기 */
-    @PostMapping("/{bookId}")
-    public String order(@PathVariable Long bookId, Authentication authentication, @RequestParam int cnt){
-        String uid = authentication.getName();
-        orderService.order(bookId, uid, cnt);
-
-        return "redirect:/order";
-    }
-
 }

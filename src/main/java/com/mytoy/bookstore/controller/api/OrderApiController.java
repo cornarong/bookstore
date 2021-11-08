@@ -3,6 +3,7 @@ package com.mytoy.bookstore.controller.api;
 import com.mytoy.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -12,6 +13,13 @@ import org.springframework.web.bind.annotation.*;
 public class OrderApiController {
 
     private final OrderService orderService;
+
+    /* 단건 주문 하기 */
+    @PostMapping("/order/{bookId}")
+    public void order(@PathVariable Long bookId, Authentication authentication, @RequestParam int cnt){
+        String uid = authentication.getName();
+        orderService.order(bookId, uid, cnt);
+    }
 
     /* 주문 취소 하기 */
     @PutMapping("/order/{orderId}")
@@ -27,5 +35,4 @@ public class OrderApiController {
 
         orderService.delete(orderId);
     }
-
 }
