@@ -25,31 +25,31 @@
 
 					<div class="mb-4 border-bottom">
 						<div class="d-flex justify-content-between">
-							<h3 class="pb-2 ">오늘의 추천도서</h3>
+							<h3 class="d-flex align-items-end">오늘의 추천도서</h3>
 							<a class="d-flex align-items-end" style="text-decoration:none" th:href="@{/store}">도서 전체보기</a>
 						</div>
 					</div>
 
-					<div class="row mb-2">
-						<div class="col-md-6 mb-3" th:each="bookDto,bookDtoStat : ${bookDtoList}" th:unless="${bookDtoStat.index > 3}">
+					<div class="row">
+						<div class="col-md-6" th:each="bookDto,bookDtoStat : ${bookDtoList}" th:unless="${bookDtoStat.index > 5}">
 							<div class="row no-gutters border rounded overflow-hidden mb-3">
-								<div class="col-sm-7 card d-flex flex-column bd-highlight">
-									<div class="mx-2 pt-2">
+								<div class="col-sm-7 d-flex flex-column bd-highlight">
+									<div class="text-muted mx-2 pt-2">
 										<small style="font-weight: bold" th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</small>
 										<small style="font-weight: bold" th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</small>
 									</div>
 									<div class="mx-2 pt-2">
 										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}">
-											<h4 style="font-weight: bold" th:text="${bookDto.title}">제목</h4>
+											<h4 th:text="${bookDto.title}">제목</h4>
 										</a>
 									</div>
 									<div class="mx-2">
 										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
-											<span class="text-muted" th:text="${bookDto.subTitle}">부제목</span>
+											<span th:text="${bookDto.subTitle}">부제목</span>
 										</a>
 									</div>
 									<div class="mx-2">
-										<small class="text-muted" th:text="${bookDto.author} + ' 지음'">작가</small>
+										<small style="color: #3a60df" th:text="${bookDto.author} + ' 지음'">작가</small>
 									</div>
 									<div class="mx-2 mb-auto">
 										<small class="text-muted" th:text="'발행일 : ' + ${bookDto.publishedDate}">발행일</small>
@@ -94,7 +94,7 @@
 						<h4><strong>신규등록도서</strong></h4>
 						<div class="mb-0" th:each="bookDto : ${bookDtoList}">
 							<li class="my-2"><a href="#" th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}"
-							       style="color: black" th:text="${bookDto.title}">제목</a></li>
+							       style="text-decoration:none" th:text="${bookDto.title}">제목</a></li>
 						</div>
 					</div>
 				</aside>

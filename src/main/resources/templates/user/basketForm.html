@@ -14,7 +14,8 @@
 							<div class="col-md-10 order-md-2 mb-4">
 								<h4 class="d-flex justify-content-between align-items-center mb-3">
 									<span class="text-muted">나의 장바구니 목록</span>
-									<span class="badge badge-secondary badge-pill" th:text="|${basketDtoList.size()}개의 상품이 있습니다|">총갯수</span>
+									<span class="badge badge-secondary badge-pill" style="font-weight: 500"
+									      th:text="|${basketDtoList.size()}개의 상품이 있습니다|">총갯수</span>
 								</h4>
 								<ul class="list-group mb-3" th:each="basketDto : ${basketDtoList}">
 									<li class="col list-group-item d-flex justify-content-between lh-condensed">

@@ -7,12 +7,12 @@
             <div class="container" th:replace="fragments/common :: menu('board')"/>
             <!-- 메인 container -->
             <main role="main" class="container pt-4">
-                <h3 class="pb-4 font-italic">
+                <h3 class="pb-4 blog-header-logo">
                     Board List
                 </h3>
                 <!-- 게시글 검색 -->
                 <form class="form-inline d-flex" method="get" th:action="@{/board}">
-                    <div class="mr-auto p-2">총 건수 : <span th:text="${boardDtoList.totalElements}"></span></div>
+                    <span class="mr-auto p-2" th:text="|총 건수 : ${boardDtoList.totalElements}|"></span>
                     <div class="form-group mx-sm-2 mb-2">
                         <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
                     </div>
@@ -29,6 +29,7 @@
                                 <th scope="col">작성자</th>
                                 <th scope="col">작성일</th>
                                 <th scope="col">조회수</th>
+<!--                                <th scope="col">관리</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +39,7 @@
                                 <td th:text="${boardDto.writer}"></td>
                                 <td th:text="${boardDto.regdate}"></td>
                                 <td th:text="${boardDto.views}"></td>
+<!--                                <td ></td>-->
                             </tr>
                         </tbody>
                     </table>
@@ -45,7 +47,7 @@
                 <!-- // 게시글 목록 -->
                 <!-- 게시글 작성 -->
                 <div class="text-right">
-                    <a href="#" th:href="@{/board/add}" style="background-color: #fff" class="btn btn-outline-primary mt-2">작성하기</a>
+                    <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary mt-2">작성하기</a>
                 </div>
                 <!-- // 게시글 작성 -->
                 <!-- 페이징 처리 -->

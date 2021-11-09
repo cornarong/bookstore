@@ -6,7 +6,7 @@
         <section>
             <div class="container" th:replace="fragments/common :: menu('board')"/>
             <main role="main" class="container pt-4">
-                <h3 class="pb-4 font-italic">Board Post</h3>
+                <h3 class="pb-4 blog-header-logo">Board Post</h3>
                 <!-- RedirectAttributes -->
                 <h6 th:if="${param.save}">게시글이 저장되었습니다.</h6>
                 <h6 th:if="${param.edit}">게시글이 수정되었습니다.</h6>

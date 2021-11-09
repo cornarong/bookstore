@@ -9,7 +9,7 @@
 			<form action="#" th:action="@{/board/edit/{boardId}(boardId=*{id})}" th:object="${boardDto}" method="post">
 				<input type="hidden" name="_method" value="put"> <!-- HiddenHttpMethodFilter 사용 -->
 				<input type="hidden" th:field="*{id}">
-				<h3 class="pb-4 font-italic">
+				<h3 class="pb-4 blog-header-logo">
 					Edit Post
 				</h3>
 				<div class="mb-3">

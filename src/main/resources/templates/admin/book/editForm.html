@@ -7,7 +7,7 @@
 		<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
 		<main role="main" class="container pt-4">
 			<div class="container" data-aos="fade-up">
-				<h3 class="pb-1 font-italic">Product Edit</h3>
+				<h3 class="pb-1 blog-header-logo">Product Edit</h3>
 				<form th:action="@{/admin/book/edit/{bookId}(bookId=*{id})}" method="post" role="form"
 				      th:object="${bookDto}" enctype="multipart/form-data">
 					<input type="hidden" name="_method" value="put"> <!-- HiddenHttpMethodFilter 사용 -->
