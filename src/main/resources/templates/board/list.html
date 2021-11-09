@@ -16,34 +16,36 @@
                     <div class="form-group mx-sm-2 mb-2">
                         <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
                     </div>
-                    <button type="submit" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
+                    <button type="submit" style="background-color: #fff" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
                 </form>
                 <!-- // 게시글 검색 -->
                 <!-- 게시글 목록 -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">번호</th>
-                            <th scope="col">제목</th>
-                            <th scope="col">작성자</th>
-                            <th scope="col">작성일</th>
-                            <th scope="col">조회수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="boardDto : ${boardDtoList}">
-                            <td th:text="${boardDto.id}">번호</td>
-                            <td><a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a></td>
-                            <td th:text="${boardDto.writer}"></td>
-                            <td th:text="${boardDto.regdate}"></td>
-                            <td th:text="${boardDto.views}"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="card">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">번호</th>
+                                <th scope="col">제목</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">작성일</th>
+                                <th scope="col">조회수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="boardDto : ${boardDtoList}">
+                                <td th:text="${boardDto.id}">번호</td>
+                                <td><a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a></td>
+                                <td th:text="${boardDto.writer}"></td>
+                                <td th:text="${boardDto.regdate}"></td>
+                                <td th:text="${boardDto.views}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <!-- // 게시글 목록 -->
                 <!-- 게시글 작성 -->
                 <div class="text-right">
-                    <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary">작성하기</a>
+                    <a href="#" th:href="@{/board/add}" style="background-color: #fff" class="btn btn-outline-primary mt-2">작성하기</a>
                 </div>
                 <!-- // 게시글 작성 -->
                 <!-- 페이징 처리 -->

@@ -1,36 +1,99 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+<head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
 <body>
 <div id='wrap'>
 	<section>
-		<div class="container" th:replace="fragments/common :: menu('basket')"/>
-		<div>
-			<table class="table table-striped">
-				<thead>
-				<tr>
-					<th>#</th>
-					<th>상품명</th>
-					<th>가격</th>
-					<th>재고수량</th>
-					<th></th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>상품아이디</td>
-					<td>상품명</td>
-					<td>상품가격</td>
-					<td>상품수량</td>
-					<td>
-						<a href="#" class="btn btn-primary" role="button">수정</a>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
+		<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
+		<main role="main" class="container pt-4">
+			<div class="container" data-aos="fade-up">
+				<h3 class="pb-3 font-italic">User Details</h3>
+				<!-- RedirectAttributes -->
+				<strong style="color: #007bff" th:if="${param.edit}">* 정보가 수정되었습니다</strong>
+
+				<!-- 프로필사진, 아이디, 권한, 가입일-->
+				<div class="form-row pt-4">
+					<div class="col-lg-4 col-md-6 pb-3 form-group">
+						<p class="my-1">프로필 사진</p>
+						<img class="form-control" id="thumbnail_container" th:src="'/files/' + ${userDto.profileName}"
+						     style="max-width: 100%; height: auto;">
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">아이디</label>
+						<input type="text" class="form-control" th:value="${userDto.uid}" readonly>
+						<label class="my-1">가입일</label>
+						<input type="text" class="form-control" th:value="${userDto.since}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">권한</label><br>
+						<div class="roles-box">
+							<div th:each="auth : ${userDto.roles}">
+								<label class="my-1" th:if="${auth == 'ROLE_USER'}">일반 사용자</label>
+								<label class="my-1" th:if="${auth == 'ROLE_MANAGER'}">매니저</label>
+								<label class="my-1" th:if="${auth == 'ROLE_ADMIN'}">관리자</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--// 프로필사진, 아이디, 권한, 가입일-->
+
+				<!-- 이름, 휴대전화, 닉네임 -->
+				<div class="form-row">
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">이름</label>
+						<input type="text" class="form-control" th:value="${userDto.name}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">휴대전화</label>
+						<input type="tel" class="form-control" th:value="${userDto.phone}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">닉네임</label>
+						<input type="text" class="form-control" th:value="${userDto.nickname}" readonly>
+					</div>
+				</div>
+				<!--// 이름, 휴대전화, 닉네임 -->
+
+				<!-- 이메일, 생년월일, 성별 -->
+				<div class="form-row">
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">이메일</label>
+						<input type="email" class="form-control" th:value="${userDto.email}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">생년월일</label>
+						<input type="text" class="form-control" th:value="${userDto.birth}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">성별</label>
+						<input type="text" class="form-control" th:value="${userDto.gender}" readonly>
+					</div>
+				</div>
+				<!--// 이메일, 생년월일, 성별 -->
+
+				<!-- 주소 -->
+				<div class="form-row">
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">우편번호</label>
+						<input type="text" class="form-control" th:value="${userDto.postcode}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">주소</label>
+						<input type="text" class="form-control" th:value="${userDto.address}" readonly>
+					</div>
+					<div class="col-lg-4 col-md-6 form-group">
+						<label class="my-1">상세주소</label>
+						<input type="text" class="form-control" th:value="${userDto.detailAddress}" readonly>
+					</div>
+				</div>
+				<!--// 주소 -->
+				<div class="pb-5 text-right">
+					<a th:href="@{/info/edit}" class="btn btn mr-2 mb-2 btn-outline-primary">수정하기</a>
+				</div>
+			</div>
+		</main>
 	</section>
-	<footer class="blog-footer" th:replace="fragments/common :: footer"/>
+	<footer th:replace="fragments/common :: footer"/>
 </div>
 </body>
 </html>

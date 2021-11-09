@@ -22,10 +22,19 @@
     <meta name="msapplication-config" content="https://getbootstrap.com/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
     <style>
-      /* 일반 모든 글씨 체 */
-      h1, h2, h3, h4, h5, h6, label, span, small,{
-        font-family: 나눔바른고딕;
-        font-weight: 500;
+      /* 외부 폰트 - 경로 : https://noonnu.cc/font_page/330 */
+      @font-face {
+        font-family: 'twaysky';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twaysky.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      /* 일반 모든 한글 글씨 체 */
+      h1, h2, h3, h4, h5, h6, label, span, small, a, button{
+        font-family: twaysky;
+      }
+      a {
+        color: #343a40!important;
       }
       @media (min-width: 768px) {
         .container {
@@ -64,7 +73,6 @@
 
             <a th:href="@{/info}" class="btn btn-sm mx-1"
                th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-secondary'" sec:authorize="isAuthenticated()">내 정보</a>
-
             <form class="form-inline my-2 my-lg-0 mx-1" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
 <!--              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>-->
               <button class="btn btn-sm btn-outline-secondary" type="submit">로그아웃</button>

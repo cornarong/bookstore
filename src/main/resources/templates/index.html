@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/common :: head('콘아롱 책방')"/>
 <body>
 <div id='wrap'>
@@ -8,13 +8,12 @@
 
 		<!-- 메인 스크린 썸네일 -->
 		<div class="container pt-4">
-			<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark index-img">
-				<div class="col-md-6 px-0">
-					<h1 class="display-4 font-italic">Welcome My Cornarong BookStore</h1>
-					<p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and
-						efficiently about what’s most interesting in this post’s contents.</p>
-					<p class="lead mb-0"><a href="#" class="text-white font-weight-bold">개발 중...</a></p>
-				</div>
+			<div class="jumbotron index-img">
+				<h1 class="display-4 blog-header-logo text-dark font-weight-bold">Welcome To Cornarong BookStore</h1>
+				<hr class="my-4">
+				<p class="lead">사용한 기술</p>
+				<strong class="lead">Spring Boot, Spring MVC, JPA, Spring Security</strong>
+				<p class="lead">Thymeleaf ...</p>
 			</div>
 		</div>
 		<!--// 메인 스크린 썸네일 -->
@@ -23,95 +22,84 @@
 		<main role="main" class="container">
 			<div class="row">
 				<div class="col-md-9 blog-main">
-					<h3 class="pb-4 mb-4 font-italic border-bottom">
-						From the Firehose
-					</h3>
-					<div class="col-md-13">
-						<div
-							class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-							<div class="col p-4 d-flex flex-column position-static">
-								<strong class="d-inline-block mb-2 text-success">Design</strong>
-								<h3 class="mb-0">Book Title</h3>
-								<div class="mb-1 text-muted">Nov 11</div>
-								<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in
-									to additional content.</p>
-								<a href="#" class="stretched-link">Continue reading</a>
-							</div>
-							<div class="col-auto d-none d-lg-block">
-								<svg class="bd-placeholder-img" width="200" height="250"
-								     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
-								     focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>
-									Placeholder</title>
-									<rect width="100%" height="100%" fill="#55595c"/>
-									<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-								</svg>
+
+					<div class="mb-4 border-bottom">
+						<div class="d-flex justify-content-between">
+							<h3 class="pb-2 ">오늘의 추천도서</h3>
+							<a class="d-flex align-items-end" style="text-decoration:none" th:href="@{/store}">도서 전체보기</a>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<div class="col-md-6 mb-3" th:each="bookDto,bookDtoStat : ${bookDtoList}" th:unless="${bookDtoStat.index > 3}">
+							<div class="row no-gutters border rounded overflow-hidden mb-3">
+								<div class="col-sm-7 card d-flex flex-column bd-highlight">
+									<div class="mx-2 pt-2">
+										<small style="font-weight: bold" th:if="${bookDto.type.toString().equals('DOMESTIC')}">국내도서</small>
+										<small style="font-weight: bold" th:if="${bookDto.type.toString().equals('INTERNATIONAL')}">외국도서</small>
+									</div>
+									<div class="mx-2 pt-2">
+										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}">
+											<h4 style="font-weight: bold" th:text="${bookDto.title}">제목</h4>
+										</a>
+									</div>
+									<div class="mx-2">
+										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+											<span class="text-muted" th:text="${bookDto.subTitle}">부제목</span>
+										</a>
+									</div>
+									<div class="mx-2">
+										<small class="text-muted" th:text="${bookDto.author} + ' 지음'">작가</small>
+									</div>
+									<div class="mx-2 mb-auto">
+										<small class="text-muted" th:text="'발행일 : ' + ${bookDto.publishedDate}">발행일</small>
+									</div>
+									<div class="mx-2 pb-2">
+										<hr class="mb-2">
+										<small th:text="'판매가 : ' + ${#numbers.formatInteger(bookDto.disPrice, 0, 'COMMA')} + '원'">가격</small>
+										<small class="mx-0" style="color: #dc3545" th:text="|(${bookDto.disRate}% 할인)|">할인률</small>
+									</div>
+									<div class="mx-2 pb-2">
+										<button href="#" type="button" class="btn btn-sm btn-outline-secondary"
+										        sec:authorize="isAnonymous()" th:onclick="|addBasket(${bookDto.id},'anonymous')|">장바구니</button>
+										<button href="#" type="button" class="btn btn-sm btn-outline-success"
+										        sec:authorize="isAnonymous()" th:onclick="|addOrder(${bookDto.id},'anonymous')|">구매하기</button>
+										<button href="#" type="button" class="btn btn-sm btn-outline-secondary"
+										        sec:authorize="!isAnonymous()" th:onclick="|addBasket(${bookDto.id},'user')|">장바구니</button>
+										<button href="#" type="button" class="btn btn-sm btn-outline-success"
+										        sec:authorize="!isAnonymous()" th:onclick="|addOrder(${bookDto.id},'user')|">구매하기</button>
+									</div>
+								</div>
+
+								<div class="col-sm-5">
+									<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}">
+										<img style="width: -webkit-fill-available; height: 260px; border:solid 3px; border-color:#6c757d;"
+										     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
+										<img style="width: -webkit-fill-available; height: 260px; border:solid 3px; border-color:#6c757d;"
+										     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-13">
-						<div
-							class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-							<div class="col p-4 d-flex flex-column position-static">
-								<strong class="d-inline-block mb-2 text-success">Design</strong>
-								<h3 class="mb-0">Book Title</h3>
-								<div class="mb-1 text-muted">Nov 11</div>
-								<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in
-									to additional content.</p>
-								<a href="#" class="stretched-link">Continue reading</a>
-							</div>
-							<div class="col-auto d-none d-lg-block">
-								<svg class="bd-placeholder-img" width="200" height="250"
-								     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
-								     focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>
-									Placeholder</title>
-									<rect width="100%" height="100%" fill="#55595c"/>
-									<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-								</svg>
-							</div>
-						</div>
-					</div>
-					<!-- blog-post -->
-					<nav class="blog-pagination">
-						<a class="btn btn-outline-primary" href="#">Older</a>
-						<a class="btn btn-outline-secondary disabled" href="#" tabindex="-1"
-						   aria-disabled="true">Newer</a>
-					</nav>
-					<!--// blog-post -->
 				</div>
 
-				<!-- 사이드 바 -->
+				<!-- 우측 사이드 바 -->
 				<aside class="col-md-3 blog-sidebar">
-					<div class="p-4 mb-3 bg-light rounded">
-						<h4 class="font-italic">Cornarong BookStore</h4>
-						<p class="mb-0">TEST CONTENT</p>
+					<div class="p-4 mb-3 index-img4">
+						<li><a href="#">Blog</a></li>
+						<li><a href="#">GitHub</a></li>
 					</div>
-					<div class="p-4">
-						<h4 class="font-italic">Archives</h4>
-						<ol class="list-unstyled mb-0">
-							<li><a href="#">March 2014</a></li>
-							<li><a href="#">February 2014</a></li>
-							<li><a href="#">January 2014</a></li>
-							<li><a href="#">December 2013</a></li>
-							<li><a href="#">November 2013</a></li>
-							<li><a href="#">October 2013</a></li>
-							<li><a href="#">September 2013</a></li>
-							<li><a href="#">August 2013</a></li>
-							<li><a href="#">July 2013</a></li>
-							<li><a href="#">June 2013</a></li>
-							<li><a href="#">May 2013</a></li>
-							<li><a href="#">April 2013</a></li>
-						</ol>
-					</div>
-					<div class="p-4">
-						<h4 class="font-italic">Elsewhere</h4>
-						<ol class="list-unstyled">
-							<li><a href="#">GitHub</a></li>
-							<li><a href="#">Twitter</a></li>
-							<li><a href="#">Facebook</a></li>
-						</ol>
+					<div class="p-4 index-img3">
+						<h4><strong>신규등록도서</strong></h4>
+						<div class="mb-0" th:each="bookDto : ${bookDtoList}">
+							<li class="my-2"><a href="#" th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}"
+							       style="color: black" th:text="${bookDto.title}">제목</a></li>
+						</div>
 					</div>
 				</aside>
-				<!--// 사이드 바 -->
+				<!--//  우측 사이드 바  -->
+
 			</div>
 		</main>
 	</section>

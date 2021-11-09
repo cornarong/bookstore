@@ -87,7 +87,7 @@
 							<hr class="mb-4">
 							<div class="order-md-2 mb-4">
 								<h4 class="d-flex justify-content-between align-items-center mb-3">
-									<span class="badge badge-secondary " th:text="|현재 재고량 : ${bookDto.quantity}|"></span>
+									<span class="badge badge-secondary " th:text="|현재 재고량 : ${bookDto.quantity} 개|"></span>
 								</h4>
 							</div>
 						</div>
@@ -97,15 +97,15 @@
 
 					<!-- 수량 및 합계금액 -->
 					<div class="d-flex justify-content-between">
-						<div class="col d-flex align-items-center">
+						<div class="col-4 justify-content-center d-flex align-items-center">
 							<strong>주문 수량</strong>
 						</div>
-						<div class="col-5 d-flex justify-content-center">
-							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("minus")' value=' - '/>
+						<div class="col-4 d-flex justify-content-center">
+							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("minus")' value='- '/>
 							<input type="text" class="col-md-2 btn-sm mx-1 text-center" id="cnt" name="cnt" value="1" maxlength="3">
-							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("plus")' value=' + '/>
+							<input type='button' class="col-md-2 btn btn-light border border-dark" onclick='count("plus")' value='+ '/>
 						</div>
-						<div class="col d-flex align-items-center">
+						<div class="col-4 d-flex justify-content-center align-items-center">
 							<strong>합계 가격　:　</strong>
 							<strong id="totalPrice" th:text="'&#8361; ' + ${#numbers.formatInteger(bookDto.disPrice, 0, 'COMMA')}"></strong>
 						</div>
@@ -135,12 +135,12 @@
 						</div>
 					</div>
 					<!--// button 부분 (구매, 장바구니담기, 로그인) -->
-
 					<!-- 본문 내용 -->
 					<div class="order-md-2 mb-4">
 						<h4 class="d-flex justify-content-between align-items-center mb-3">
-							<span class="text-muted">책 줄거리 및 내용</span>
+							<span class="text-muted">책의 정보 및 줄거리</span>
 						</h4>
+						<hr>
 						<div class="content" th:utext="${bookDto.content}" />
 					</div>
 					<!--// 본문 내용 -->
