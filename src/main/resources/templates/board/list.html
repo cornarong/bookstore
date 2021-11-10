@@ -42,24 +42,24 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="col-1">번호</th>
-                                <th class="col-4">제목</th>
-                                <th class="col-2">작성자</th>
-                                <th class="col-2">작성일</th>
-                                <th class="col-2">조회수</th>
-                                <th class="col-1">관리</th>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th>조회수</th>
+                                <th>관리</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="boardDto : ${boardDtoList}">
-                                <td class="col-1" th:text="${boardDto.id}">번호</td>
-                                <td class="col-4">
+                                <td th:text="${boardDto.id}">번호</td>
+                                <td>
                                     <a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a>
                                 </td>
-                                <td class="col-2" th:text="${boardDto.writer}"></td>
-                                <td class="col-2" th:text="${boardDto.regdate}"></td>
-                                <td class="col-2" th:text="${boardDto.views}"></td>
-                                <td class="col-1">
+                                <td th:text="${boardDto.writer}"></td>
+                                <td th:text="${boardDto.regdate}"></td>
+                                <td th:text="${boardDto.views}"></td>
+                                <td>
                                     <a style="text-decoration:none" th:if="${#authentication.name == boardDto.writer}"
                                         th:href="@{/board/edit/{boardId}(boardId=${boardDto.id})}">
                                         <i class="fa fa-pencil-square-o"></i>

@@ -74,9 +74,9 @@
 
 								<div class="col-sm-5">
 									<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}">
-										<img style="width: -webkit-fill-available; height: 260px; border:solid 3px; border-color:#6c757d;"
+										<img class="col" style="padding: 0; height: 260px; border:solid 3px; border-color:#6c757d;"
 										     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
-										<img style="width: -webkit-fill-available; height: 260px; border:solid 3px; border-color:#6c757d;"
+										<img class="col" style="padding: 0; height: 260px; border:solid 3px; border-color:#6c757d;"
 										     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
 									</a>
 								</div>

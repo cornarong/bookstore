@@ -57,6 +57,7 @@
 
 				</form>
 			</div>
+			<!--// 우측상단 장바구니 목록 -->
 
 			<div class="col-md-8 order-md-1">
 				<div class="row">
@@ -94,6 +95,7 @@
 							</div>
 						</div>
 					</div>
+					<!--// 책 정보 -->
 
 					<hr class="mb-3 mt-3">
 
@@ -137,6 +139,7 @@
 						</div>
 					</div>
 					<!--// button 부분 (구매, 장바구니담기, 로그인) -->
+
 					<!-- 본문 내용 -->
 					<div class="order-md-2 mb-4">
 						<h4 class="d-flex justify-content-center mb-3">
@@ -146,6 +149,7 @@
 						<div class="content" th:utext="${bookDto.content}" />
 					</div>
 					<!--// 본문 내용 -->
+
 					<!--// 책 정보 -->
 					<hr class="mb-4">
 			</div>
@@ -214,7 +218,7 @@
                 cnt : parseInt(cnt)
             },
             success: function () {
-                window.location.href = '/store/' + bookId + '?type=' + type
+                window.location.href = '/store/' + bookId + '?type=' + type;
             },
             error: function () {
                 console.error();

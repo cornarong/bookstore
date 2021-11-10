@@ -101,14 +101,14 @@
 							</div>
 						</div>
 
-						<div class="col-sm-4">
-							<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=(${type} == 'korea' ? 'K' : (${type} == 'foreign' ? 'F' : 'A')))}">
-								<img style="width: -webkit-fill-available; height: 285px; border:solid 3px; border-color:#6c757d;"
-								     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
-								<img style="width: -webkit-fill-available; height: 285px; border:solid 3px; border-color:#6c757d;"
-								     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
-							</a>
-						</div>
+							<div class="col-sm-4">
+								<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=(${type} == 'korea' ? 'K' : (${type} == 'foreign' ? 'F' : 'A')))}">
+									<img class="col" style="padding: 0; height: 285px; border:solid 3px; border-color:#6c757d;"
+									     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
+									<img class="col" style="padding: 0; height: 285px; border:solid 3px; border-color:#6c757d;"
+									     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
+								</a>
+							</div>
 					</div>
 				</div>
 			</div>
