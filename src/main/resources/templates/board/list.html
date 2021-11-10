@@ -1,45 +1,70 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/common :: head('board - 콘아롱 책방')"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
 <body>
     <div id='wrap'>
         <section>
             <div class="container" th:replace="fragments/common :: menu('board')"/>
+
             <!-- 메인 container -->
             <main role="main" class="container pt-4">
-                <h3 class="pb-4 blog-header-logo">
-                    Board List
-                </h3>
+
+                <div class="row mt-5 d-flex justify-content-between">
+                    <div class="col-3">
+                        <div>
+                            <h4>게시판</h4>
+                        </div>
+                    </div>
+                    <div class="col-7 d-flex justify-content-end align-items-center">
+                        <div class="mb-1">
+                            <strong>* 게시글 검색하기</strong>
+                            <small>검색가능 여부 : 제목, 내용</small>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 게시글 검색 -->
-                <form class="form-inline d-flex" method="get" th:action="@{/board}">
-                    <span class="mr-auto p-2" th:text="|총 건수 : ${boardDtoList.totalElements}|"></span>
+                <form class="form-inline" method="get" th:action="@{/board}">
+                    <div class="mr-auto p-2">
+                        <strong th:text="|총 건수 : ${boardDtoList.totalElements}|"></strong>
+                    </div>
                     <div class="form-group mx-sm-2 mb-2">
+                        <input type="hidden" name="type" th:value="${param.type}">
                         <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
                     </div>
-                    <button type="submit" style="background-color: #fff" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
+                    <button type="submit" class="btn btn-sm mr-2 mb-2 btn-outline-secondary">검색</button>
                 </form>
                 <!-- // 게시글 검색 -->
+
                 <!-- 게시글 목록 -->
                 <div class="card">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">번호</th>
-                                <th scope="col">제목</th>
-                                <th scope="col">작성자</th>
-                                <th scope="col">작성일</th>
-                                <th scope="col">조회수</th>
-<!--                                <th scope="col">관리</th>-->
+                                <th class="col-1">번호</th>
+                                <th class="col-4">제목</th>
+                                <th class="col-2">작성자</th>
+                                <th class="col-2">작성일</th>
+                                <th class="col-2">조회수</th>
+                                <th class="col-1">관리</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="boardDto : ${boardDtoList}">
-                                <td th:text="${boardDto.id}">번호</td>
-                                <td><a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a></td>
-                                <td th:text="${boardDto.writer}"></td>
-                                <td th:text="${boardDto.regdate}"></td>
-                                <td th:text="${boardDto.views}"></td>
-<!--                                <td ></td>-->
+                                <td class="col-1" th:text="${boardDto.id}">번호</td>
+                                <td class="col-4">
+                                    <a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a>
+                                </td>
+                                <td class="col-2" th:text="${boardDto.writer}"></td>
+                                <td class="col-2" th:text="${boardDto.regdate}"></td>
+                                <td class="col-2" th:text="${boardDto.views}"></td>
+                                <td class="col-1">
+                                    <a style="text-decoration:none" th:if="${#authentication.name == boardDto.writer}"
+                                        th:href="@{/board/edit/{boardId}(boardId=${boardDto.id})}">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

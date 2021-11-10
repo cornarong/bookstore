@@ -1,6 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
 <body>
 <div id='wrap'>
 	<section>
@@ -10,31 +11,39 @@
 				ALL USERS
 			</h3>
 			<form class="pb-1 form-inline d-flex" method="get">
-				<div class="mr-auto p-2">전체 회원수 : <span th:text="${userDtoList.size}"></span></div>
+				<strong class="mr-auto p-2">전체 회원수 : <span th:text="${userDtoList.size}"></span></strong>
 			</form>
 			<div class="table-responsive">
 				<table class="table table-striped table-sm">
 					<thead>
 					<tr>
-						<th>번호</th>
-						<th>회원ID</th>
-						<th>닉네임</th>
-						<th>권한</th>
-						<th>가입일</th>
-						<th>관리</th>
+						<th class="col-1 pl-3">번호</th>
+						<th class="col-1">회원ID</th>
+						<th class="col-1">닉네임</th>
+						<th class="col-1">이름</th>
+						<th class="col-1">성별</th>
+						<th class="col-1">권한</th>
+						<th class="col-1">가입일</th>
+						<th class="col-1 text-center">관리</th>
 					</tr>
 					</thead>
 					<tbody>
 						<tr th:each="userDto : ${userDtoList}">
-							<td th:text="${userDto.id}">번호</td>
-							<td th:text="${userDto.uid}">회원ID</td>
-							<td th:text="${userDto.nickname}">닉네임</td>
-							<td>
+							<td class="col-1 pl-4" th:text="${userDto.id}">번호</td>
+							<td class="col-1">
+								<a style="text-decoration:none" th:text="${userDto.uid}" th:href="@{/admin/user/{userId}(userId=${userDto.id})}">회원ID</a>
+							</td>
+							<td class="col-1" th:text="${userDto.nickname}">닉네임</td>
+							<td class="col-1"th:text="${userDto.name}">이름</td>
+							<td class="col-1" th:text="${userDto.gender}">성별</td>
+							<td class="col-1">
 								<p th:each="role : ${userDto.roles}" th:text="*{role}">권한</p>
 							</td>
-							<td th:text="${userDto.since}">가입일</td>
-							<td>
-								<a th:href="@{/admin/user/{userId}(userId=${userDto.id})}">상세</a>
+							<td class="col-1" th:text="${userDto.since}">가입일</td>
+							<td class="col-1 text-center">
+								<a style="text-decoration:none" th:href="@{/admin/user/{userId}(userId=${userDto.id})}">
+									<i class="fa fa-gear"></i>
+								</a>
 							</td>
 						</tr>
 					</tbody>

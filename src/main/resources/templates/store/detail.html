@@ -29,7 +29,8 @@
 							<small class="text-muted" style="display: grid;"
 							       th:text="|* 구매가격 : ${#numbers.formatInteger(basketDto.disPrice * basketDto.quantity, 0, 'COMMA')}원|">구매가격</small>
 						</div>
-						<div class="d-flex align-items-center"><!-- 장바구니 책 삭제 버튼-->
+						<!-- 장바구니 책 삭제 버튼-->
+						<div class="d-flex align-items-center">
 							<button class="btn btn-outline-danger rounded-circle" type="button" th:onclick="deleteBasket([[${basketDto.id}]], [[${bookId}]], [[${param.type}]])">
 								<i class="fa fa-trash"></i>
 							</button>
@@ -85,8 +86,8 @@
 							<h6 class="mb-3" th:text="|출판사 : ${bookDto.publisher}|">출판사</h6>
 							<h6 class="mb-3" th:text="|발행일 : ${bookDto.publishedDate}|">발행일</h6>
 							<hr class="mb-4">
-							<div class="order-md-2 mb-4">
-								<h4 class="d-flex justify-content-between align-items-center mb-3">
+							<div class="order-md-2">
+								<h4 class="d-flex justify-content-between align-items-center">
 									<span class="badge badge-secondary" style="font-weight: 500"
 									      th:text="|현재 재고량 : ${bookDto.quantity} 개|"></span>
 								</h4>
@@ -138,15 +139,14 @@
 					<!--// button 부분 (구매, 장바구니담기, 로그인) -->
 					<!-- 본문 내용 -->
 					<div class="order-md-2 mb-4">
-						<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<h4 class="d-flex justify-content-center mb-3">
 							<span class="text-muted">책의 정보 및 줄거리</span>
 						</h4>
-						<hr>
+						<hr class="my-4">
 						<div class="content" th:utext="${bookDto.content}" />
 					</div>
 					<!--// 본문 내용 -->
 					<!--// 책 정보 -->
-
 					<hr class="mb-4">
 			</div>
 		</main>

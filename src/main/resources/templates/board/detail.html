@@ -15,20 +15,20 @@
                 <div class="form-row pt-4">
                     <div class="col-lg-4 col-md-6 form-group">
                         <label for="writer" class="form-label">작성자</label>
-                        <input type="text" class="form-control" id="writer" th:value="${boardDto.writer}" readonly>
+                        <input type="text" class="form-control" style="background-color:transparent;" id="writer" th:value="${boardDto.writer}" readonly>
                     </div>
                 </div>
 
                 <!-- 제목 -->
                 <div class="mb-3">
                     <label for="title" class="form-label">제목</label>
-                    <input type="text" class="form-control" id="title" th:value="${boardDto.title}" readonly>
+                    <input type="text" class="form-control" id="title" style="background-color:transparent;" th:value="${boardDto.title}" readonly>
                 </div>
 
                 <!-- 내용 -->
                 <div class="mb-3">
                     <label for="content" class="form-label">내용</label>
-                    <textarea class="form-control" style="height: 450px;" id="content" th:text="${boardDto.content}" readonly></textarea>
+                    <textarea class="form-control" style="height: 450px; background-color:transparent;" id="content" th:text="${boardDto.content}" readonly></textarea>
                 </div>
 
                 <div class="pb-5 text-right">

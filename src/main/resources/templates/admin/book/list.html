@@ -1,22 +1,33 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments/common :: head('store - 콘아롱 책방')"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
 <body>
 <div id='wrap'>
 	<section>
 		<div class="container" th:replace="fragments/common :: menu('adminBook')"/>
 		<div class="container pt-4">
+
+			<!-- 로딩 화면 -->
+			<div class="loading-custom" id="loadingStatus" role="status">
+				<button class="row btn btn-secondary" type="button">
+					<span class="spinner-border spinner-border" aria-hidden="true"></span>
+					<span>책 가져오는중...</span>
+				</button>
+			</div>
+			<!--// 로딩 화면 -->
+
 			<h3 class="pb-4 blog-header-logo">
 				ALL ITEMS
 			</h3>
 
 			<!-- 크롤링 및 게시글 검색 -->
-			<small class="col mb-1 d-flex justify-content-end">* 크롤링 주소 : 교보문고 국내소설, 국외소설 베스트셀러</small>
-			<small class="col mb-1 d-flex justify-content-end">* 검색가능 여부 : 제목, 작가명, 출판사</small>
+			<small class="col mb-1 d-flex justify-content-end">크롤링 주소 : 교보문고 국내소설, 국외소설 베스트셀러</small>
+			<strong class="col mb-1 d-flex justify-content-end">* 검색가능 여부 : 제목, 작가명, 출판사</strong>
 			<form class="pb-1 form-inline d-flex" method="get" th:action="@{/admin/book}">
 				<strong class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></strong>
-				<a class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
-				<a class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
+				<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
+				<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
 				<a th:href="@{/admin/book/addForm}" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
 				<div class="form-group mx-sm-2 mb-2">
 					<input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
@@ -28,31 +39,37 @@
 			<!-- 책 목록 -->
 			<div class="table-responsive">
 				<table class="table table-striped table-sm">
-					<thead>
 					<tr>
 						<th class="pl-3">번호</th>
 						<th>분류</th>
 						<th>제목</th>
-						<th class="pl-4">작가</th>
+						<th class="pl-4 text-center">작가</th>
 						<th class="pl-4">출판사</th>
 						<th>수량</th>
 						<th>등록인</th>
 						<th>등록일</th>
-						<th><a style="text-decoration:none" class="d-flex justify-content-center">관리</a></th>
+						<th>
+							<a style="text-decoration:none" class="d-flex justify-content-center pl-3">관리</a>
+						</th>
 					</tr>
-					</thead>
 					<tbody>
 					<tr th:each="book : ${bookDtoList}">
 						<td class="col-1 pl-4" th:text="${book.id}">번호</td>
 						<td class="col-1" th:if="${book.type.toString() == 'DOMESTIC'}">국내도서</td>
 						<td class="col-1" th:if="${book.type.toString() == 'INTERNATIONAL'}">외국도서</td>
-						<td class="col-2" th:text="${book.title}">제목</td>
-						<td class="col-2 pl-4" th:text="${book.author}">작가</td>
+						<td class="col-2">
+							<a style="text-decoration:none" th:text="${book.title}" th:href="@{/admin/book/{bookId}(bookId=${book.id})}">제목</a>
+						</td>
+						<td class="col-2 pl-4 text-center" th:text="${book.author}">작가</td>
 						<td class="col-2 pl-4" th:text="${book.publisher}">출판사</td>
 						<td class="col-1" th:text="${book.quantity}">수량</td>
 						<td class="col-1"th:text="${book.uid}">등록인</td>
 						<td class="col-1"th:text="${book.regDate}">등록일</td>
-						<td class="col-1"><a style="text-decoration:none" class="d-flex justify-content-center" th:href="@{/admin/book/{bookId}(bookId=${book.id})}">상세</a></td>
+						<td class="col-1 pl-5">
+							<a style="text-decoration:none" th:href="@{/admin/book/{bookId}(bookId=${book.id})}">
+								<i class="fa fa-gear"></i>
+							</a>
+						</td>
 					</tr>
 					</tbody>
 				</table>
@@ -93,10 +110,12 @@
 	        return;
 	    }
 	    if(confirm(typeText+"를 크롤링 하시겠습니까?") == true){
+            showLoading();
 	        $.ajax({
 		        url: '/api/crawling/' + type,
 		        type: 'POST',
 		        success: function (){
+                    hideLoading()
 		            alert("크롤링이 성공적으로 완료되었습니다")
 			        window.location.href = '/admin/book';
 		        },
@@ -104,7 +123,35 @@
 		            alert("크롤링 실패")
 		        }
 	        });
+            // setTimeout("hideLoading()", 2000);
 	    }
 	}
+
+	/* 로딩화면 구현 */
+    function showLoading(){
+        //화면의 높이와 너비를 구합니다.
+        let maskHeight = $(document).height();
+        let maskWidth  = window.document.body.clientWidth;
+
+        //화면에 출력할 마스크를 설정해줍니다.
+        let mask ="<div id='mask' style='position:absolute; z-index:1000; background-color:#000000; left:0; top:0;'></div>";
+
+        //화면에 레이어 추가
+        $('body')
+            .append(mask)
+
+        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
+        $('#mask').css({
+            'width' : maskWidth
+            ,'height': maskHeight
+            ,'opacity' :'0.3'
+        });
+
+        $("#loadingStatus").show();
+    }
+    function hideLoading(){
+        $("#mask").remove();
+        $("#loadingStatus").hide();
+    }
 </script>
 </html>

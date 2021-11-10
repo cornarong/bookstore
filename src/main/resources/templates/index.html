@@ -13,7 +13,8 @@
 				<hr class="my-4">
 				<p class="lead">사용한 기술</p>
 				<strong class="lead">Spring Boot, Spring MVC, JPA, Spring Security</strong>
-				<p class="lead">Thymeleaf ...</p>
+				<br>
+				<strong class="lead">Thymeleaf ...</strong>
 			</div>
 		</div>
 		<!--// 메인 스크린 썸네일 -->
@@ -25,7 +26,7 @@
 
 					<div class="mb-4 border-bottom">
 						<div class="d-flex justify-content-between">
-							<h3 class="d-flex align-items-end">오늘의 추천도서</h3>
+							<h4 class="d-flex align-items-end">오늘의 추천도서</h4>
 							<a class="d-flex align-items-end" style="text-decoration:none" th:href="@{/store}">도서 전체보기</a>
 						</div>
 					</div>
@@ -44,7 +45,7 @@
 										</a>
 									</div>
 									<div class="mx-2">
-										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id})}">
+										<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=('A'))}">
 											<span th:text="${bookDto.subTitle}">부제목</span>
 										</a>
 									</div>
@@ -87,6 +88,7 @@
 				<!-- 우측 사이드 바 -->
 				<aside class="col-md-3 blog-sidebar">
 					<div class="p-4 mb-3 index-img4">
+						<span>만든이</span>
 						<li><a href="#">Blog</a></li>
 						<li><a href="#">GitHub</a></li>
 					</div>
@@ -107,4 +109,64 @@
 	<footer th:replace="fragments/common :: footer"/>
 </div>
 </body>
+<script>
+    /* 장바구니 담기 api */
+    function addBasket(bookId, auth) {
+        if(auth == 'user'){
+            let cnt = 1;
+            if(confirm("장바구니에 담으시겠습니까?") == true){
+                $.ajax({
+                    url: '/api/basket/' + bookId,
+                    type: 'post',
+                    data: {
+                        cnt : parseInt(cnt)
+                    },
+                    success: function () {
+                        alert("장바구니에 추가되었습니다")
+                    },
+                    error: function () {
+                        console.error();
+                        alert("post error");
+                    }
+                });
+            }
+        }else{
+            if(confirm("로그인이 필요한 기능입니다\n로그인 하시겠습니까?") == true){
+                window.location.href = '/login';
+            }else{
+                return;
+            }
+        }
+    };
+
+    /* 구매하기 api */
+    function addOrder(bookId, auth) {
+        if(auth == 'user'){
+            let cnt = 1;
+            if(confirm("바로 구매 하시겠습니까?") == true){
+                $.ajax({
+                    url: '/api/order/' + bookId,
+                    type: 'post',
+                    data: {
+                        cnt : parseInt(cnt)
+                    },
+                    success: function () {
+                        alert("정상적으로 주문되었습니다.");
+                        window.location.href = '/order';
+                    },
+                    error: function () {
+                        console.error();
+                        alert("post error");
+                    }
+                });
+            }
+        }else{
+            if(confirm("로그인이 필요한 기능입니다\n로그인 하시겠습니까?") == true){
+                window.location.href = '/login';
+            }else{
+                return;
+            }
+        }
+    };
+</script>
 </html>

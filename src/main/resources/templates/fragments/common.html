@@ -22,30 +22,7 @@
     <meta name="msapplication-config" content="https://getbootstrap.com/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
     <style>
-      /* 외부 폰트 - 경로 : https://noonnu.cc/font_page/330 */
-      @font-face {
-        font-family: 'twaysky';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twaysky.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-      }
-      /* 일반 모든 한글 글씨 체 */
-      h1, h2, h3, h4, h5, h6, label, span, strong, small, a, button, th, td {
-        font-family: twaysky;
-      }
-      th, td, table {
-        font-family: twaysky;
-        font-weight: 500;
-        font-size: small;
-      }
-      a{
-        color: #212529
-      }
-      @media (min-width: 768px) {
-        .container {
-          max-width: 1145px;
-        }
-      }
+
     </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -55,51 +32,57 @@
   <body>
       <!-- menu 상단바 fragment-->
       <div class="container" th:fragment="menu(menu)">
-      <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-4 pt-1">
-            <a class="p-2 text-muted" th:href="@{/}">Home</a>
-            <a class="p-2 text-muted" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품관리</a>
-            <a class="p-2 text-muted" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원관리</a>
+
+        <!-- 상단 메뉴(헤더) -->
+        <header class="blog-header py-3">
+          <div class="row justify-content-between align-items-center">
+
+            <div class="col-md-4 d-flex justify-content-start">
+              <a class="text-muted" th:href="@{/}">Home</a>
+              <a class="text-muted mx-3" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품관리</a>
+              <a class="text-muted" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원관리</a>
+            </div>
+
+            <div class="col-md-4 mb-2 text-center">
+              <a class="blog-header-logo text-dark" th:href="@{/}">Cornarong BookStore</a>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-end">
+              <a th:href="@{/account/login}" class="btn btn-sm mr-2 btn-outline-dark" sec:authorize="!isAuthenticated()">로그인</a>
+              <a th:href="@{/account/register}" class="btn btn-sm btn-outline-dark" sec:authorize="!isAuthenticated()">회원가입</a>
+              <a th:href="@{/basket}" class="btn btn-sm mx-1 d-flex align-items-center"
+                 th:classappend="${menu} == 'basket' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">장바구니</a>
+              <a th:href="@{/order}" class="btn btn-sm mx-1 d-flex align-items-center"
+                 th:classappend="${menu} == 'order' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">주문내역</a>
+              <a th:href="@{/info}" class="btn btn-sm mx-1 d-flex align-items-center"
+                 th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">내 정보</a>
+              <form th:action="@{/logout}" method="post" class="form-inline mx-1 d-flex align-items-center" sec:authorize="isAuthenticated()">
+                <button class="btn btn-sm btn-outline-dark" type="submit">로그아웃</button>
+              </form>
+            </div>
+
           </div>
-          <div class="col-4 text-center">
-            <a class="blog-header-logo text-dark" th:href="@{/}">Cornarong BookStore</a>
-          </div>
-          <div class="col-4 d-flex justify-content-end align-items-center">
-            <a th:href="@{/account/login}" class="btn btn-sm mr-2 btn-outline-dark" sec:authorize="!isAuthenticated()">로그인</a>
+        </header>
+        <!--// 상단 메뉴(헤더) -->
 
-            <a th:href="@{/account/register}" class="btn btn-sm btn-outline-dark" sec:authorize="!isAuthenticated()">회원가입</a>
+        <div class="d-flex justify-content-between align-items-center">
 
-            <a th:href="@{/basket}" class="btn btn-sm mx-1"
-               th:classappend="${menu} == 'basket' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">장바구니</a>
+            <div class="col-md-6 d-flex justify-content-start">
+              <a th:href="@{/}" class="p-2" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
+              <a th:href="@{/store(type = A)}" class="p-2" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
+              <a th:href="@{/store(type = K)}" class="p-2" th:classappend="${menu} == 'koreaBook'? 'font-weight-bold' : ''">국내도서</a>
+              <a th:href="@{/store(type = F)}" class="p-2" th:classappend="${menu} == 'foreignBook'? 'font-weight-bold' : ''">외국도서</a>
+              <a class="p-2">신작도서</a>
+              <a th:href="@{/board}" href="#" class="p-2" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
+            </div>
 
-            <a th:href="@{/order}" class="btn btn-sm mx-1"
-               th:classappend="${menu} == 'order' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">주문내역</a>
+            <div class="col-md-6 d-flex justify-content-end">
+              <span class="text-muted p-2" sec:authentication="name" sec:authorize="isAuthenticated()">사용자</span>
+              <span class="p-2" sec:authorize="isAuthenticated()">님 환영합니다</span>
+              <span class="text-muted p-2" sec:authorize="!isAuthenticated()">비회원 입니다</span>
+            </div>
 
-            <a th:href="@{/info}" class="btn btn-sm mx-1"
-               th:classappend="${menu} == 'info' ? 'btn-secondary' : 'btn-outline-dark'" sec:authorize="isAuthenticated()">내 정보</a>
-            <form class="form-inline my-2 my-lg-0 mx-1" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-<!--              <span class="text-muted mx-2" sec:authentication="principal.authorities">권한</span>-->
-              <button class="btn btn-sm btn-outline-dark" type="submit">로그아웃</button>
-            </form>
-          </div>
         </div>
-      </header>
-      <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-          <div>
-            <a href="#" th:href="@{/}" class="p-2" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
-            <a href="#" th:href="@{/store(type = A)}" class="p-2" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
-            <a href="#" th:href="@{/store(type = K)}" class="p-2" th:classappend="${menu} == 'koreaBook'? 'font-weight-bold' : ''">국내도서</a>
-            <a href="#" th:href="@{/store(type = F)}" class="p-2" th:classappend="${menu} == 'foreignBook'? 'font-weight-bold' : ''">외국도서</a>
-            <a href="#" class="p-2">신작도서</a>
-            <a th:href="@{/board}" href="#" class="p-2" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
-          </div>
-          <div>
-            <span class="text-muted mx-2" sec:authentication="name" sec:authorize="isAuthenticated()">사용자</span><span sec:authorize="isAuthenticated()">님 환영합니다</span>
-            <span class="text-muted mx-2" sec:authorize="!isAuthenticated()">비회원 입니다</span>
-          </div>
-      </div>
       </div>
       <!--// menu 상단바 fragment -->
       <!-- footer fragment -->
