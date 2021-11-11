@@ -1,34 +1,18 @@
 package com.mytoy.bookstore.config.security;
 
-import com.mytoy.bookstore.model.RoleHierarchy;
-import com.mytoy.bookstore.service.RoleHierarchyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import javax.annotation.security.PermitAll;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -51,9 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable() // CSRF : 이용자가 의도하지 하지 않은 요청을 하도록 함 (설정 해제)
             .authorizeRequests()
                 //구체적인 경로가 먼저 오고 그것보다 큰 범위의 경로가 뒤에 오도록 한다.
-                .antMatchers("/user/**").hasRole("USER") //  hasRole : default prefix = "ROLE_" 이다.
-                .antMatchers("/manager/**").hasRole("MANAGER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasRole("USER") //  hasRole : default prefix = "ROLE_" 이다.
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/files/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

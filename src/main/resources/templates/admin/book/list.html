@@ -22,11 +22,13 @@
 			<!-- 크롤링 및 게시글 검색 -->
 			<small class="col mb-1 d-flex justify-content-end">크롤링 주소 : 교보문고 국내소설, 국외소설 베스트셀러</small>
 			<strong class="col mb-1 d-flex justify-content-end">* 검색가능 여부 : 제목, 작가명, 출판사</strong>
-			<form class="pb-1 form-inline d-flex" method="get" th:action="@{/admin/book}">
+			<form class="pb-1 form-inline d-flex" method="get" th:action="@{/book}">
 				<strong class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></strong>
-				<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
-				<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
-				<a th:href="@{/admin/book/addForm}" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
+				<div th:if="${#authentication.authorities.size() == 3}">
+					<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="korea" th:onclick="|crawling(this)|">국내도서 크롤링</a>
+					<a href="#" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary" id="foreign" th:onclick="|crawling(this)|">외국도서 크롤링</a>
+				</div>
+				<a th:href="@{/book/addForm}" class="col-2 btn btn mr-2 mb-2 btn-outline-secondary">책 수동 등록하기</a>
 				<div class="form-group mx-sm-2 mb-2">
 					<input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm" th:value="${param.searchTerm}">
 				</div>
@@ -55,7 +57,7 @@
 						<td th:if="${book.type.toString() == 'DOMESTIC'}">국내도서</td>
 						<td th:if="${book.type.toString() == 'INTERNATIONAL'}">외국도서</td>
 						<td>
-							<a style="text-decoration:none" th:text="${book.title}" th:href="@{/admin/book/{bookId}(bookId=${book.id})}">제목</a>
+							<a style="text-decoration:none" th:text="${book.title}" th:href="@{/book/{bookId}(bookId=${book.id})}">제목</a>
 						</td>
 						<td class="pl-4 text-center" th:text="${book.author}">작가</td>
 						<td class="pl-4" th:text="${book.publisher}">출판사</td>
@@ -63,7 +65,7 @@
 						<td th:text="${book.uid}">등록인</td>
 						<td th:text="${book.regDate}">등록일</td>
 						<td class="pl-5">
-							<a style="text-decoration:none" th:href="@{/admin/book/{bookId}(bookId=${book.id})}">
+							<a style="text-decoration:none" th:href="@{/book/{bookId}(bookId=${book.id})}">
 								<i class="fa fa-gear"></i>
 							</a>
 						</td>
@@ -76,13 +78,13 @@
 			<nav aria-label="Page navigation example" th:if="${bookDtoList.totalElements != 0}">
 				<ul class="pagination justify-content-center">
 					<li class="page-item" th:classappend="${1 == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
-						<a class="page-link" th:href="@{/admin/book(page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
+						<a class="page-link" th:href="@{/book(page=${bookDtoList.pageable.pageNumber}-1, searchTerm=${param.searchTerm})}" tabindex="-1" aria-disabled="true">이전</a>
 					</li>
 					<li class="page-item" th:classappend="${page == bookDtoList.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(startPage, endPage)}">
-						<a class="page-link" th:href="@{/admin/book(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
+						<a class="page-link" th:href="@{/book(page=${page} - 1, searchTerm=${param.searchTerm})}" th:text="${page}">1</a>
 					</li>
 					<li class="page-item" th:classappend="${bookDtoList.totalPages == bookDtoList.pageable.pageNumber + 1} ? 'disabled'">
-						<a class="page-link" th:href="@{/admin/book(page=${bookDtoList.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
+						<a class="page-link" th:href="@{/book(page=${bookDtoList.pageable.pageNumber} + 1, searchTerm=${param.searchTerm})}">다음</a>
 					</li>
 				</ul>
 			</nav>
@@ -113,7 +115,7 @@
 		        success: function (){
                     hideLoading()
 		            alert("크롤링이 성공적으로 완료되었습니다")
-			        window.location.href = '/admin/book';
+			        window.location.href = '/book';
 		        },
 		        error: function (){
 		            alert("크롤링 실패")

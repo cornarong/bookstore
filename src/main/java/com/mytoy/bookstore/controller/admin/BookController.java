@@ -1,13 +1,13 @@
 package com.mytoy.bookstore.controller.admin;
 
 import com.mytoy.bookstore.dto.BookDto;
-import com.mytoy.bookstore.model.BookType;
 import com.mytoy.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +20,27 @@ import java.io.IOException;
 
 @Slf4j
 @Controller
+@Secured({"ROLE_ADMIN","ROLE_MANAGER"}) // 해당 권한만 접근 가능
 @RequiredArgsConstructor
-@RequestMapping("/admin")
 public class BookController {
 
     private final BookService bookService;
 
     /* 책관리 목록 */
     @GetMapping("/book")
-        public String list(Model model,
+        public String adminList(Model model, Authentication authentication,
                            @PageableDefault(size = 10) Pageable pageable,
                            @RequestParam(defaultValue = "") String searchTerm){
-        BookType bookType = null;
-        Page<BookDto> bookDtoList = bookService.all(searchTerm, bookType, pageable);
+
+        Page<BookDto> bookDtoList;
+        if(authentication.getAuthorities().size() == 3){ // 관리자 조회
+            bookDtoList = bookService.all(searchTerm, null, pageable);
+        }else if(authentication.getAuthorities().size() == 2){ // 매니저 조회
+            String uid = authentication.getName();
+            bookDtoList = bookService.myBooks(uid, searchTerm, pageable);
+        }else{
+            return "redirect:/";
+        }
 
         int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);
         int endPage = Math.min(bookDtoList.getTotalPages(), bookDtoList.getPageable().getPageNumber() + 10);
@@ -64,7 +72,7 @@ public class BookController {
         Long bookId = bookService.add(bookDto, uid);
 
         redirectAttributes.addAttribute("save", true);
-        return "redirect:/admin/book/" + bookId;
+        return "redirect:/book/" + bookId;
     }
 
     /* 책관리 상세페이지 */
@@ -73,12 +81,18 @@ public class BookController {
         BookDto bookDto = bookService.detail(bookId);
         String uid = authentication.getName();
 
+        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
+        if(authentication.getAuthorities().size() != 3){
+            if(!bookDto.getUid().equals(uid)) return "redirect:/";
+        }
+
         model.addAttribute("bookDto", bookDto);
         model.addAttribute("auth_uid", uid);
         return "/admin/book/detail";
     }
 
     /* 책관리 수정페이지 */
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/book/edit/{bookId}")
     public String editForm(@PathVariable Long bookId, Model model){
         BookDto bookDto = bookService.detail(bookId);
@@ -88,6 +102,7 @@ public class BookController {
     }
 
     /* 책정보 수정 */
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/book/edit/{bookId}")
     public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
@@ -98,6 +113,6 @@ public class BookController {
         bookService.edit(bookId, bookDto);
 
         redirectAttributes.addAttribute("edit", true);
-        return "redirect:/admin/book/" + bookId;
+        return "redirect:/book/" + bookId;
     }
  }

@@ -39,8 +39,13 @@
 
             <div class="col-md-4 d-flex justify-content-start">
               <a class="text-muted" th:href="@{/}">Home</a>
-              <a class="text-muted mx-3" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/admin/book}" sec:authorize="isAuthenticated()">상품관리</a>
-              <a class="text-muted" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원관리</a>
+              <!-- 관리자 -->
+              <div th:if="${#authentication.authorities.size() >= 2}">
+                <a class="text-muted mx-3" th:classappend="${menu} == 'adminBook' ? 'font-weight-bold' : ''" th:href="@{/book}" sec:authorize="isAuthenticated()">상품관리</a>
+              </div>
+              <div th:if="${#authentication.authorities.size() == 3}">
+                <a class="text-muted" th:classappend="${menu} == 'adminUser' ? 'font-weight-bold' : ''" th:href="@{/admin/user}" sec:authorize="isAuthenticated()">회원관리</a>
+              </div>
             </div>
 
             <div class="col-md-4 mb-2 text-center">
@@ -69,10 +74,10 @@
 
             <div class="col-md-6 d-flex justify-content-start">
               <a th:href="@{/}" class="p-2" th:classappend="${menu} == 'home'? 'font-weight-bold' : ''">메인</a>
-              <a th:href="@{/store(type = A)}" class="p-2" th:classappend="${menu} == 'allBook'? 'font-weight-bold' : ''">모든도서</a>
-              <a th:href="@{/store(type = K)}" class="p-2" th:classappend="${menu} == 'koreaBook'? 'font-weight-bold' : ''">국내도서</a>
-              <a th:href="@{/store(type = F)}" class="p-2" th:classappend="${menu} == 'foreignBook'? 'font-weight-bold' : ''">외국도서</a>
-              <a class="p-2">신작도서</a>
+              <a th:href="@{/store(type = A)}" class="p-2" th:classappend="${menu} == 'A'? 'font-weight-bold' : ''">모든도서</a>
+              <a th:href="@{/store(type = K)}" class="p-2" th:classappend="${menu} == 'K'? 'font-weight-bold' : ''">국내도서</a>
+              <a th:href="@{/store(type = F)}" class="p-2" th:classappend="${menu} == 'F'? 'font-weight-bold' : ''">외국도서</a>
+              <a th:href="@{/store(type = D)}" class="p-2" th:classappend="${menu} == 'D'? 'font-weight-bold' : ''">신작도서</a>
               <a th:href="@{/board}" href="#" class="p-2" th:classappend="${menu} == 'board'? 'font-weight-bold' : ''">게시판</a>
             </div>
 

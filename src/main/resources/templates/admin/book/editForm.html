@@ -8,7 +8,7 @@
 		<main role="main" class="container pt-4">
 			<div class="container" data-aos="fade-up">
 				<h3 class="pb-1 blog-header-logo">Product Edit</h3>
-				<form th:action="@{/admin/book/edit/{bookId}(bookId=*{id})}" method="post" role="form"
+				<form th:action="@{/book/edit/{bookId}(bookId=*{id})}" method="post" role="form"
 				      th:object="${bookDto}" enctype="multipart/form-data">
 					<input type="hidden" name="_method" value="put"> <!-- HiddenHttpMethodFilter 사용 -->
 					<input type="hidden" th:field="*{id}">
@@ -169,7 +169,7 @@
 					<!--// 설명 및 줄거리 HTML-->
 
 					<div class="pb-5 text-right">
-						<a th:href="@{/admin/book/{bookId}(bookId=*{id})}"
+						<a th:href="@{/book/{bookId}(bookId=*{id})}"
 						   class="btn btn mr-2 mb-2 btn-outline-secondary">이전으로</a>
 						<button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">저장하기</button>
 					</div>

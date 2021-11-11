@@ -10,8 +10,7 @@
 			<div class="mb-5">
 				<strong style="color:#dc3545; float: right">&#149 필수 항목입니다</strong>
 			</div>
-			<form th:action="@{/admin/book/addForm}" th:object="${bookDto}" method="post"
-			      enctype="multipart/form-data">
+			<form th:action="@{/book/addForm}" th:object="${bookDto}" method="post" enctype="multipart/form-data">
 
 				<!-- 분류 -->
 				<div class="form-row pt-4">
@@ -146,7 +145,7 @@
 				<!--// 이미지 미리보기, 설명 및 줄거리 -->
 
 				<div class="pb-5 text-right">
-					<a th:href="@{/admin/book}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
+					<a th:href="@{/book}" class="btn btn mr-2 mb-2 btn-outline-secondary">돌아가기</a>
 					<button type="submit" class="btn btn mr-2 mb-2 btn-outline-primary">등록하기</button>
 				</div>
 

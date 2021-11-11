@@ -6,7 +6,8 @@
 <body>
 <div id='wrap'>
 	<section>
-		<div th:with="menu = (${param.type.get(0)} == 'K' ? 'koreaBook' : (${param.type.get(0)} == 'F' ? 'foreignBook' : 'allBook'))">
+<!--		<div th:with="menu = (${param.type.get(0)} == 'K' ? 'koreaBook' : (${param.type.get(0)} == 'F' ? 'foreignBook' : 'allBook'))">-->
+		<div th:with="menu = ${param.type.get(0)}">
 			<div class="container" th:replace="fragments/common :: menu(${menu})"/>
 		</div>
 		<main role="main" class="container row pt-4" style="margin-right: auto; margin-left: auto;">

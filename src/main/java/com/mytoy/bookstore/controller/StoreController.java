@@ -42,14 +42,17 @@ public class StoreController {
                         @PageableDefault(size = 10) Pageable pageable,
                         @RequestParam(defaultValue = "") String type,
                         @RequestParam(defaultValue = "") String searchTerm){
-        BookType bookType = null;
-        if(type.equals("K")){
-            bookType = BookType.DOMESTIC;
-        }else if(type.equals("F")){
-            bookType = BookType.INTERNATIONAL;
-        }
 
-        Page<BookDto> bookDtoList = bookService.all(searchTerm, bookType, pageable);
+        Page<BookDto> bookDtoList;
+        if(type.equals("K")){
+            bookDtoList = bookService.all(searchTerm, BookType.DOMESTIC, pageable);
+        }else if(type.equals("F")){
+            bookDtoList = bookService.all(searchTerm, BookType.INTERNATIONAL, pageable);
+        }else if(type.equals("D")){
+            bookDtoList = bookService.allDesc(searchTerm, pageable);
+        }else{
+            bookDtoList = bookService.all(searchTerm, null, pageable);
+        }
 
         int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);
         int endPage = Math.min(bookDtoList.getTotalPages(), bookDtoList.getPageable().getPageNumber() + 10);
@@ -57,7 +60,7 @@ public class StoreController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("bookDtoList", bookDtoList);
-        model.addAttribute("type", bookType == null ? "all" : bookType == BookType.DOMESTIC ? "korea" : "foreign" );
+        model.addAttribute("type", (type.equals("") || type.equals("A")) ? "A" : type.equals("K") ? "K" : type.equals("F") ? "F" : "D");
         return "/store/allList";
     }
 

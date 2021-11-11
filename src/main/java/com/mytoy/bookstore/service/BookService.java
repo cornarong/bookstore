@@ -11,9 +11,9 @@ import com.mytoy.bookstore.repository.BookRepository;
 import com.mytoy.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,31 +22,42 @@ import java.io.IOException;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor // final 을 가진 필드의 생성자를 자동으로 만들어 준다.
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
     private final BookRepository bookRepository;
-
-    @Autowired
     private final UserRepository userRepository;
 
-    /* 책 전체 목록 가져오기 */
-    public Page<BookDto> all(String searchTerm, BookType bookType, Pageable pageable) {
+    /* 모든,국내,국외 책 목록 가져오기 */
+    public Page<BookDto> all(String searchTerm, BookType type, Pageable pageable) {
         Page<Book> bookList;
-        if(bookType == null) {
+        if(type == null) {
             bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(
                     searchTerm, searchTerm, searchTerm, pageable);
         } else {
-            bookList = bookRepository.findByTypeAndSearchTerm(
-                    bookType, searchTerm, searchTerm, searchTerm, pageable);
-
+            bookList = bookRepository.findByTypeAndSearchTerm(type, searchTerm, searchTerm, searchTerm, pageable);
         }
-        log.info("bookList size = {}", bookList.getSize());
-        log.info("bookList ele = {}", bookList.getTotalElements());
         Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
         return bookDtoList;
     }
+
+    /* 모든 책 목록 (발행일 기준 내림차 순) 가져오기 */
+    public Page<BookDto> allDesc(String searchTerm, Pageable pageable) {
+        Page<Book> bookList;
+        bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
+                searchTerm, searchTerm, searchTerm, pageable);
+        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
+        return bookDtoList;
+    }
+
+    /* 내가 등록한 책 목록 가져오기 */
+    public Page<BookDto> myBooks(String uid, String searchTerm, Pageable pageable) {
+        Long userId = userRepository.findByUid(uid).getId();
+        Page<Book> bookList = bookRepository.findByMyBooks(userId, searchTerm, searchTerm, searchTerm, pageable);
+        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
+        return bookDtoList;
+    }
+
 
     /* 책 단건 가져오기 */
     @Transactional

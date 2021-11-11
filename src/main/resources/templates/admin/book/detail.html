@@ -111,9 +111,9 @@
 				<!--// 설명 및 줄거리 HTML-->
 
 				<div class="pb-5 text-right">
-					<a class="btn btn mr-2 mb-2 btn-outline-secondary" th:href="@{/admin/book}">목록으로</a>
+					<a class="btn btn mr-2 mb-2 btn-outline-secondary" th:href="@{/book}">목록으로</a>
 					<a class="btn btn mr-2 mb-2 btn-outline-primary"
-					   th:href="@{/admin/book/edit/{bookId}(bookId=${bookDto.id})}">수정하기</a>
+					   th:href="@{/book/edit/{bookId}(bookId=${bookDto.id})}">수정하기</a>
 					<a class="btn btn mr-2 mb-2 btn-outline-danger" th:if="${auth_uid} == *{bookDto.uid}"
 					   th:onclick="|deletePost(${bookDto.id})|">삭제하기</a>
 				</div>
@@ -134,7 +134,7 @@
                 type: 'DELETE',
                 success: function () {
                     alert('해당 책이 삭제되었습니다');
-                    window.location.href = '/admin/book';
+                    window.location.href = '/book';
                 },
                 error: function () {
                     alert("delete error");

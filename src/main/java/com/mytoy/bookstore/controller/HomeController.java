@@ -23,8 +23,10 @@ public class HomeController {
                         @PageableDefault(size = 12) Pageable pageable,
                         @RequestParam(defaultValue = "") String searchTerm){
             Page<BookDto> bookDtoList = bookService.all(searchTerm, null, pageable);
+            Page<BookDto> bookDtoListDesc = bookService.allDesc(searchTerm, pageable);
 
             model.addAttribute("bookDtoList", bookDtoList);
+            model.addAttribute("bookDtoListDesc", bookDtoListDesc);
         return "index";
     }
 

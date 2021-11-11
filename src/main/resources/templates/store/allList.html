@@ -4,27 +4,28 @@
 <body>
 <div id='wrap'>
 	<section>
-		<div th:with="menu = (${type.equals('all')} == true ? 'allBook' : (${type.equals('korea')} == true ? 'koreaBook' : 'foreignBook'))">
+		<div th:with="menu = ${type.toString()}">
 			<div class="container" th:replace="fragments/common :: menu(${menu})"/>
 		</div>
 
 		<!-- 메인 container -->
 		<main role="main" class="container pt-4">
-
 			<div class="mt-3 mr-5 d-flex d-flex justify-content-between">
 				<div class="d-flex align-items-end">
-					<h4 th:if="${type.equals('all')}" >모든 도서</h4>
-					<h4 th:if="${type.equals('korea')}" >국내 도서</h4>
-					<h4 th:if="${type.equals('foreign')}" >외국 도서</h4>
+					<h4 th:if="${type.equals('A')}" >모든 도서</h4>
+					<h4 th:if="${type.equals('K')}" >국내 도서</h4>
+					<h4 th:if="${type.equals('F')}" >외국 도서</h4>
+					<h4 th:if="${type.equals('D')}" >신작 도서</h4>
 				</div>
 				<div>
 					<div class="mr-2">
 						<small>검색가능 여부 : 제목, 작가명, 출판사</small>
 					</div>
 					<div class="mb-1">
-						<strong th:if="${type.equals('all')}">* 모든도서 내에서 검색하기</strong>
-						<strong th:if="${type.equals('korea')}">* 국내도서 내에서 검색하기</strong>
-						<strong th:if="${type.equals('foreign')}">* 외국도서 내에서 검색하기</strong>
+						<strong th:if="${type.equals('A')}">* 모든도서 내에서 검색하기</strong>
+						<strong th:if="${type.equals('K')}">* 국내도서 내에서 검색하기</strong>
+						<strong th:if="${type.equals('F')}">* 외국도서 내에서 검색하기</strong>
+						<strong th:if="${type.equals('D')}">* 신작도서 내에서 검색하기</strong>
 					</div>
 				</div>
 			</div>
@@ -68,7 +69,7 @@
 							</div>
 							<div class="mx-2 pt-2">
 								<a style="text-decoration:none" th:href="@{/store/{bookId}(bookId=${bookDto.id},
-									type=(${type} == 'korea' ? 'K' : (${type} == 'foreign' ? 'F' : 'A')))}">
+									type=(${type} == 'A' ? 'A' : (${type} == 'K' ? 'K' : (${type} == 'F' ? 'F' : 'D'))))}">
 									<h4 th:text="${bookDto.title}">제목</h4>
 								</a>
 							</div>

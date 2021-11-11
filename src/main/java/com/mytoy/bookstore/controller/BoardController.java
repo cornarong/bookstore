@@ -6,7 +6,6 @@ import com.mytoy.bookstore.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
-import com.mytoy.bookstore.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +25,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private final BoardRepository boardRepository;
     private final BoardValidator boardValidator; // 유효성 검사 커스텀
 
     @Autowired
