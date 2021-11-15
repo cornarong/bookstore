@@ -1,8 +1,6 @@
 package com.mytoy.bookstore.service;
 
 import com.mytoy.bookstore.dto.OrderDto;
-import com.mytoy.bookstore.mapper.OrderMapper;
-import com.mytoy.bookstore.mapper.OrderMapperImpl;
 import com.mytoy.bookstore.model.*;
 import com.mytoy.bookstore.repository.BasketRepository;
 import com.mytoy.bookstore.repository.BookRepository;
@@ -10,14 +8,11 @@ import com.mytoy.bookstore.repository.OrderRepository;
 import com.mytoy.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.criteria.internal.OrderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

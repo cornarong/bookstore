@@ -2,8 +2,6 @@ package com.mytoy.bookstore.dto;
 
 
 import com.mytoy.bookstore.model.Basket;
-import com.mytoy.bookstore.model.Book;
-import com.mytoy.bookstore.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

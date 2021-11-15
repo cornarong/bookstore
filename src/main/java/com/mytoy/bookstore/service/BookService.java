@@ -1,9 +1,8 @@
 package com.mytoy.bookstore.service;
 
-import com.mytoy.bookstore.dto.BoardDto;
 import com.mytoy.bookstore.dto.BookDto;
 import com.mytoy.bookstore.mapper.BookMapper;
-import com.mytoy.bookstore.mapper.BookMapperImpl;
+import com.mytoy.bookstore.mapper.impl.BookMapperImpl;
 import com.mytoy.bookstore.model.Book;
 import com.mytoy.bookstore.model.BookType;
 import com.mytoy.bookstore.model.User;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

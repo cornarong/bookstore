@@ -2,7 +2,7 @@ package com.mytoy.bookstore.service;
 
 import com.mytoy.bookstore.dto.UserDto;
 import com.mytoy.bookstore.mapper.UserMapper;
-import com.mytoy.bookstore.mapper.UserMapperImpl;
+import com.mytoy.bookstore.mapper.impl.UserMapperImpl;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;

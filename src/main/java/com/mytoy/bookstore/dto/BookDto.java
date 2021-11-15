@@ -1,21 +1,14 @@
 package com.mytoy.bookstore.dto;
 
-import com.mytoy.bookstore.mapper.BookMapper;
-import com.mytoy.bookstore.mapper.BookMapperImpl;
-import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.Book;
 import com.mytoy.bookstore.model.BookType;
 import lombok.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
