@@ -8,7 +8,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     // EntityGraph 어노테이션 사용시 fetch타입 무시하고 board를 join으로 전부 조회한다.
     // User클래스의 board의 fetch = FetchType.LAZY or fetch = FetchType.EGAR 둘다 무시.

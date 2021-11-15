@@ -7,7 +7,7 @@ import com.mytoy.bookstore.model.Board;
 import com.mytoy.bookstore.model.Board.BoardBuilder;
 import javax.annotation.processing.Generated;
 
-// ## Board Mapper
+
 
 @Generated(
         value = "org.mapstruct.ap.MappingProcessor",

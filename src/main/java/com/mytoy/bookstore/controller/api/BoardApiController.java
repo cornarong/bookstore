@@ -5,7 +5,6 @@ import com.mytoy.bookstore.repository.BoardRepository;
 import com.mytoy.bookstore.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 

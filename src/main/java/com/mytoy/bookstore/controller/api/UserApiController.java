@@ -1,11 +1,8 @@
 package com.mytoy.bookstore.controller.api;
 
-import com.mytoy.bookstore.model.Board;
-import com.mytoy.bookstore.model.QUser;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
-import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +22,23 @@ class UserApiController {
     private final UserService userService;
 
     // 사용자 조회
-    @GetMapping("/users")
-    Iterable<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
-        Iterable<User> users = null;
-        // method가 안오면 선택대상 자체가 null이라 조건을 주려면 뒤집어야 한다.
-        if("query".equals(method)){
-            users = userRepository.findByUidQuery(text);
-        }else if("nativeQuery".equals(method)){
-            users = userRepository.findByUidNativeQuery(text);
-        }else if("querydsl".equals(method)){
-            QUser user = QUser.user;
-            Predicate predicate = user.uid.contains(text);
-            users = userRepository.findAll(predicate);
-        }else{
-            users = userRepository.findAll();
-        }
-        return users;
-    }
+//    @GetMapping("/users")
+//    Iterable<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
+//        Iterable<User> users = null;
+//        // method가 안오면 선택대상 자체가 null이라 조건을 주려면 뒤집어야 한다.
+//        if("query".equals(method)){
+//            users = userRepository.findByUidQuery(text);
+//        }else if("nativeQuery".equals(method)){
+//            users = userRepository.findByUidNativeQuery(text);
+//        }else if("querydsl".equals(method)){
+//            QUser user = QUser.user;
+//            Predicate predicate = user.uid.contains(text);
+//            users = userRepository.findAll(predicate);
+//        }else{
+//            users = userRepository.findAll();
+//        }
+//        return users;
+//    }
 
     @PostMapping("/users}")
     User user(@RequestBody User user) {

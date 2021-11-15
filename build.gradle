@@ -3,7 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	// querydsl 플러그인
-	id 'com.ewerk.gradle.plugins.querydsl' version "1.0.10"
+//	id 'com.ewerk.gradle.plugins.querydsl' version "1.0.10"
 
 }
 
@@ -26,16 +26,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	/* 매핑 라이브러리 (DTO와 ENTITY를 매핑) */
-	// 1. modelmapper
-	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
-	// 2. mapstruct * lombok과 같이 사용할 때는 mapstruct annotationProcessor를 반드시 lombok보다 일찍 선언해야된다.
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
 	implementation 'mysql:mysql-connector-java:8.0.26'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -47,25 +37,36 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.14.3'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
- 	implementation 'com.querydsl:querydsl-jpa' // querydsl-jap 라이브러리
+
+	/* 매핑 라이브러리 (DTO와 ENTITY를 매핑) */
+	// 1. modelmapper
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+	// 2. mapstruct * lombok과 같이 사용할 때는 mapstruct annotationProcessor를 반드시 lombok보다 일찍 선언해야된다.
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+//	implementation 'com.querydsl:querydsl-jpa' // querydsl-jap 라이브러리
+
 	runtimeOnly 'com.h2database:h2'
 }
-	// ## querydsl 추가 시작 ##
-	def querydslDir = "$buildDir/generated/querydsl"
-	querydsl {
-		jpa = true
-		querydslSourcesDir = querydslDir
-	}
-	sourceSets {
-		main.java.srcDir querydslDir
-	}
-	configurations {
-		querydsl.extendsFrom compileClasspath
-	}
-	compileQuerydsl {
-		options.annotationProcessorPath = configurations.querydsl
-	}
-	// ## querydsl 추가 끝 ##
-test {
-	useJUnitPlatform()
-}
+//	// ## querydsl 추가 시작 ##
+//	def querydslDir = "$buildDir/generated/querydsl"
+//	querydsl {
+//		jpa = true
+//		querydslSourcesDir = querydslDir
+//	}
+//	sourceSets {
+//		main.java.srcDir querydslDir
+//	}
+//	configurations {
+//		querydsl.extendsFrom compileClasspath
+//	}
+//	compileQuerydsl {
+//		options.annotationProcessorPath = configurations.querydsl
+//	}
+//	// ## querydsl 추가 끝 ##
+//test {
+//	useJUnitPlatform()
+//}
