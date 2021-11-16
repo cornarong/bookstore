@@ -103,7 +103,7 @@ public class Book {
             this.thumbnailType = thumbnail.getOriginalFilename();
             this.thumbnailPath = filePath;
         }else{
-            this.thumbnailType = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
+            this.thumbnailType = "noImage.jpg"; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
             this.thumbnailPath = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
         }
     }

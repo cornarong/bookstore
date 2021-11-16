@@ -120,11 +120,10 @@
 			        window.location.href = '/book';
 		        },
 		        error: function (){
+		            alert("컨넥션 타임아웃, 잠시후 다시 시도해주세요")
                     hideLoading()
-		            alert("크롤링 실패")
 		        }
 	        });
-            setTimeout("hideLoading()", 2000);
 	    }
 	}
 </script>

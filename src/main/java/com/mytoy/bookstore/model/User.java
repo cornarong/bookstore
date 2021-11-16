@@ -105,7 +105,7 @@ public class User {
             this.profileName = profile.getOriginalFilename();
             this.profilePath = filePath;
         }else{
-            this.profileName = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
+            this.profileName = "noImage.jpg"; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
             this.profilePath = null; // 이미지가 없을 경우 DB는 'NULL' 으로 처리.
         }
     }
