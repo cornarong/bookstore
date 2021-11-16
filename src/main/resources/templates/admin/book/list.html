@@ -118,6 +118,7 @@
 			        window.location.href = '/book';
 		        },
 		        error: function (){
+                    hideLoading()
 		            alert("크롤링 실패")
 		        }
 	        });

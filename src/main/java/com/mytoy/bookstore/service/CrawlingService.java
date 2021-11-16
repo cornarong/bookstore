@@ -80,8 +80,6 @@ public class CrawlingService {
             String detailUrl = detailUrlElements.get(i).attr("href");
             Document detailDoc = Jsoup.connect(detailUrl).get();
 
-            log.info("error page = {}", detailUrl);
-
             // * 책소개, 상세이미지, 목차, 책속으로, 출판사 서평
             Elements select = detailDoc.select("div.box_detail_content");
             String html = select.toString();
