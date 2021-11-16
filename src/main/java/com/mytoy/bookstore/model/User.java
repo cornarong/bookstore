@@ -95,9 +95,11 @@ public class User {
     /* 프로필 이미지 저장 */
     public void saveProfile(MultipartFile profile) throws IOException {
         if(profile.getSize() != 0){
+            // local
 //            String baseDir = "D:\\study\\profile_image";
 //            String filePath = baseDir + "\\" + profile.getOriginalFilename();
-            String baseDir = "/home/ec2-user/bookstore/profile/"; // aws 서버
+            // aws서버
+            String baseDir = "/home/ec2-user/bookstore/profile/";
             String filePath = baseDir + profile.getOriginalFilename();
             profile.transferTo(new File(filePath));
             this.profileName = profile.getOriginalFilename();
