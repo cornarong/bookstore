@@ -30,16 +30,16 @@ public class SpringConfig implements WebMvcConfigurer {
     // 2. 이곳 물리경로 에서 파일을 읽어온다.
 
     // ## AWS 서버 ##
-//    @Value("file:/home/ec2-user/bookstore/profile/")
-//    private String profilePath;
-//    @Value("file:/home/ec2-user/bookstore/thumbnail/")
-//    private String thumbnailPath;
+    @Value("file:/home/ec2-user/bookstore/profile/")
+    private String profilePath;
+    @Value("file:/home/ec2-user/bookstore/thumbnail/")
+    private String thumbnailPath;
 
     // ## 윈도우 로컬 ##
-    @Value("file:///D:/study/mytoy/profile_image/")
-    private String profilePath;
-    @Value("file:///D:/study/mytoy/thumbnail_image/")
-    private String thumbnailPath;
+//    @Value("file:///D:/study/mytoy/profile_image/")
+//    private String profilePath;
+//    @Value("file:///D:/study/mytoy/thumbnail_image/")
+//    private String thumbnailPath;
 
     // 3. 핸들러, 로케이션 설정.
 
