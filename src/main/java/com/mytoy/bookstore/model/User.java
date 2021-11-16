@@ -97,8 +97,8 @@ public class User {
         if(profile.getSize() != 0){
 //            String baseDir = "D:\\study\\profile_image";
 //            String filePath = baseDir + "\\" + profile.getOriginalFilename();
-            String baseDir = "/home/ec2-user/bookstore/profile"; // aws 서버
-            String filePath = baseDir + "/" + profile.getOriginalFilename();
+            String baseDir = "/home/ec2-user/bookstore/profile/"; // aws 서버
+            String filePath = baseDir + profile.getOriginalFilename();
             profile.transferTo(new File(filePath));
             this.profileName = profile.getOriginalFilename();
             this.profilePath = filePath;
