@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -24,7 +25,7 @@ public class Board {
     private String content;
 
     private String type;
-    private LocalDate regdate;
+    private LocalDateTime regdate;
     private int views;
 
     @JsonIgnore
@@ -39,7 +40,7 @@ public class Board {
 
     /* 게시글 등록일 저장 */
     public void saveRegDate(){
-        this.regdate = LocalDate.now();
+        this.regdate = LocalDateTime.now();
     }
 
     /* 게시글 조회수 초기값 저장 */

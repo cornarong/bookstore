@@ -33,9 +33,9 @@ public class BookController {
                            @RequestParam(defaultValue = "") String searchTerm){
 
         Page<BookDto> bookDtoList;
-        if(authentication.getAuthorities().size() == 3){ // 관리자 조회
+        if(authentication.getAuthorities().size() == 3){ // 관리자 접근 시 (모든 항목 조회)
             bookDtoList = bookService.all(searchTerm, null, pageable);
-        }else if(authentication.getAuthorities().size() == 2){ // 매니저 조회
+        }else if(authentication.getAuthorities().size() == 2){ // 매니저 접근 시 (특정 항목 조회)
             String uid = authentication.getName();
             bookDtoList = bookService.myBooks(uid, searchTerm, pageable);
         }else{
@@ -83,7 +83,7 @@ public class BookController {
 
         // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
         if(authentication.getAuthorities().size() != 3){
-            if(!bookDto.getUid().equals(uid)) return "redirect:/";
+            if(!bookDto.getUid().equals(uid)) return "redirect:/book";
         }
 
         model.addAttribute("bookDto", bookDto);
@@ -92,26 +92,36 @@ public class BookController {
     }
 
     /* 책관리 수정페이지 */
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     @GetMapping("/book/edit/{bookId}")
-    public String editForm(@PathVariable Long bookId, Model model){
+    public String editForm(@PathVariable Long bookId, Model model, Authentication authentication){
         BookDto bookDto = bookService.detail(bookId);
 
-
+        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
+        if(authentication.getAuthorities().size() != 3){
+            if(!bookDto.getUid().equals(authentication.getName())) return "redirect:/book";
+        }
 
         model.addAttribute("bookDto", bookDto);
         return "admin/book/editForm";
     }
 
     /* 책정보 수정 */
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     @PutMapping("/book/edit/{bookId}")
     public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes) throws IOException {
+                       RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
+
+        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
+        if(authentication.getAuthorities().size() != 3){
+            if(!bookDto.getUid().equals(authentication.getName())) return "redirect:/book";
+        }
+
         if(bindingResult.hasErrors()){
             log.info("error = {}", bindingResult.getFieldError());
             return "admin/book/editForm";
         }
+
         bookService.edit(bookId, bookDto);
 
         redirectAttributes.addAttribute("edit", true);

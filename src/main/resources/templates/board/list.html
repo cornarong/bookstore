@@ -57,7 +57,7 @@
                                     <a href="#" th:href="@{/board/{boardId}(boardId=${boardDto.id})}" th:text="${boardDto.title}">제목</a>
                                 </td>
                                 <td th:text="${boardDto.writer}"></td>
-                                <td th:text="${boardDto.regdate}"></td>
+                                <td th:text="${#temporals.format(boardDto.regdate, '20'+'yy-mm-dd HH:mm')}"></td>
                                 <td th:text="${boardDto.views}"></td>
                                 <td>
                                     <a style="text-decoration:none" th:if="${#authentication.name == boardDto.writer}"
@@ -72,7 +72,8 @@
                 <!-- // 게시글 목록 -->
                 <!-- 게시글 작성 -->
                 <div class="text-right">
-                    <a href="#" th:href="@{/board/add}" class="btn btn-outline-primary mt-2">작성하기</a>
+                    <a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()" class="btn btn-outline-primary mt-2">작성하기</a>
+                    <a href="#" th:href="@{/board/add}" sec:authorize="isAuthenticated()" class="btn btn-outline-primary mt-2">작성하기</a>
                 </div>
                 <!-- // 게시글 작성 -->
                 <!-- 페이징 처리 -->

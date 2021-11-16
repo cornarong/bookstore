@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,7 +27,7 @@ public class BoardDto {
     @Size(min=2, message = "내용은 최소 한글자 이상입니다")
     private String content;
     private String writer;
-    private LocalDate regdate;
+    private LocalDateTime regdate;
     private int views;
 
     /* 게시글 등록인 저장 */

@@ -24,7 +24,7 @@ public class BoardService {
 
     /* 게시글 전체 목록 가져오기 */
     public Page<BoardDto> all(Pageable pageable, String searchTerm) {
-        Page<Board> boardList = boardRepository.findByTitleContainingOrContentContaining(searchTerm, searchTerm, pageable);
+        Page<Board> boardList = boardRepository.findByTitleContainingOrContentContainingOrderByRegdateDesc(searchTerm, searchTerm, pageable);
         Page<BoardDto> boardDtoList = new BoardDto().toDtoList(boardList); // Page<Entity> -> Page<Dto> 변환.
 
         return boardDtoList;
