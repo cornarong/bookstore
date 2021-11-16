@@ -22,7 +22,7 @@
 										<div class="pr-2">
 											<a th:href="@{/store/{bookId}(bookId=${basketDto.bookId})} + '?type=A'">
 												<img style="width: 60px; height: 60px" th:if="${!basketDto.thumbnailType.contains('http:')}"
-												     th:src="'/files/' + ${basketDto.thumbnailType}">
+												     th:src="'/thumbnail/' + ${basketDto.thumbnailType}">
 												<img style="width: 60px; height: 60px" th:if="${basketDto.thumbnailType.contains('http:')}"
 												     th:src="${basketDto.thumbnailType}">
 											</a>

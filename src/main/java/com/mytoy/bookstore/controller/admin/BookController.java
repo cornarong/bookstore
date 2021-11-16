@@ -97,6 +97,8 @@ public class BookController {
     public String editForm(@PathVariable Long bookId, Model model){
         BookDto bookDto = bookService.detail(bookId);
 
+
+
         model.addAttribute("bookDto", bookDto);
         return "admin/book/editForm";
     }

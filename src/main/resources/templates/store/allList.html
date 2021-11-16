@@ -105,7 +105,7 @@
 							<div class="col-sm-4">
 								<a th:href="@{/store/{bookId}(bookId=${bookDto.id}, type=(${type} == 'A' ? 'A' : (${type} == 'K' ? 'K' : (${type} == 'F' ? 'F' : 'D'))))}">
 									<img class="col" style="padding: 0; height: 285px; border:solid 3px; border-color:#6c757d;"
-									     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}"/>
+									     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/thumbnail/' + ${bookDto.thumbnailType}"/>
 									<img class="col" style="padding: 0; height: 285px; border:solid 3px; border-color:#6c757d;"
 									     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}"/>
 								</a>
