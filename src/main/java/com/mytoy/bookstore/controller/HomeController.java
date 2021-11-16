@@ -1,7 +1,6 @@
 package com.mytoy.bookstore.controller;
 
 import com.mytoy.bookstore.dto.BookDto;
-import com.mytoy.bookstore.model.BookType;
 import com.mytoy.bookstore.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

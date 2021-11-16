@@ -1,7 +1,6 @@
 package com.mytoy.bookstore.model;
 
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

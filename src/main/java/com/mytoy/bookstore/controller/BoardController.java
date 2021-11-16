@@ -6,7 +6,6 @@ import com.mytoy.bookstore.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.mytoy.bookstore.model.Board;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,9 +25,7 @@ import javax.validation.Valid;
 public class BoardController {
 
     private final BoardValidator boardValidator; // 유효성 검사 커스텀
-
-    @Autowired
-    private BoardService boardService;
+    private final BoardService boardService;
 
     /* 게시글 목록 */
     @GetMapping
@@ -81,7 +78,7 @@ public class BoardController {
         }
 
         model.addAttribute("boardDto",boardDto);
-        return "/board/detail";
+        return "board/detail";
     }
 
     /* 게시글 수정페이지 */
@@ -90,7 +87,7 @@ public class BoardController {
         BoardDto boardDto = boardService.detail(boardId,"edit");
 
         model.addAttribute("boardDto",boardDto);
-        return "/board/editForm";
+        return "board/editForm";
     }
 
     /* 게시글 수정 */
@@ -99,7 +96,7 @@ public class BoardController {
                        @PathVariable Long boardId, RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()) {
             log.info("error = {}", bindingResult.getFieldError());
-            return "/board/editForm";
+            return "board/editForm";
         }
 
         Board board = boardService.edit(boardDto, boardId);

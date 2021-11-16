@@ -5,6 +5,7 @@ import com.mytoy.bookstore.mapper.UserMapper;
 import com.mytoy.bookstore.mapper.impl.UserMapperImpl;
 import com.mytoy.bookstore.model.User;
 import com.mytoy.bookstore.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,14 +18,12 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /* 회원 목록 가져오기 */
     public List<UserDto> all(){

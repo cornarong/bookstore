@@ -48,7 +48,7 @@ public class BookController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("bookDtoList", bookDtoList);
-        return "/admin/book/list";
+        return "admin/book/list";
     }
 
     /* 책관리 등록페이지 */
@@ -88,7 +88,7 @@ public class BookController {
 
         model.addAttribute("bookDto", bookDto);
         model.addAttribute("auth_uid", uid);
-        return "/admin/book/detail";
+        return "admin/book/detail";
     }
 
     /* 책관리 수정페이지 */
@@ -98,7 +98,7 @@ public class BookController {
         BookDto bookDto = bookService.detail(bookId);
 
         model.addAttribute("bookDto", bookDto);
-        return "/admin/book/editForm";
+        return "admin/book/editForm";
     }
 
     /* 책정보 수정 */
@@ -108,7 +108,7 @@ public class BookController {
                        RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
             log.info("error = {}", bindingResult.getFieldError());
-            return "/admin/book/editForm";
+            return "admin/book/editForm";
         }
         bookService.edit(bookId, bookDto);
 

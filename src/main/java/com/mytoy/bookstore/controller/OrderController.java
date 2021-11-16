@@ -26,6 +26,6 @@ public class OrderController {
 
         List<OrderDto> orderDtoList = orderService.orders(uid);
         model.addAttribute("orderDtoList", orderDtoList);
-        return "/user/orderForm";
+        return "user/orderForm";
     }
 }

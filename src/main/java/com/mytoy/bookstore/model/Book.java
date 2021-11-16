@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 @Getter
@@ -94,8 +93,8 @@ public class Book {
     /* 책 이미지 저장 */
     public void saveThumbnail(MultipartFile thumbnail) throws IOException {
         if(thumbnail.getSize() != 0){
-            String baseDir = "D:\\study\\profile_image"; // 현재 회원 프로필 물리경로와 같은 경로를 사용중..(임시)
-//            String baseDir = "/home/ec2-user/bookstore/profile"; // aws 서버
+//            String baseDir = "D:\\study\\profile_image"; // 현재 회원 프로필 물리경로와 같은 경로를 사용중..(임시)
+            String baseDir = "/home/ec2-user/bookstore/profile"; // aws 서버
             String filePath = baseDir + "\\" + thumbnail.getOriginalFilename();
             thumbnail.transferTo(new File(filePath));
             this.thumbnailType = thumbnail.getOriginalFilename();

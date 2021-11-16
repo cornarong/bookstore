@@ -25,7 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // 2.순수 native query
     @Query(value = "select * from User u where u.uid like %?1%", nativeQuery = true)
     List<User> findByUidNativeQuery(String uid);
-    // 3. querydsl
 
 
 }

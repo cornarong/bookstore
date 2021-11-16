@@ -29,7 +29,7 @@ public class MemberController {
         List<UserDto> userDtoList = userService.all();
 
         model.addAttribute("userDtoList",userDtoList);
-        return "/admin/user/list";
+        return "admin/user/list";
     }
 
     /* 회원정보 상세페이지 */
@@ -38,7 +38,7 @@ public class MemberController {
         UserDto userDto = userService.detail(userId);
 
         model.addAttribute("userDto", userDto);
-        return "/admin/user/detail";
+        return "admin/user/detail";
     }
 
     /* 회원정보 수정페이지 */
@@ -47,7 +47,7 @@ public class MemberController {
         UserDto userDto = userService.detail(userId);
 
         model.addAttribute("userDto", userDto);
-        return "/admin/user/editForm";
+        return "admin/user/editForm";
     }
 
     /* 회원정보 수정 */
@@ -56,7 +56,7 @@ public class MemberController {
                        RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
             log.info("error = {}", bindingResult.getFieldError());
-            return "/admin/user/editForm";
+            return "admin/user/editForm";
         }
         userService.edit(userId, userDto);
 
