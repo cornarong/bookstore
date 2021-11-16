@@ -39,11 +39,16 @@ public class BookService {
         return bookDtoList;
     }
 
-    /* 모든 책 목록 (발행일 기준 내림차 순) 가져오기 */
-    public Page<BookDto> allDesc(String searchTerm, Pageable pageable) {
+    /* 모든 책 목록 (발행일 or 등록일 내림차 순) 가져오기*/
+    public Page<BookDto> allDesc(String searchTerm, Pageable pageable, String sortType) {
         Page<Book> bookList;
-        bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
-                searchTerm, searchTerm, searchTerm, pageable);
+        if(sortType.equals("regDate")){
+            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
+                    searchTerm, searchTerm, searchTerm, pageable);
+        }else{
+            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByRegDateDesc(
+                    searchTerm, searchTerm, searchTerm, pageable);
+        }
         Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
         return bookDtoList;
     }

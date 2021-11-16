@@ -34,7 +34,7 @@ public class BookController {
 
         Page<BookDto> bookDtoList;
         if(authentication.getAuthorities().size() == 3){ // 관리자 접근 시 (모든 항목 조회)
-            bookDtoList = bookService.allDesc(searchTerm, pageable);
+            bookDtoList = bookService.allDesc(searchTerm, pageable, "regDate");
         }else if(authentication.getAuthorities().size() == 2){ // 매니저 접근 시 (특정 항목 조회)
             String uid = authentication.getName();
             bookDtoList = bookService.myBooks(uid, searchTerm, pageable);

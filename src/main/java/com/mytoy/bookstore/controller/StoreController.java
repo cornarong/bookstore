@@ -41,7 +41,7 @@ public class StoreController {
         }else if(type.equals("F")){
             bookDtoList = bookService.all(searchTerm, BookType.INTERNATIONAL, pageable);
         }else if(type.equals("D")){
-            bookDtoList = bookService.allDesc(searchTerm, pageable);
+            bookDtoList = bookService.allDesc(searchTerm, pageable, "publishedDate");
         }else{
             bookDtoList = bookService.all(searchTerm, null, pageable);
         }
