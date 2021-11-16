@@ -19,7 +19,7 @@
 <!--						<img class="form-control" style="max-width: 100%; height: 250px;"-->
 <!--						     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}">-->
 						<img class="form-control" style="max-width: 100%; height: 250px;"
-						     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/home/ec2-user/bookstore/thumbnail/' + ${bookDto.thumbnailType}">
+						     th:if="${!bookDto.thumbnailType.contains('http:')}" th:src="'/files/' + ${bookDto.thumbnailType}">
 						<img class="form-control" style="max-width: 100%; height: 250px;"
 						     th:if="${bookDto.thumbnailType.contains('http:')}" th:src="${bookDto.thumbnailType}">
 					</div>
