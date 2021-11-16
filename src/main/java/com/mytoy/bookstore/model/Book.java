@@ -72,7 +72,7 @@ public class Book {
                 .price(price)
                 .disRate(disRate)
                 .disPrice(disPrice)
-                .quantity((int)(Math.random()*(50 - 1)) + 1)
+                .quantity((int)(Math.random()*(200 - 50)) + 50)
                 .shippingFee(0)
                 .thumbnailType(imageUrl)
                 .content(content)
@@ -94,7 +94,7 @@ public class Book {
     public void saveThumbnail(MultipartFile thumbnail) throws IOException {
         if(thumbnail.getSize() != 0){
             // local
-//            String baseDir = "D:\\study\\testThumb"; // 현재 회원 프로필 물리경로와 같은 경로를 사용중..(임시)
+//            String baseDir = "D:\\study\\mytoy\\thumbnail_image";
 //            String filePath = baseDir + "\\" + thumbnail.getOriginalFilename();
             // aws 서버
             String baseDir = "/home/ec2-user/bookstore/thumbnail/";
