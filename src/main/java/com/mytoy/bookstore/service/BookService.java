@@ -43,10 +43,10 @@ public class BookService {
     public Page<BookDto> allDesc(String searchTerm, Pageable pageable, String sortType) {
         Page<Book> bookList;
         if(sortType.equals("regDate")){
-            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
+            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByRegDateDesc(
                     searchTerm, searchTerm, searchTerm, pageable);
         }else{
-            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByRegDateDesc(
+            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
                     searchTerm, searchTerm, searchTerm, pageable);
         }
         Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
