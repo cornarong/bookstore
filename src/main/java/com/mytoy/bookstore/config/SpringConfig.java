@@ -17,21 +17,37 @@ public class SpringConfig implements WebMvcConfigurer {
         return hiddenHttpMethodFilter;
     }
 
+
 /* 웹 보안상 내부 프로젝트 외 로컬 시스템에 접근이 불가능 하므로 루트에서 외부경로를 매핑하여 파일을 불러올 수 있도록 처리한다. */
 
     // 1. 뷰단에서 이곳 url 으로 접근하면~
-    @Value("/files/**")
+
+    @Value("/profile/**")
     private String profileName;
+    @Value("/thumbnail/**")
+    private String thumbnailName;
 
     // 2. 이곳 물리경로 에서 파일을 읽어온다.
-//    @Value("file:///D:/study/profile_image/") // 윈도우 로컬
-    @Value("file:/home/ec2-user/bookstore/profile/") // AWS 서버
+
+    // ## AWS 서버 ##
+    @Value("file:/home/ec2-user/bookstore/profile/")
     private String profilePath;
+    @Value("file:/home/ec2-user/bookstore/thumbnail/")
+    private String thumbnailPath;
+
+    // ## 윈도우 로컬 ##
+//    @Value("file:///D:/study/profile_image/")
+//    private String profilePath;
+//    @Value("file:///D:/study/testThumb/")
+//    private String thumbnailPath;
 
     // 3. 핸들러, 로케이션 설정.
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(profileName)
                 .addResourceLocations(profilePath);
+        registry.addResourceHandler(thumbnailName)
+                .addResourceLocations(thumbnailPath);
     }
 }
