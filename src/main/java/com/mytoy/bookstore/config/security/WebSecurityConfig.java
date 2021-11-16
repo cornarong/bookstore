@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 // 구체적인 경로가 먼저 오고 그것보다 큰 범위의 경로가 뒤에 오도록 한다.
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/files/**").permitAll()
+                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/files/**", "/thumbnail/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

@@ -43,7 +43,7 @@ public class StoreController {
         }else if(type.equals("D")){
             bookDtoList = bookService.allDesc(searchTerm, pageable, "publishedDate");
         }else{
-            bookDtoList = bookService.all(searchTerm, null, pageable);
+            bookDtoList = bookService.allDesc(searchTerm, pageable, "regDate");
         }
 
         int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);
