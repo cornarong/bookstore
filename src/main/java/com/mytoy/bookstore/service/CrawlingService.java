@@ -34,11 +34,11 @@ public class CrawlingService {
         BookType bookType;
         /* 교보문고 국내도서 */
         if(type.equals("korea")){
-            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=D&range=1&kind=3&orderClick=DAf";
+            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&range=0&kind=0&linkClass=0";
             bookType = BookType.DOMESTIC;
         /* 교보문고 국외도서 */
         }else if(type.equals("foreign")){
-            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=KOR&linkClass=E&range=1&kind=3&orderClick=DAf";
+            url = "http://www.kyobobook.co.kr/bestSellerNew/bestseller.laf?mallGb=ENG&range=0&kind=0&linkClass=A";
             bookType = BookType.INTERNATIONAL;
         }else{
             return;

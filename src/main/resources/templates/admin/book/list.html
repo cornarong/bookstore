@@ -22,7 +22,7 @@
 			<h3 class="pb-4 blog-header-logo">ALL ITEMS</h3>
 
 			<!-- 크롤링 및 게시글 검색 -->
-			<small class="col mb-1 d-flex justify-content-end">크롤링 주소 : 교보문고 국내소설, 국외소설 베스트셀러</small>
+			<small class="col mb-1 d-flex justify-content-end">크롤링 주소 : 교보문고 국내, 국외 베스트셀러 (데이터는 중복저장 되지 않습니다)</small>
 			<strong class="col mb-1 d-flex justify-content-end">* 검색가능 여부 : 제목, 작가명, 출판사</strong>
 			<form class="pb-1 form-inline d-flex" method="get" th:action="@{/book}">
 				<strong class="mr-auto p-2">총 건수 : <span th:text="${bookDtoList.totalElements}"></span></strong>

@@ -129,7 +129,7 @@
 						</div>
 						<div class="col-md-6 mb-3 card p-2" sec:authorize="isAuthenticated()">
 							<div class="input-group">
-								<button class="btn-sm btn-success btn-block" type="button" th:onclick="addBasket([[${bookDto.id}]],[[${param.type}]])">장바구니 담기</button>
+								<button class="btn-sm btn-success btn-block" type="button" th:onclick="addBasket([[${bookDto.id}]], [[${bookDto.quantity}]], [[${param.type}]])">장바구니 담기</button>
 							</div>
 						</div>
 						<!-- 비회원 -->
@@ -210,22 +210,26 @@
     }
 
     /* 장바구니 담기 api */
-    function addBasket(bookId, type) {
+    function addBasket(bookId, quantity, type) {
         let cnt = document.getElementById('cnt').value;
-        $.ajax({
-            url: '/api/basket/' + bookId,
-            type: 'POST',
-            data: {
-                cnt : parseInt(cnt)
-            },
-            success: function () {
-                window.location.href = '/store/' + bookId + '?type=' + type;
-            },
-            error: function () {
-                console.error();
-                alert("post error");
-            }
-        });
+        if(quantity >= cnt) {
+	        $.ajax({
+	            url: '/api/basket/' + bookId,
+	            type: 'POST',
+	            data: {
+	                cnt : parseInt(cnt)
+	            },
+	            success: function () {
+	                window.location.href = '/store/' + bookId + '?type=' + type;
+	            },
+	            error: function () {
+	                console.error();
+	                alert("post error");
+	            }
+	        });
+        }else{
+            alert("주문수량이 재고량보다 큽니다");
+        }
     };
 
     /* 장바구니 삭제 api */
