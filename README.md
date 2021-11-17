@@ -88,67 +88,75 @@
 ### * 프로젝트 화면
 #### (주 기능의 화면들만 정리하였습니다. 링크로 접속하시면 더 자세히 이용하실 수 있습니다.)
 
->###로그인 폼
+>로그인 폼
 >- Security의 remember me 기능을 사용하여 세션이 만료되어도 쿠키로 로그인할 수 있습니다.
 
-![main](./src/main/resources/static/images/gitReadme/login.PNG)
+![main](./src/main/resources/static/images/gitReadme/loginForm.PNG)
+<hr>
 <br><br><br><br>
 
->###회원가입 폼
+> >회원가입 폼
 >- validation을 이용하여 간결하게 유효성 검사를 실시합니다.
 >- Ajax를 이용하여 아이디 중복여부를 실시간으로 확인할 수 있습니다.
 >- 카카오톡 주소검색 api를 사용하여 주소를 편리하게 입력할 수 있습니다.
 >- 프로필 이미지를 등록하기전 미리보기로 확인할 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/regUser.PNG)
+<hr>
 <br><br><br><br>
 
->###메인 화면
+>메인 화면
 >- 로그인 성공시 보여지는 화면입니다. (수정필요)
 
 ![main](./src/main/resources/static/images/gitReadme/main.PNG)
+<hr>
 <br><br><br><br>
 
->###도서 목록
+>도서 목록
 >- 모든도서, 국내도서, 외국도서, 신작도서 4개의 대분류로 나누었습니다.
 >- 도서의 목록을 분류별로 정렬하여 하여 사용자에게 편리하게 보여줍니다.
 >- 원하는 도서를 직접 검색하여 찾을 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/bookList.PNG)
+<hr>
 <br><br><br><br>
 
->###게시판
+>게시판
 >- 모든 사용자가 사용가능한 CRUD기반의 일반 게시판 입니다.
 >- 게시글을 검색할 수 있으며 작성한 글을 수정 및 삭제가 가능합니다.
 
 ![main](./src/main/resources/static/images/gitReadme/board.PNG)
+<hr>
 <br><br><br><br>
 
->###도서 상세화면 
+>도서 상세화면 
 >- 도서의 정보 및 내용을 상세하게 보여주며 현재 도서의 재고량에 따라 구매가 가능합니다
 >   - (장바구니에 담을 경우는 재고량이 증/감되지 않습니다.)
 >- 바로구매 또는 장바구니에 담은 후 전체구매하여 편리하게 구매할 수 있습니다.
 >- 우측의 나의 장바구니 목록으로 현재 나의 장바구니를 실시간으로 확인할 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/bookDetail.PNG)
+<hr>
 <br><br><br><br>
 
->###장바구니 목록
+>장바구니 목록
 >- 장바구니의 담긴 목록을 보여주며 모든 항목을 한번에 주문할 수 있습니다.
 >- 도서 항목을 삭제할 수 있으며 전체 구매가격이 아래에 노출됩니다.
 
 ![main](./src/main/resources/static/images/gitReadme/basket.PNG)
+<hr>
 <br><br><br><br>
 
->###주문 목록
+>주문 목록
 >- 주문 상태에 따라 ORDER, CANCEL 으로 나뉩니다.
 >- 주문을 취소하면 주문 내역 도서들의 재고량이 복구됩니다.
 >- 주문내역을 남겨 두거나 삭제할 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/order.PNG)
+<hr>
 <br><br><br><br>
 
->###책관리 목록
+>책관리 목록
 >- 관리자는 모든 도서를, 매니저는 등록한 도서를 확인할 수 있습니다.
 >- 국내도서 또는 외국도서를 교보문고 웹페이지에서 크롤링하여 DB에 저장 할 수 있습니다.
 >   - (크롤링 기능은 관리자 기능으로 제한되어 있습니다.)
@@ -156,22 +164,25 @@
 >- 원하는 도서를 직접 검색하여 찾을 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/bookAdmin.PNG)
+<hr>
 <br><br><br><br>
 
->###책등록 화면
+>책등록 화면
 >- 도서를 수동으로 등록하는 화면입니다.
 >- validation을 이용하여 간결하게 유효성 검사를 실시합니다.
 >- 가격과 할인율을 기준으로 할인가를 자동계산합니다.
 
 ![main](./src/main/resources/static/images/gitReadme/bookAddForm.PNG)
+<hr>
 <br><br><br><br>
 
->###회원관리 목록 / 회원 정보 수정 및 삭제
+>회원관리 목록 / 회원 정보 수정 및 삭제
 >- 회원관리는 관리자 고유의 기능으로 유저의 정보를 수정 및 삭제 할 수 있습니다.
 >- 권한을 변경할 수 있습니다.
 
 ![main](./src/main/resources/static/images/gitReadme/userAdmin.PNG)
 ![main](./src/main/resources/static/images/gitReadme/edituser.PNG)
+<hr>
 <br><br><br><br>
 
 ### * 이슈
