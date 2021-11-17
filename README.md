@@ -1,7 +1,7 @@
 <div align="center">
 
 # Cornarong BookStore
-### 인터넷서점
+### 인터넷 서점
 
 [![mainLogo](./src/main/resources/static/images/mainLogo.png)](http://3.37.80.216:8080/)
 
@@ -9,12 +9,15 @@
 
 </div>
 
->프로젝트 개발 이유
+### * 프로젝트 개발 이유
 
 최신 기술 트랜드에 따라 평소에 배워보고 싶었던 기술들을 직접 학습하게 되면서 학습한
 내용을 가지고 프로젝트에 적용시켜 보고자 하여 만들게 되었습니다.
 
->사용된 기술 스택
+<br>
+<br>
+
+### * 사용된 기술 스택
 
 - <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/> <img src="https://img.shields.io/badge/BootStrap-7952B3?style=flat-square&logo=BootStrap&logoColor=white"/>
 - <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=Gradle&logoColor=white"/> <img src="https://img.shields.io/badge/Java11-007396?style=flat-square&logo=Java&logoColor=white"/> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
@@ -22,8 +25,10 @@
 - <img src="https://img.shields.io/badge/Spring MVC-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/> <img src="https://img.shields.io/badge/Hibernate-59666C?style=flat-square&logo=Hibernate&logoColor=white"/>
 - <img src="https://img.shields.io/badge/AWS ec2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
 
+<br>
+<br>
 
->서비스 설계 구조
+### * 서비스 설계 구조
 
 모든 리소스 자원은 `Spring Security`로 권한에 따라 관리하고 있습니다.
   
@@ -43,8 +48,10 @@
 
 서버는 `AWS`에서 지원하는 프리티어 서비스인 `ec2`를 사용하여 빌드 및 배포하였고 파일의 형상관리는 `Git`으로 하고있습니다.
 
+<br>
+<br>
 
->프로젝트 기능
+### * 프로젝트 기능
 
 - 회원가입과 로그인 기능이 있습니다.
 - 국내도서, 외국도서, 신작도서 등 정렬된 도서 목록을 보여주며 도서를 검색할 수 있습니다.
@@ -53,26 +60,32 @@
 - 일반 게시판이 있으며 게시글을 검색할 수 있습니다.
 - 도서를 수동으로 등록하거나 외부 웹사이트의 도서목록을 크롤링하며 자동 등록할 수 있습니다.
 
->권한별 기능
+<br>
+<br>
+
+### * 권한별 기능
 
 사용자, 매니저, 관리자 3개의 권한이 존재하며 `상위 권한은 하위 권한의 모든 기능을 포함합니다.`
 
-#### 사용자
-- 로그인 및 회원가입(KAKAO API)
-- 개인정보 수정
-- 장바구니 담기 및 구매하기
-- 게시글 등록하기
+- 사용자
+  - 로그인 및 회원가입(KAKAO API)
+  - 개인정보 수정
+  - 장바구니 담기 및 구매하기
+  - 게시글 등록하기
 
-#### 매니저
- - 수동 도서 등록
- - 등록 도서 관리
+- 매니저
+  - 수동 도서 등록
+  - 등록 도서 관리
 
-#### 관리자
-- 크롤링 도서 등록(JSOUP)
-- 모든 도서 관리
-- 회원 관리
+- 관리자
+  - 크롤링 도서 등록(JSOUP)
+  - 모든 도서 관리
+  - 회원 관리
 
->프로젝트 화면
+<br>
+<br>
+
+### * 프로젝트 화면
 
 
 
