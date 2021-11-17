@@ -1,192 +1,82 @@
+<div align="center">
+
 # Cornarong BookStore
-## _The Last Markdown Editor, Ever_
+### 인터넷서점
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+[![mainLogo](./src/main/resources/static/images/mainLogo.png)](http://3.37.80.216:8080/)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![접속](https://img.shields.io/static/v1?label=링크&message=접속하기&color=59666C)](http://3.37.80.216:8080/)
 
-Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
-AngularJS-powered HTML5 Markdown editor.
+</div>
 
-- Type some Markdown on the left
-- See HTML in the right
-- ✨Magic ✨
+>프로젝트 개발 이유
 
-## Features
+최신 기술 트랜드에 따라 평소에 배워보고 싶었던 기술들을 직접 학습하게 되면서 학습한
+내용을 가지고 프로젝트에 적용시켜 보고자 하여 만들게 되었습니다.
 
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
+>사용된 기술 스택
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
+- <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/> <img src="https://img.shields.io/badge/BootStrap-7952B3?style=flat-square&logo=BootStrap&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=Gradle&logoColor=white"/> <img src="https://img.shields.io/badge/Java11-007396?style=flat-square&logo=Java&logoColor=white"/> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=flat-square&logo=Thymeleaf&logoColor=white"/> <img src="https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=CSS3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Spring MVC-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/> <img src="https://img.shields.io/badge/Hibernate-59666C?style=flat-square&logo=Hibernate&logoColor=white"/>
+- <img src="https://img.shields.io/badge/AWS ec2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
 
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
+>서비스 설계 구조
 
-## Tech
+모든 리소스 자원은 `Spring Security`로 권한에 따라 관리하고 있습니다.
+  
+데이터베이스는 `MySQL`을 사용했으며 서비스와 연동 및 매핑은 `Spring Data Jpa`와 `Hibernate`를 사용하였습니다.  
+테이블 및 컬럼은 `Hibernate`으로 자동 생성하였고 필요에 따라 수동으로 수정하였습니다.
 
-Dillinger uses a number of open source projects to work properly:
+`Controller`에서는 `DTO`를 사용하여 클라이언트로 응답하거나 `Service`의 인자로 사용하였고   
+`Service`에서는 `DTO <-> ENTITY` 변환 처리 및 `Repository`를 사용하여 DB에 접근하고 가공된 데이터를 `DTO`로 변환하여  
+`Controller`로 반환하도록 설계하여 `Controller`와 `Service`역할을 명확하게 분담하여 가독성과 유지보수성을 높였습니다.
 
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-  to Markdown converter
-- [jQuery] - duh
+`ENTITY`의 수정은 데이터의 보안성과 객체의 일관성을 유지하기 위해 `ENTITY`의 내부에서만 가능하도록 설계하였으며  
+기본 생성자는 `AccessLevel.PROTECTED`으로 선언하여 무분별한 객체 생성을 방지하였습니다.  
+`DTO`는 외부에서도 수정 또는 객체 생성이 가능하지만 유지보수성을 고려하여 `Service`에서 처리하였습니다.
 
-And of course Dillinger itself is open source with a [public repository][dill]
-on GitHub.
+또한 `Service`의 무분별한 비즈니스 로직으로 가독성이 떨어질 것을 고려하여 데이터 가공의 관련된 비즈니스 로직들은  
+해당 `ENTITIY` 또는 해당 `DTO`내부에 선언하여 직접 호출하여 사용하도록 설계하였습니다.
 
-## Installation
+서버는 `AWS`에서 지원하는 프리티어 서비스인 `ec2`를 사용하여 빌드 및 배포하였고 파일의 형상관리는 `Git`으로 하고있습니다.
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
 
-Install the dependencies and devDependencies and start the server.
+>프로젝트 기능
 
-```sh
-cd dillinger
-npm i
-node app
-```
+- 회원가입과 로그인 기능이 있습니다.
+- 국내도서, 외국도서, 신작도서 등 정렬된 도서 목록을 보여주며 도서를 검색할 수 있습니다.
+- 도서를 장바구니에 담아서 주문하거나 바로 직접 주문할 수 있습니다.
+- 장바구내 내역 또는 주문내역을 확인할 수 있습니다.
+- 일반 게시판이 있으며 게시글을 검색할 수 있습니다.
+- 도서를 수동으로 등록하거나 외부 웹사이트의 도서목록을 크롤링하며 자동 등록할 수 있습니다.
 
-For production environments...
+>권한별 기능
 
-```sh
-npm install --production
-NODE_ENV=production node app
-```
+사용자, 매니저, 관리자 3개의 권한이 존재하며 `상위 권한은 하위 권한의 모든 기능을 포함합니다.`
 
-## Plugins
+#### 사용자
+- 로그인 및 회원가입(KAKAO API)
+- 개인정보 수정
+- 장바구니 담기 및 구매하기
+- 게시글 등록하기
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
+#### 매니저
+ - 수동 도서 등록
+ - 등록 도서 관리
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+#### 관리자
+- 크롤링 도서 등록(JSOUP)
+- 모든 도서 관리
+- 회원 관리
 
-## Development
+>프로젝트 화면
 
-Want to contribute? Great!
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
 
-Open your favorite Terminal and run these commands.
 
-First Tab:
 
-```sh
-node app
-```
 
-Second Tab:
 
-```sh
-gulp watch
-```
-
-(optional) Third:
-
-```sh
-karma test
-```
-
-#### Building for source
-
-For production release:
-
-```sh
-gulp build --prod
-```
-
-Generating pre-built zip archives for distribution:
-
-```sh
-gulp build dist --prod
-```
-
-## Docker
-
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
-```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
-```
-
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 8000 of the host to
-port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
-```
-
-> Note: `--capt-add=SYS-ADMIN` is required for PDF rendering.
-
-Verify the deployment by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-## License
-
-MIT
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-[dill]: <https://github.com/joemccann/dillinger>
-[git-repo-url]: <https://github.com/joemccann/dillinger.git>
-[john gruber]: <http://daringfireball.net>
-[df1]: <http://daringfireball.net/projects/markdown/>
-[markdown-it]: <https://github.com/markdown-it/markdown-it>
-[Ace Editor]: <http://ace.ajax.org>
-[node.js]: <http://nodejs.org>
-[Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-[jQuery]: <http://jquery.com>
-[@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-[express]: <http://expressjs.com>
-[AngularJS]: <http://angularjs.org>
-[Gulp]: <http://gulpjs.com>
-
-[PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-[PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-[PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-[PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-[PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-[PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
