@@ -5,6 +5,9 @@ import com.mytoy.bookstore.repository.UserRepository;
 import com.mytoy.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +28,11 @@ public class AccountController {
 
     @GetMapping("/login")
     public String login(){
-        return "account/login";
+        AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();
+        if (trustResolver.isAnonymous(SecurityContextHolder.getContext().getAuthentication())) {
+            return "account/login";
+        }
+        return "redirect:/";
     }
 
     /* 회원가입 페이지 */

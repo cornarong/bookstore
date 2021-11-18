@@ -77,10 +77,9 @@ public class UserService {
         user.edit(userDto);
     }
 
-    /* 게시글 삭제 하기 */
+    /* 회원 삭제 하기 */
     @Transactional(readOnly = false)
-    public void delete(Long boardId){
-        userRepository.deleteById(boardId);
+    public void delete(Long userId){
+        userRepository.deleteById(userId);
     }
-
 }
