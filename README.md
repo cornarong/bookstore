@@ -1,34 +1,37 @@
-<link rel="stylesheet" type="text/css" href="[CSS FILE PATH">
 <style type='text/css'>
-  [id*="sidebox"]{
-  background-color:#F0F0F0;
-  position: absolute;
-  width:150px;
-  top:20px;
-  right:40px;
-  }
-</style>
+[id*="customBar"] {
+  text-align: center;
+  background: #d0d7de;
+  height: 40px;
+  position: sticky;
+  width: fit-content;
+  max-width: fit-content;
+  top: 0;
+}
+</style>  
 
-<script>
-$(document).ready(function(){ 
-   var currentPosition = parseInt($("#sidebox").css("top")); 
-   $(window).scroll(function() {
-   var position = $(window).scrollTop();
-   $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
-   });
-   });
-</script>
-
-
-<div id="sidebox"> 
-<a href="#1">* 사용된 기술스택</a> </br>
-<a href="#2">* 서비스 설계 구조</a> </br>
-<a href="#3">* 프로젝트 기능</a> </br>
-<a href="#4">* 권한별 기능</a> </br>
-<a href="#5">* 프로젝트 화면</a> </br>
-</div>
-
-
+<body>
+  <table id="customBar" style="text-align: center">
+    <td>
+      <a href="#1" style="color: black; font-weight: bold">사용된 기술스택</a> </br>
+    </td>
+    <td>
+      <a href="#2" style="color: black; font-weight: bold">서비스 설계 구조</a> </br>
+    </td>
+    <td>
+      <a href="#3" style="color: black; font-weight: bold">프로젝트 기능</a> </br>
+    </td>
+    <td>
+      <a href="#4" style="color: black; font-weight: bold">권한별 기능</a> </br>
+    </td>
+    <td>
+      <a href="#5" style="color: black; font-weight: bold">프로젝트 화면</a> </br>
+    </td>
+    <td>
+      <a href="#6" style="color: black; font-weight: bold">이슈 사항</a> </br>
+    </td>
+  </table>
+</body>
 
 <div align="center">
 
@@ -51,6 +54,9 @@ $(document).ready(function(){
 
 <section class="resume-section" id="1">
 
+<br>
+<br>
+
 
 ## * 사용된 기술 스택
 
@@ -60,12 +66,6 @@ $(document).ready(function(){
 - <img src="https://img.shields.io/badge/Spring MVC-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-square&logo=Spring&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=Spring Security&logoColor=white"/> <img src="https://img.shields.io/badge/Hibernate-59666C?style=flat-square&logo=Hibernate&logoColor=white"/>
 - <img src="https://img.shields.io/badge/AWS ec2-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
 
-<a href="#1">* 사용된 기술스택</a> </br>
-<a href="#2">* 서비스 설계 구조</a> </br>
-<a href="#3">* 프로젝트 기능</a> </br>
-<a href="#4">* 권한별 기능</a> </br>
-<a href="#5">* 프로젝트 화면</a> </br>
-
 
 </section>
 
@@ -74,6 +74,9 @@ $(document).ready(function(){
 <br>
 
 <section class="resume-section" id="2">
+
+<br>
+<br>
 
 ## * 서비스 설계 구조
 
@@ -95,12 +98,6 @@ $(document).ready(function(){
 >
 >서버는 `AWS`에서 지원하는 프리티어 서비스인 `ec2`를 사용하여 빌드 및 배포하였고 파일의 형상관리는 `Git`으로 하고있습니다.
 
-<a href="#1">* 사용된 기술스택</a> </br>
-<a href="#2">* 서비스 설계 구조</a> </br>
-<a href="#3">* 프로젝트 기능</a> </br>
-<a href="#4">* 권한별 기능</a> </br>
-<a href="#5">* 프로젝트 화면</a> </br>
-
 
 </section>
 
@@ -109,6 +106,9 @@ $(document).ready(function(){
 <br>
 
 <section class="resume-section" id="3">
+
+<br>
+<br>
 
 ## * 프로젝트 기능
 
@@ -119,18 +119,15 @@ $(document).ready(function(){
 - 일반 게시판이 있으며 게시글을 검색할 수 있습니다.
 - 도서를 수동으로 등록하거나 외부 웹사이트의 도서목록을 크롤링하며 자동 등록할 수 있습니다.
 
-<a href="#1">* 사용된 기술스택</a> </br>
-<a href="#2">* 서비스 설계 구조</a> </br>
-<a href="#3">* 프로젝트 기능</a> </br>
-<a href="#4">* 권한별 기능</a> </br>
-<a href="#5">* 프로젝트 화면</a> </br>
-
 </section>
 
 <br>
 <br>
 
 <section class="resume-section" id="4">
+
+<br>
+<br>
 
 ## * 권한별 기능
 
@@ -151,19 +148,15 @@ $(document).ready(function(){
   - 모든 도서 관리
   - 회원 관리
 
-<a href="#1">* 사용된 기술스택</a> </br>
-<a href="#2">* 서비스 설계 구조</a> </br>
-<a href="#3">* 프로젝트 기능</a> </br>
-<a href="#4">* 권한별 기능</a> </br>
-<a href="#5">* 프로젝트 화면</a> </br>
-
-
 </section>
 
 <br>
 <br>
 
 <section class="resume-section" id="5">
+
+<br>
+<br>
 
 ## * 프로젝트 화면
 #### (주 기능 화면 입니다. 링크로 접속하시면 더 자세히 이용하실 수 있습니다.)
@@ -268,11 +261,16 @@ $(document).ready(function(){
 
 </section>
 
-<br><br><br><br>
+<br>
+<br>
+
+<section class="resume-section" id="6">
+
+<br>
+<br>
 
 
-
-## * 이슈
+## * 이슈 사항
 ### 1. JPA를 활용한 Entity 매핑
 일반적으로 다대다는 주문과 책의 관계 처럼 OneToMany - ManyToOne - OneToMany 구조로 가운데 매핑테이블을 설계했다.
 하지만 유저와 권한의 관계를 ManyToMany - ManyToMany로 설계함으로 DB상에서는 유저_권한 매핑테이블 이라는 테이블이
@@ -285,4 +283,7 @@ Mapper를 생성하여 서비스단에서 호출한 후 빌드 하게되면 Mapp
 직접 MapperImpl을 생성하여 다시 빌드해보니 정상적으로 성공하였다. 한가지 느낀점은 자동 생성보다는 직접 수동으로
 생성하고 사용해보니 MapperImpl 내부 로직을 필요에 따라 수정하거나 로직을 추가해주었다면 코드가 더 가독성이 좋았을 것 같았다.
 
+</section>
 
+<br>
+<br>
