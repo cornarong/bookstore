@@ -1,15 +1,3 @@
-<style type='text/css'>
-[id*="customBar"] {
-  text-align: center;
-  background: #d0d7de;
-  height: 40px;
-  position: sticky;
-  width: fit-content;
-  max-width: fit-content;
-  top: 0;
-}
-</style>  
-
 <body>
   <table id="customBar" style="text-align: center">
     <td>
@@ -32,6 +20,7 @@
     </td>
   </table>
 </body>
+
 
 <div align="center">
 
