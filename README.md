@@ -1,3 +1,36 @@
+
+1231241245
+
+<style type='text/css'>
+[id*="sidebox"]{
+background-color:#F0F0F0; 
+position:absolute; 
+width:120px;
+top:433px;
+right:420px;
+padding: 3px 10px;
+}
+</style>
+
+<script>
+var currentPosition = parseInt($("#sidebox").css("top"));
+$(window).scroll(function() {
+var position = $(window).scrollTop();
+$("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000); 
+});
+
+</script>
+
+<div id="sidebox"> 
+<a href="#1">* 사용된 기술스택</a> </br>
+<a href="#2">* 서비스 설계 구조</a> </br>
+<a href="#3">* 프로젝트 기능</a> </br>
+<a href="#4">* 권한별 기능</a> </br>
+<a href="#5">* 프로젝트 화면</a> </br>
+</div>
+
+
+
 <div align="center">
 
 # Cornarong BookStore
