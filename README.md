@@ -173,17 +173,17 @@
 >- 로그인 성공시 보여지는 화면입니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/bookStoreMain.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 도서 상세화면
 >- 도서의 정보 및 내용을 상세하게 보여주며 현재 도서의 재고량에 따라 구매가 가능합니다
-   >   - (장바구니에 담을 경우는 재고량이 증/감되지 않습니다.)
+>   - (장바구니에 담을 경우는 재고량이 증/감되지 않습니다.)
 >- 바로구매 또는 장바구니에 담은 후 전체구매하여 편리하게 구매할 수 있습니다.
 >- 우측의 나의 장바구니 목록으로 현재 나의 장바구니를 실시간으로 확인할 수 있습니다.
+> 
+>![main](./src/main/resources/static/images/gitReadme/bookDetail.PNG)
 
-![main](./src/main/resources/static/images/gitReadme/bookDetail.PNG)
-<hr>
 <br><br><br><br>
 
 ### 도서 목록
@@ -192,7 +192,7 @@
 >- 원하는 도서를 직접 검색하여 찾을 수 있습니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/bookList.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 게시판
@@ -200,7 +200,7 @@
 >- 게시글을 검색할 수 있으며 작성한 글을 수정 및 삭제가 가능합니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/board.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 장바구니 목록
@@ -208,7 +208,7 @@
 >- 도서 항목을 삭제할 수 있으며 전체 구매가격이 아래에 노출됩니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/basket.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 주문 목록
@@ -217,7 +217,7 @@
 >- 주문내역을 남겨 두거나 삭제할 수 있습니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/order.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 책관리 목록
@@ -228,7 +228,7 @@
 >- 원하는 도서를 직접 검색하여 찾을 수 있습니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/bookAdmin.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 책등록 화면
@@ -237,7 +237,7 @@
 >- 가격과 할인율을 기준으로 할인가를 자동계산합니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/bookAddForm.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 회원관리 목록 / 회원 정보 수정 및 삭제
@@ -246,7 +246,6 @@
 >
 >![main](./src/main/resources/static/images/gitReadme/userAdmin.PNG)
 >![main](./src/main/resources/static/images/gitReadme/edituser.PNG)
-<hr>
 
 </section>
 
