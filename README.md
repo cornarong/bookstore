@@ -1,25 +1,25 @@
-
-1231241245
-
+<link rel="stylesheet" type="text/css" href="[CSS FILE PATH">
 <style type='text/css'>
-[id*="sidebox"]{
-background-color:#F0F0F0; 
-position:absolute; 
-width:120px;
-top:433px;
-right:420px;
-padding: 3px 10px;
-}
+  [id*="sidebox"]{
+  background-color:#F0F0F0;
+  position: absolute;
+  width:150px;
+  top:20px;
+  right:40px;
+  }
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var currentPosition = parseInt($("#sidebox").css("top"));
-$(window).scroll(function() {
-var position = $(window).scrollTop();
-$("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000); 
-});
-
+$(document).ready(function(){ 
+   var currentPosition = parseInt($("#sidebox").css("top")); 
+   $(window).scroll(function() {
+   var position = $(window).scrollTop();
+   $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
+   });
+   });
 </script>
+
 
 <div id="sidebox"> 
 <a href="#1">* 사용된 기술스택</a> </br>
@@ -44,7 +44,7 @@ $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
 
 ## * 프로젝트 개발 이유
 
->최신 기술 트랜드에 따라 평소에 관심있던 기술들을 학습하면서 
+>최신 기술 트랜드에 따라 평소에 관심있던 기술들을 학습하면서
 학습한 내용을 바탕으로 프로젝트에 적용시켜 보고자 하여 만들게 되었습니다.
 
 <br>
@@ -79,7 +79,7 @@ $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
 ## * 서비스 설계 구조
 
 >모든 리소스 자원은 `Spring Security`로 권한에 따라 관리하고 있습니다.
->  
+>
 >데이터베이스는 `MySQL`을 사용했으며 서비스와 연동 및 매핑은 `Spring Data Jpa`와 `Hibernate`를 사용하였습니다.  
 테이블 및 컬럼은 `Hibernate`으로 자동 생성하였고 필요에 따라 수동으로 수정하였습니다.
 >
@@ -197,7 +197,7 @@ $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
 
 ### 도서 상세화면
 >- 도서의 정보 및 내용을 상세하게 보여주며 현재 도서의 재고량에 따라 구매가 가능합니다
->   - (장바구니에 담을 경우는 재고량이 증/감되지 않습니다.)
+   >   - (장바구니에 담을 경우는 재고량이 증/감되지 않습니다.)
 >- 바로구매 또는 장바구니에 담은 후 전체구매하여 편리하게 구매할 수 있습니다.
 >- 우측의 나의 장바구니 목록으로 현재 나의 장바구니를 실시간으로 확인할 수 있습니다.
 
@@ -242,7 +242,7 @@ $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
 ### 책관리 목록
 >- 관리자는 모든 도서를, 매니저는 등록한 도서를 확인할 수 있습니다.
 >- 국내도서 또는 외국도서를 교보문고 웹페이지에서 크롤링하여 DB에 저장 할 수 있습니다.
->   - (크롤링 기능은 관리자 기능으로 제한되어 있습니다.)
+   >   - (크롤링 기능은 관리자 기능으로 제한되어 있습니다.)
 >- 수동으로 직접 작성하여 등록할 수 있습니다.
 >- 원하는 도서를 직접 검색하여 찾을 수 있습니다.
 >
@@ -281,7 +281,7 @@ $("#sidebox").stop().animate({"top":position+currentPosition+"px"},1000);
 개인적으로 현재 프로젝트에는 지장이 없지만 추후 확장성을 고려하여 중간에 매핑테이블로 설계하는게 바람직한 것 같다.
 <br><br>
 ### 2. mapstruct를 사용한 ENTITIY <-> DTO의 변환 처리
-Mapper를 생성하여 서비스단에서 호출한 후 빌드 하게되면 MapperImpl을 자동으로 생성해주었고 정상적으로 변환처리가 
+Mapper를 생성하여 서비스단에서 호출한 후 빌드 하게되면 MapperImpl을 자동으로 생성해주었고 정상적으로 변환처리가
 되는것을 확인하였다. 하지만 서버에서 빌드하면서 MapperImpl Class를 못찾는 경우가 발생하여 쩔절 맸다.
 직접 MapperImpl을 생성하여 다시 빌드해보니 정상적으로 성공하였다. 한가지 느낀점은 자동 생성보다는 직접 수동으로
 생성하고 사용해보니 MapperImpl 내부 로직을 필요에 따라 수정하거나 로직을 추가해주었다면 코드가 더 가독성이 좋았을 것 같았다.
