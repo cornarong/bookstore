@@ -156,7 +156,7 @@
 >- Security의 remember me 기능을 사용하여 세션이 만료되어도 쿠키로 로그인할 수 있습니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/loginForm.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 회원가입 폼
@@ -166,7 +166,7 @@
 >- 프로필 이미지를 등록하기전 미리보기로 확인할 수 있습니다.
 >
 >![main](./src/main/resources/static/images/gitReadme/regUser.PNG)
-<hr>
+
 <br><br><br><br>
 
 ### 메인 화면
