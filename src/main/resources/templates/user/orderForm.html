@@ -8,8 +8,22 @@
 		<main role="main" class="container pt-4">
 			<h3 class="pb-4 blog-header-logo">ALL ORDERS</h3>
 
+			<div class="row pt-4 d-flex justify-content-between">
+				<div class="col-md-12 order-md-2">
+					<h4 class="d-flex mx-4 mb-3 justify-content-between">
+						<span class="text-muted">나의 주문 목록</span>
+						<span class="badge badge-secondary badge-pill" style="font-weight: 500"
+						      th:text="|${orderDtoList.size()}개의 주문 있습니다|">총갯수</span>
+					</h4>
+					<li class="list-group-item d-flex justify-content-center lh-condensed mx-4" th:if="${orderDtoList.size() == 0}">
+						<span>
+							<strong>주문내역이 없습니다</strong>
+						</span>
+					</li>
+				</div>
+			</div>
 			<div class="row d-flex justify-content-center">
-				<div class="pt-4 mx-4" style="width: 500px" th:each="orderDto: ${orderDtoList}">
+				<div class="mx-4" style="width: 500px" th:each="orderDto: ${orderDtoList}">
 					<div class="col card mb-4 shadow-sm text-center" style="padding-left: inherit; padding-right: inherit">
 						<div class="card-header">
 							<h4 class="font-weight-normal">주문정보</h4>
