@@ -114,7 +114,7 @@
 					<a class="btn btn mr-2 mb-2 btn-outline-secondary" th:href="@{/book}">목록으로</a>
 					<a class="btn btn mr-2 mb-2 btn-outline-primary"
 					   th:href="@{/book/edit/{bookId}(bookId=${bookDto.id})}">수정하기</a>
-					<a class="btn btn mr-2 mb-2 btn-outline-danger" th:if="${auth_uid} == *{bookDto.uid}"
+					<a class="btn btn mr-2 mb-2 btn-outline-danger"
 					   th:onclick="|deletePost(${bookDto.id})|">삭제하기</a>
 				</div>
 
