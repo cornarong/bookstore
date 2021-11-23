@@ -55,8 +55,8 @@ public class BoardController {
     public String add(@Valid BoardDto boardDto, BindingResult bindingResult,
                       RedirectAttributes riRedirectAttributes, Authentication authentication){
 //        boardValidator.validate(boardDto, bindingResult); // * 유효성 검사 커스텀
+
         if (bindingResult.hasErrors()) {
-            log.info("error = {}", bindingResult.getFieldError());
             return "board/addForm";
         }
 
@@ -95,7 +95,6 @@ public class BoardController {
     public String edit(@Valid BoardDto boardDto, BindingResult bindingResult,
                        @PathVariable Long boardId, RedirectAttributes redirectAttributes){
         if (bindingResult.hasErrors()) {
-            log.info("error = {}", bindingResult.getFieldError());
             return "board/editForm";
         }
 

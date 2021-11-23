@@ -18,13 +18,13 @@ public class OrderApiController {
     @PostMapping("/order/{bookId}")
     public void order(@PathVariable Long bookId, Authentication authentication, @RequestParam int cnt){
         String uid = authentication.getName();
+
         orderService.order(bookId, uid, cnt);
     }
 
     /* 주문 취소 하기 */
     @PutMapping("/order/{orderId}")
     public void edit(@PathVariable Long orderId){
-        log.info("orderId >>> {}", orderId);
 
         orderService.edit(orderId);
     }

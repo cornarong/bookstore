@@ -60,6 +60,10 @@ public class Order {
         return order;
     }
 
+    /**
+     * 비즈니스 로직
+     */
+
     /* 주문 취소 */
     public void cancel(){
         if(delivery.getStatus() == DeliveryStatus.COMP){

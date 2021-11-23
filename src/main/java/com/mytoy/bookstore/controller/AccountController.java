@@ -39,6 +39,7 @@ public class AccountController {
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("userDto", new UserDto());
+
         return "account/register";
     }
     /* 회원가입 */
@@ -49,21 +50,9 @@ public class AccountController {
             bindingResult.addError(fieldError);
         }
         if(bindingResult.hasErrors()){
-            log.info("error = {}", bindingResult.getFieldError());
             return "account/register";
         }
         userService.save(userDto);
         return "redirect:/";
-    }
-
-    /* 아이디 중복 확인 (0 - 사용가능, 1 - 아이디중복) */
-    @ResponseBody
-    @GetMapping("/uidDuplicateCheck/{uid}")
-    public String uidDuplicateCheck(@PathVariable String uid){
-        String checkValue = "0";
-        if(userRepository.findByUid(uid) != null){
-            checkValue = "1";
-        }
-        return checkValue;
     }
 }

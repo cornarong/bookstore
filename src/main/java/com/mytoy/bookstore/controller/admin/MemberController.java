@@ -17,14 +17,13 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin")
-/* 관리자 전용 회원관리 컨트롤러 입니다 */
+@RequestMapping("/admin/user") // 해당 권한만 접근 가능
 public class MemberController {
 
     private final UserService userService;
 
     /* 회원 목록 */
-    @GetMapping("/user")
+    @GetMapping
     public String list(Model model){
         List<UserDto> userDtoList = userService.all();
 
@@ -33,7 +32,7 @@ public class MemberController {
     }
 
     /* 회원정보 상세페이지 */
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public String detail(@PathVariable Long userId, Model model){
         UserDto userDto = userService.detail(userId);
 
@@ -42,7 +41,7 @@ public class MemberController {
     }
 
     /* 회원정보 수정페이지 */
-    @GetMapping("/user/edit/{userId}")
+    @GetMapping("/edit/{userId}")
     public String editForm(@PathVariable Long userId, Model model){
         UserDto userDto = userService.detail(userId);
 
@@ -51,13 +50,13 @@ public class MemberController {
     }
 
     /* 회원정보 수정 */
-    @PutMapping("/user/edit/{userId}")
+    @PutMapping("/edit/{userId}")
     public String edit(@PathVariable Long userId, @Valid UserDto userDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
-            log.info("error = {}", bindingResult.getFieldError());
             return "admin/user/editForm";
         }
+
         userService.edit(userId, userDto);
 
         redirectAttributes.addAttribute("edit", true);

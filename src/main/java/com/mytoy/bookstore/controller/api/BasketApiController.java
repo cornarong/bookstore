@@ -19,8 +19,9 @@ public class BasketApiController {
 
     /* 장바구니 담기 */
     @PostMapping("/basket/{bookId}")
-    public void addBasket(@PathVariable Long bookId, Authentication authentication, @RequestParam("cnt") int quantity){
+    public void addBasket(@PathVariable Long bookId, @RequestParam("cnt") int quantity, Authentication authentication){
         String uid = authentication.getName();
+
         basketService.addBasket(bookId, uid, quantity);
     }
 

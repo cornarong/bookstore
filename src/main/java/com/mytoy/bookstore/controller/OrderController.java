@@ -23,8 +23,8 @@ public class OrderController {
     @GetMapping
     public String order(Model model, Authentication authentication){
         String uid = authentication.getName();
-
         List<OrderDto> orderDtoList = orderService.orders(uid);
+
         model.addAttribute("orderDtoList", orderDtoList);
         return "user/orderForm";
     }

@@ -49,7 +49,6 @@ public class UserController {
     public String edit(@PathVariable Long userId, @Valid UserDto userDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
         if(bindingResult.hasErrors()){
-            log.info("error = {}", bindingResult.getFieldError());
             return "user/infoEditForm";
         }
         userService.edit(userId, userDto);

@@ -162,7 +162,7 @@
             return;
         }
         $.ajax({
-            url : '/account/uidDuplicateCheck/' + uid,
+            url : '/api/uidDuplicateCheck/' + uid,
             type : 'get',
             success : function(data) {
                 if(data === "1"){
