@@ -36,14 +36,15 @@ public class StoreController {
                         @RequestParam(defaultValue = "") String searchTerm){
 
         Page<BookDto> bookDtoList;
+
         if(type.equals("K")){
-            bookDtoList = bookService.all(searchTerm, BookType.DOMESTIC, pageable);
+            bookDtoList = bookService.books(searchTerm, BookType.DOMESTIC, "", pageable);
         }else if(type.equals("F")){
-            bookDtoList = bookService.all(searchTerm, BookType.INTERNATIONAL, pageable);
+            bookDtoList = bookService.books(searchTerm, BookType.INTERNATIONAL, "", pageable);
         }else if(type.equals("D")){
-            bookDtoList = bookService.allDesc(searchTerm, pageable, "publishedDate");
+            bookDtoList = bookService.books(searchTerm,  null,"publishedDate", pageable);
         }else{
-            bookDtoList = bookService.allDesc(searchTerm, pageable, "regDate");
+            bookDtoList = bookService.books(searchTerm,  null, "regDate", pageable);
         }
 
         int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);

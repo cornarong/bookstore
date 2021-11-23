@@ -28,18 +28,16 @@ public class BookController {
 
     /* 책관리 목록 */
     @GetMapping("/book")
-        public String adminList(Model model, Authentication authentication,
+        public String list(Model model, Authentication authentication,
                            @PageableDefault(size = 10) Pageable pageable,
                            @RequestParam(defaultValue = "") String searchTerm){
 
         Page<BookDto> bookDtoList;
-        if(authentication.getAuthorities().size() == 3){ // 관리자 접근 시 (모든 항목 조회)
-            bookDtoList = bookService.allDesc(searchTerm, pageable, "regDate");
-        }else if(authentication.getAuthorities().size() == 2){ // 매니저 접근 시 (특정 항목 조회)
-            String uid = authentication.getName();
-            bookDtoList = bookService.myBooks(uid, searchTerm, pageable);
-        }else{
-            return "redirect:/";
+
+        if(isAdmin(authentication)){
+            bookDtoList = bookService.books(searchTerm, null, "regDate", pageable);
+        }else {
+            bookDtoList = bookService.myBooks(authentication.getName(), searchTerm, pageable);
         }
 
         int startPage = Math.max(1, bookDtoList.getPageable().getPageNumber() - 10);
@@ -64,10 +62,11 @@ public class BookController {
     @PostMapping("/book/addForm")
     public String add(@Valid BookDto bookDto, BindingResult bindingResult, Authentication authentication,
                       RedirectAttributes redirectAttributes) throws IOException {
+
         if (bindingResult.hasErrors()) {
-            log.info("error = {}", bindingResult.getFieldError());
             return "admin/book/addForm";
         }
+
         String uid = authentication.getName();
         Long bookId = bookService.add(bookDto, uid);
 
@@ -81,9 +80,9 @@ public class BookController {
         BookDto bookDto = bookService.detail(bookId);
         String uid = authentication.getName();
 
-        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
-        if(authentication.getAuthorities().size() != 3){
-            if(!bookDto.getUid().equals(uid)) return "redirect:/book";
+        // 관리자 권한 없음 && 직접 등록한 책 아님
+        if(!isAdmin(authentication) && !isRegistrant(bookDto, authentication)) {
+            return "redirect:/book";
         }
 
         model.addAttribute("bookDto", bookDto);
@@ -92,14 +91,13 @@ public class BookController {
     }
 
     /* 책관리 수정페이지 */
-    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     @GetMapping("/book/edit/{bookId}")
     public String editForm(@PathVariable Long bookId, Model model, Authentication authentication){
         BookDto bookDto = bookService.detail(bookId);
 
-        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
-        if(authentication.getAuthorities().size() != 3){
-            if(!bookDto.getUid().equals(authentication.getName())) return "redirect:/book";
+        // 관리자 권한 없음 && 직접 등록한 책 아님
+        if(!isAdmin(authentication) && !isRegistrant(bookDto, authentication)) {
+            return "redirect:/book";
         }
 
         model.addAttribute("bookDto", bookDto);
@@ -107,18 +105,16 @@ public class BookController {
     }
 
     /* 책정보 수정 */
-    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     @PutMapping("/book/edit/{bookId}")
     public String edit(@PathVariable Long bookId, @Valid BookDto bookDto, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
 
-        // 관리자, 매니저 권한 체크 (매니저인 경우 해당 책 등록자와 ID가 같는지 확인)
-        if(authentication.getAuthorities().size() != 3){
-            if(!bookDto.getUid().equals(authentication.getName())) return "redirect:/book";
+        // 관리자 권한 없음 && 직접 등록한 책 아님
+        if(!isAdmin(authentication) && !isRegistrant(bookDto, authentication)) {
+            return "redirect:/book";
         }
 
         if(bindingResult.hasErrors()){
-            log.info("error = {}", bindingResult.getFieldError());
             return "admin/book/editForm";
         }
 
@@ -126,5 +122,21 @@ public class BookController {
 
         redirectAttributes.addAttribute("edit", true);
         return "redirect:/book/" + bookId;
+    }
+
+    /* 관리자 권한 확인 메서드 */
+    public static Boolean isAdmin(Authentication authentication){
+        if(authentication.getAuthorities().toString().contains("ROLE_ADMIN")){
+            return true;
+        }
+        return false;
+    }
+
+    /* 도서 등록자 확인 메서드 */
+    public static Boolean isRegistrant(BookDto bookDto, Authentication authentication){
+        if(bookDto.getUid().equals(authentication.getName())){
+            return true;
+        }
+        return false;
     }
  }

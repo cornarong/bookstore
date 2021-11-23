@@ -27,37 +27,29 @@ public class BookService {
     private final UserRepository userRepository;
 
     /* 모든,국내,국외 책 목록 가져오기 */
-    public Page<BookDto> all(String searchTerm, BookType type, Pageable pageable) {
+    public Page<BookDto> books(String searchTerm, BookType bookType, String orderType, Pageable pageable) {
         Page<Book> bookList;
-        if(type == null) {
-            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContaining(
-                    searchTerm, searchTerm, searchTerm, pageable);
-        } else {
-            bookList = bookRepository.findByTypeAndSearchTerm(type, searchTerm, searchTerm, searchTerm, pageable);
-        }
-        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
-        return bookDtoList;
-    }
 
-    /* 모든 책 목록 (발행일 or 등록일 내림차 순) 가져오기*/
-    public Page<BookDto> allDesc(String searchTerm, Pageable pageable, String sortType) {
-        Page<Book> bookList;
-        if(sortType.equals("regDate")){
-            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByRegDateDesc(
-                    searchTerm, searchTerm, searchTerm, pageable);
-        }else{
-            bookList = bookRepository.findByTitleContainingOrAuthorContainingOrPublisherContainingOrderByPublishedDateDesc(
-                    searchTerm, searchTerm, searchTerm, pageable);
+        if(orderType.equals("publishedDate")) {
+            bookList = bookRepository.booksOrderByPublishedDate(searchTerm, pageable);
+        } else if(orderType.equals("regDate")){
+            bookList = bookRepository.booksOrderByRegDate(searchTerm, pageable);
+        } else {
+            bookList = bookRepository.booksSortBy(searchTerm, bookType, pageable);
         }
-        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
+
+        // Page<Entity> -> Page<Dto> 변환.
+        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList);
         return bookDtoList;
     }
 
     /* 내가 등록한 책 목록 가져오기 */
     public Page<BookDto> myBooks(String uid, String searchTerm, Pageable pageable) {
         Long userId = userRepository.findByUid(uid).getId();
-        Page<Book> bookList = bookRepository.findByMyBooks(userId, searchTerm, searchTerm, searchTerm, pageable);
-        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList); // Page<Entity> -> Page<Dto> 변환.
+        Page<Book> bookList = bookRepository.myBooks(userId, searchTerm, pageable);
+
+        // Page<Entity> -> Page<Dto> 변환.
+        Page<BookDto> bookDtoList = new BookDto().toDtoList(bookList);
         return bookDtoList;
     }
 

@@ -21,8 +21,9 @@ public class HomeController {
     public String index(Model model,
                         @PageableDefault(size = 12) Pageable pageable,
                         @RequestParam(defaultValue = "") String searchTerm){
-            Page<BookDto> bookDtoList = bookService.all(searchTerm, null, pageable);
-            Page<BookDto> bookDtoListDesc = bookService.allDesc(searchTerm, pageable, "publishedDate");
+
+            Page<BookDto> bookDtoList = bookService.books(searchTerm, null, "regDate", pageable);
+            Page<BookDto> bookDtoListDesc = bookService.books(searchTerm, null, "publishedDate", pageable);
 
             model.addAttribute("bookDtoList", bookDtoList);
             model.addAttribute("bookDtoListDesc", bookDtoListDesc);
