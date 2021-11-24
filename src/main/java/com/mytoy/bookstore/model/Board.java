@@ -30,7 +30,7 @@ public class Board {
 
     @JsonIgnore
     @JoinColumn(name = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     /**

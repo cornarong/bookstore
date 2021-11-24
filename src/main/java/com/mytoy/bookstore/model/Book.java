@@ -42,7 +42,7 @@ public class Book {
     private String thumbnailType; // 책 이미지 타입(파일 or url)
     private String thumbnailPath; // 책 이미지 물리 경로
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;      // 책 등록자
