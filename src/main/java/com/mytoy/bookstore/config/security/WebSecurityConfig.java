@@ -25,7 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // 정적 자원 관리 (WebIgnore 설정) -> 보안필터를 거치지 않는다.
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring()
+                .antMatchers("/favicon.ico", "/resources/**", "/error")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     // 사용자 정의 설정
@@ -39,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 // 구체적인 경로가 먼저 오고 그것보다 큰 범위의 경로가 뒤에 오도록 한다.
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/files/**", "/thumbnail/**").permitAll()
+                .antMatchers("/","/account/**", "/api/**", "/board/**", "/store/**", "/profile/**", "/thumbnail/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
