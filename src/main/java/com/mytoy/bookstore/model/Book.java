@@ -47,10 +47,10 @@ public class Book {
     @JsonIgnore
     private User user;      // 책 등록자
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderBook> orderBooks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Basket> baskets = new ArrayList<>();
 
     /**
