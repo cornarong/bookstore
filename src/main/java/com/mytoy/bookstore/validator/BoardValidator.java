@@ -10,7 +10,7 @@ import org.thymeleaf.util.StringUtils;
 public class BoardValidator implements Validator { // 유효성 검사 커스텀
     @Override
     public boolean supports(Class<?> clazz) {
-        return Board.class.equals(clazz);
+        return Board.class.equals(clazz); // 실질적으로 클라이언트와 서버가 DTO로 데이터를 교환하니 DTO.clas를 사용해야한다.
     }
 
     @Override
